@@ -41,40 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Enums\AbstractEnum.cs" />
-    <Compile Include="Model\Enums\AccessLevel.cs" />
-    <Compile Include="Model\AssemblyMetadata.cs" />
-    <Compile Include="Model\Enums\TypeKindEnum.cs" />
-    <Compile Include="Model\ExtenstionMethods.cs" />
-    <Compile Include="Model\FieldMetadata.cs" />
-    <Compile Include="Model\MethodMetadata.cs" />
-    <Compile Include="Model\NamespaceMetadata.cs" />
-    <Compile Include="Model\ParameterMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Model\PropertyMetadata.cs" />
-    <Compile Include="Model\Enums\SealedEnum.cs" />
-    <Compile Include="Model\Enums\StaticEnum.cs" />
-    <Compile Include="Model\TypeMetadata.cs" />
-    <Compile Include="Model\Enums\VirtualEnum.cs" />
-    <Compile Include="ViewModel\ExtensionMethods.cs" />
-    <Compile Include="ViewModel\IFileSelector.cs" />
-    <Compile Include="ViewModel\RelayCommand.cs" />
-    <Compile Include="ViewModel\TreeViewItem.cs" />
-    <Compile Include="ViewModel\TreeViewItems\AssemblyViewModel.cs" />
-    <Compile Include="ViewModel\TreeViewItems\AttributeViewModel.cs" />
-    <Compile Include="ViewModel\TreeViewItems\FieldViewModel.cs" />
-    <Compile Include="ViewModel\TreeViewItems\MethodViewModel.cs" />
-    <Compile Include="ViewModel\TreeViewItems\NamespaceViewModel.cs" />
-    <Compile Include="ViewModel\TreeViewItems\ParameterViewModel.cs" />
-    <Compile Include="ViewModel\TreeViewItems\PropertyViewModel.cs" />
-    <Compile Include="ViewModel\TreeViewItems\TypeViewModel.cs" />
-    <Compile Include="ViewModel\ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Logging\Logging.csproj">
-      <Project>{78b6e34b-ce2b-4e97-a8a2-685023020749}</Project>
-      <Name>Logging</Name>
-    </ProjectReference>
+    <Folder Include="Model\" />
+    <Folder Include="ViewModel\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
