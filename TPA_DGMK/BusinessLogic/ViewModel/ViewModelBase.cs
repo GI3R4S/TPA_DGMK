@@ -1,0 +1,79 @@
+﻿using Logging;
+using Model;
+using System;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Reflection;
+using System.Threading.Tasks;
+using System.Windows.Input;
+
+namespace ViewModel
+{
+    public class ViewModelBase
+    {
+        private Logger logger;
+        private ObservableCollection<TreeViewItem> items = new ObservableCollection<TreeViewItem>();
+        private int selection;
+        private AssemblyMetadata assemblyMetadata;
+        private IFileSelector fileSelector;
+
+        public ObservableCollection<TreeViewItem> Items
+        {
+            get => items;
+            set
+            {
+                items = value;
+            }
+        }
+        public Logger Logger { get => logger; set => logger = value; }
+        public IFileSelector FileSelector { get => fileSelector; set => fileSelector = value; }
+
+        public ViewModelBase(IFileSelector fileSelector, Logger logger)
+        {
+            this.Logger = logger;
+            this.FileSelector = fileSelector;
+        }
+        public bool Select(int selection)
+        {
+            this.selection = selection;
+            return Update();
+        }
+        private bool Update()
+        {
+            if (selection != 0 && items.Count >= selection)
+            {
+                items[selection - 1].IsExpanded = true;
+                items = items[selection - 1].Children;
+                Logger.Write(SeverityEnum.Information, "The list of elements was updated");
+                return true;
+            }
+            return false;
+        }
+        internal async Task ReadAsync(string path = null)
+        {
+            Logger.Write(SeverityEnum.Information, "The option to load was selected");
+            if (path == null)
+            {
+                path = FileSelector.SelectSource();
+            }
+            object assembly = await Task.Run(() => (object)Assembly.Load(File.ReadAllBytes(path)));
+            try
+            {
+                assemblyMetadata = (AssemblyMetadata)assembly;
+            }
+            catch
+            {
+                assemblyMetadata = (AssemblyMetadata)Activator.CreateInstance(typeof(AssemblyMetadata), assembly);
+            }
+            Items.Clear();
+            Items.Add(new AssemblyViewModel(assemblyMetadata, Logger));
+        }
+
+        private RelayCommand readCommand;
+
+        public ICommand ReadCommand
+        {
+            get { return readCommand ?? (readCommand = new RelayCommand(async () => await ReadAsync())); }
+        }
+    }
+}
