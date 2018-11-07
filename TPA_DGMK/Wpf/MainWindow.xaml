@@ -3,10 +3,28 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
         xmlns:local="clr-namespace:Wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="TPA_DGMK" Height="768" Width="1024" Background="AliceBlue">
+
+    <Window.Resources>
+        <local:WpfFileSelector x:Key="FileSelector"/>
+    </Window.Resources>
+
     <Grid>
-        
+        <TreeView Name="TreeView" RenderTransformOrigin="0.5,0.5" ItemsSource="{Binding Items}" Canvas.Left="10" Canvas.Top="60" ScrollViewer.HorizontalScrollBarVisibility="Visible" Margin="10,110,11.6,10.4" Background="Honeydew">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
+                    <TextBlock Text="{Binding Path=Name}" Margin="0,0,4,0" />
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="TreeViewItem">
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+                </Style>
+            </TreeView.ItemContainerStyle>
+        </TreeView>
+        <Button Command="{Binding ReadCommand}" Content="Load dll" HorizontalAlignment="Left" Margin="360,30,0,0" VerticalAlignment="Top" Width="256" RenderTransformOrigin="0.389,-9.6" Height="59"/>
     </Grid>
 </Window>

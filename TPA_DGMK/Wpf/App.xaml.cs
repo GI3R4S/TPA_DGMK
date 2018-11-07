@@ -1,17 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+using Logging;
+using ViewModel;
 
 namespace Wpf
 {
-    /// <summary>
-    /// Logika interakcji dla klasy App.xaml
-    /// </summary>
     public partial class App : Application
     {
+        public Logger Logger { get; set; }
+
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            Logger = new FileLogger();
+            IFileSelector fileSelector = new WpfFileSelector();
+            ViewModelBase vm = new ViewModelBase(fileSelector, Logger);
+            MainWindow window = new MainWindow();
+            window.DataContext = vm;
+            window.Show();
+        }
     }
 }
