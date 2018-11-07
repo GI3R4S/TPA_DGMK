@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Logging;
@@ -34,7 +35,7 @@ namespace CommandLine
                 FillTree();
                 DisplayTree();
                 previousItemsCount = viewModel.Items.Count;
-                string input = ReadLineWithCancel();
+                string input = ReadLineWithCheck();
                 if (input == null)
                     break;
                 ParseInput(input);
@@ -116,26 +117,13 @@ namespace CommandLine
             return selection != 0 && previousItemsCount >= selection;
         }
 
-        private string ReadLineWithCancel()
+        private string ReadLineWithCheck()
         {
-            string result = null;
-
-            StringBuilder buffer = new StringBuilder();
-
-            ConsoleKeyInfo info = Console.ReadKey(true);
-            while (info.Key != ConsoleKey.Enter && info.Key != ConsoleKey.Escape)
+            if (treeCounter == 0)
             {
-                Console.Write(info.KeyChar);
-                buffer.Append(info.KeyChar);
-                info = Console.ReadKey(true);
+                Console.WriteLine("Write 'LOAD' at any time to change library");
             }
-
-            if (info.Key == ConsoleKey.Enter)
-            {
-                result = buffer.ToString();
-            }
-            Console.WriteLine();
-            return result;
+            return Console.ReadLine();
         }
 
         private void ItemsChangedEventHandler(object sender, NotifyCollectionChangedEventArgs e)
