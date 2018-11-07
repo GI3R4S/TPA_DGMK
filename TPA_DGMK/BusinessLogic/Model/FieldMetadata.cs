@@ -7,13 +7,13 @@ namespace Model
 {
     public class FieldMetadata
     {
-        private string name;
-        private TypeMetadata typeMetadata;
-        private ICollection<TypeMetadata> attributesMetadata;
+        private string m_Name;
+        private TypeMetadata m_TypeMetadata;
+        private ICollection<TypeMetadata> m_AttributesMetadata;
 
-        public string Name { get => name; set => name = value; }
-        public TypeMetadata TypeMetadata { get => typeMetadata; set => typeMetadata = value; }
-        public ICollection<TypeMetadata> AttributesMetadata { get => attributesMetadata; set => attributesMetadata = value; }
+        public string Name { get => m_Name; set => m_Name = value; }
+        public TypeMetadata TypeMetadata { get => m_TypeMetadata; set => m_TypeMetadata = value; }
+        public ICollection<TypeMetadata> AttributesMetadata { get => m_AttributesMetadata; set => m_AttributesMetadata = value; }
         public AccessLevel AccessLevel { get; set; }
         public bool IsStatic { get; set; }
 

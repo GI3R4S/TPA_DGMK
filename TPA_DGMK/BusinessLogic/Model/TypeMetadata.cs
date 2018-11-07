@@ -42,50 +42,50 @@ namespace Model
         public bool IsAbstract { get; set; }
         public bool IsSealed { get; set; }
 
-        public static Dictionary<string, TypeMetadata> references = new Dictionary<string, TypeMetadata>();
+        public static Dictionary<string, TypeMetadata> dictionary = new Dictionary<string, TypeMetadata>();
 
         internal TypeMetadata(Type type)
         {
             TypeName = type.Name;
             NamespaceName = type.Namespace;
             FullTypeName = type.ToString();
-            if (!references.ContainsKey(FullTypeName))
+            if (!dictionary.ContainsKey(FullTypeName))
             {
-                references.Add(FullTypeName, this);
-                references[FullTypeName].DeclaringType = EmitDeclaringType(type.DeclaringType);
-                references[FullTypeName].Constructors = MethodMetadata.EmitMethods(type.GetConstructors());
-                references[FullTypeName].Methods = MethodMetadata.EmitMethods(type.GetMethods());
-                references[FullTypeName].NestedTypes = EmitNestedTypes(type.GetNestedTypes());
-                references[FullTypeName].ImplementedInterfaces = EmitImplements(type.GetInterfaces());
-                references[FullTypeName].GenericArguments = !type.IsGenericTypeDefinition ? null : TypeMetadata.EmitGenericArguments(type.GetGenericArguments());
-                references[FullTypeName].Modifiers = EmitModifiers(type);
-                references[FullTypeName].BaseType = EmitExtends(type.BaseType);
-                references[FullTypeName].Properties = PropertyMetadata.EmitProperties(type.GetProperties());
-                references[FullTypeName].Fields = FieldMetadata.EmitFields(type.GetFields());
-                references[FullTypeName].TypeKind1 = GetTypeKind(type);
-                references[FullTypeName].Attributes = EmitAttributes(type.GetCustomAttributes(false).Cast<Attribute>());
+                dictionary.Add(FullTypeName, this);
+                dictionary[FullTypeName].DeclaringType = EmitDeclaringType(type.DeclaringType);
+                dictionary[FullTypeName].Constructors = MethodMetadata.EmitMethods(type.GetConstructors());
+                dictionary[FullTypeName].Methods = MethodMetadata.EmitMethods(type.GetMethods());
+                dictionary[FullTypeName].NestedTypes = EmitNestedTypes(type.GetNestedTypes());
+                dictionary[FullTypeName].ImplementedInterfaces = EmitImplements(type.GetInterfaces());
+                dictionary[FullTypeName].GenericArguments = !type.IsGenericTypeDefinition ? null : TypeMetadata.EmitGenericArguments(type.GetGenericArguments());
+                dictionary[FullTypeName].Modifiers = EmitModifiers(type);
+                dictionary[FullTypeName].BaseType = EmitExtends(type.BaseType);
+                dictionary[FullTypeName].Properties = PropertyMetadata.EmitProperties(type.GetProperties());
+                dictionary[FullTypeName].Fields = FieldMetadata.EmitFields(type.GetFields());
+                dictionary[FullTypeName].TypeKind1 = GetTypeKind(type);
+                dictionary[FullTypeName].Attributes = EmitAttributes(type.GetCustomAttributes(false).Cast<Attribute>());
             }
 
-            m_DeclaringType = references[FullTypeName].DeclaringType;
-            m_Constructors = references[FullTypeName].Constructors;
-            m_Methods = references[FullTypeName].Methods;
-            m_NestedTypes = references[FullTypeName].NestedTypes;
-            m_ImplementedInterfaces = references[FullTypeName].ImplementedInterfaces;
-            m_GenericArguments = references[FullTypeName].GenericArguments;
-            AccessLevel = references[FullTypeName].AccessLevel;
-            IsSealed = references[FullTypeName].IsSealed;
-            IsAbstract = references[FullTypeName].IsAbstract;
-            m_BaseType = references[FullTypeName].BaseType;
-            m_Properties = references[FullTypeName].Properties;
-            m_Fields = references[FullTypeName].Fields;
-            m_TypeKind = references[FullTypeName].TypeKind1;
-            m_Attributes = references[FullTypeName].Attributes;
+            m_DeclaringType = dictionary[FullTypeName].DeclaringType;
+            m_Constructors = dictionary[FullTypeName].Constructors;
+            m_Methods = dictionary[FullTypeName].Methods;
+            m_NestedTypes = dictionary[FullTypeName].NestedTypes;
+            m_ImplementedInterfaces = dictionary[FullTypeName].ImplementedInterfaces;
+            m_GenericArguments = dictionary[FullTypeName].GenericArguments;
+            AccessLevel = dictionary[FullTypeName].AccessLevel;
+            IsSealed = dictionary[FullTypeName].IsSealed;
+            IsAbstract = dictionary[FullTypeName].IsAbstract;
+            m_BaseType = dictionary[FullTypeName].BaseType;
+            m_Properties = dictionary[FullTypeName].Properties;
+            m_Fields = dictionary[FullTypeName].Fields;
+            m_TypeKind = dictionary[FullTypeName].TypeKind1;
+            m_Attributes = dictionary[FullTypeName].Attributes;
         }
         internal static TypeMetadata EmitReference(Type type)
         {
             string fullTypeName = type.ToString();
-            if (references.ContainsKey(fullTypeName))
-                return references[fullTypeName];
+            if (dictionary.ContainsKey(fullTypeName))
+                return dictionary[fullTypeName];
             return new TypeMetadata(type);
         }
         internal static IEnumerable<TypeMetadata> EmitGenericArguments(IEnumerable<Type> arguments)

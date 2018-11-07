@@ -14,8 +14,8 @@ namespace Model
         private TypeMetadata m_ReturnType;
         private bool m_Extension;
         private IEnumerable<ParameterMetadata> m_Parameters;
-        private IEnumerable<TypeMetadata> attributesMetadata;
-        private TypeMetadata reflectedType;
+        private IEnumerable<TypeMetadata> m_AttributesMetadata;
+        private TypeMetadata m_ReflectedType;
 
         public string Name { get => m_Name; set => m_Name = value; }
         public IEnumerable<TypeMetadata> GenericArguments { get => m_GenericArguments; set => m_GenericArguments = value; }
@@ -23,8 +23,8 @@ namespace Model
         public TypeMetadata ReturnType { get => m_ReturnType; set => m_ReturnType = value; }
         public bool Extension { get => m_Extension; set => m_Extension = value; }
         public IEnumerable<ParameterMetadata> Parameters { get => m_Parameters; set => m_Parameters = value; }
-        public IEnumerable<TypeMetadata> AttributesMetadata { get => attributesMetadata; set => attributesMetadata = value; }
-        public TypeMetadata ReflectedType { get => reflectedType; set => reflectedType = value; }
+        public IEnumerable<TypeMetadata> AttributesMetadata { get => m_AttributesMetadata; set => m_AttributesMetadata = value; }
+        public TypeMetadata ReflectedType { get => m_ReflectedType; set => m_ReflectedType = value; }
 
         private MethodMetadata(MethodBase method)
         {
@@ -35,7 +35,7 @@ namespace Model
             Modifiers = EmitModifiers(method);
             Extension = EmitExtension(method);
             AttributesMetadata = TypeMetadata.EmitAttributes(method.GetCustomAttributes());
-            reflectedType = TypeMetadata.EmitReference(method.ReflectedType);
+            ReflectedType = TypeMetadata.EmitReference(method.ReflectedType);
         }
         internal static IEnumerable<MethodMetadata> EmitMethods(IEnumerable<MethodBase> methods)
         {

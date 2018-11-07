@@ -8,11 +8,11 @@ namespace Model
     {
         private string m_Name;
         private TypeMetadata m_TypeMetadata;
-        private IEnumerable<TypeMetadata> attributesMetadata;
+        private IEnumerable<TypeMetadata> m_AttributesMetadata;
 
         public string Name { get => m_Name; set => m_Name = value; }
         public TypeMetadata TypeMetadata { get => m_TypeMetadata; set => m_TypeMetadata = value; }
-        public IEnumerable<TypeMetadata> AttributesMetadata { get => attributesMetadata; set => attributesMetadata = value; }
+        public IEnumerable<TypeMetadata> AttributesMetadata { get => m_AttributesMetadata; set => m_AttributesMetadata = value; }
 
         private PropertyMetadata(string propertyName, TypeMetadata propertyType)
         {
