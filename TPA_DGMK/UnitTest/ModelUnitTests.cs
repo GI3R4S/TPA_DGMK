@@ -28,7 +28,7 @@ namespace UnitTest
 
         #region DictionaryTypeMetadataTests
         [TestMethod]
-        public void EnteredTheSameValue()
+        public void EnteredTheSameValueTest()
         {
             TypeMetadata tm = TypeMetadata.EmitReference(assembly.GetTypes()[0]);
             int referencesCount = TypeMetadata.dictionary.Count;
@@ -39,7 +39,7 @@ namespace UnitTest
         }
 
         [TestMethod]
-        public void EnteredOtherValue()
+        public void EnteredOtherValueTest()
         {
             int referencesCount = TypeMetadata.dictionary.Count;
             TypeMetadata tm = TypeMetadata.EmitReference(t);

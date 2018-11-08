@@ -51,8 +51,11 @@
   <ItemGroup>
     <Compile Include="ModelUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="LoggingUnitTests.cs" />
+    <Compile Include="ViewModelUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
