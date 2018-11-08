@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.IO;
 using System.Linq;
 using System.Text;
 using Logging;
@@ -26,6 +25,9 @@ namespace CommandLine
             viewModel = new ViewModelBase(new CLFileSelector(), logger);
             selection = viewModel.Items.Count;
             previousItemsCount = viewModel.Items.Count;
+            Console.WriteLine("Write 'LOAD' at any time to change library");
+            Console.WriteLine("Press any key to cotinue: ");
+            Console.ReadKey();
         }
 
         public void Run()
@@ -35,7 +37,7 @@ namespace CommandLine
                 FillTree();
                 DisplayTree();
                 previousItemsCount = viewModel.Items.Count;
-                string input = ReadLineWithCheck();
+                string input = Console.ReadLine();
                 if (input == null)
                     break;
                 ParseInput(input);
@@ -57,9 +59,13 @@ namespace CommandLine
             {
                 Console.Clear();
                 tree.Clear();
-                if (viewModel.ReadCommand.CanExecute(null))
-                    viewModel.ReadCommand.Execute(null);
                 viewModel.Items.CollectionChanged += ItemsChangedEventHandler;
+                
+                if(viewModel.ReadCommand.CanExecute(null))
+                {
+                    viewModel.ReadCommand.Execute(null);
+                }
+                
             }
             else
             {
@@ -117,14 +123,6 @@ namespace CommandLine
             return selection != 0 && previousItemsCount >= selection;
         }
 
-        private string ReadLineWithCheck()
-        {
-            if (treeCounter == 0)
-            {
-                Console.WriteLine("Write 'LOAD' at any time to change library");
-            }
-            return Console.ReadLine();
-        }
 
         private void ItemsChangedEventHandler(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -135,8 +133,6 @@ namespace CommandLine
                 previousItemsCount = 1;
                 treeCounter = 0;
                 treeIndentation = 0;
-                FillTree();
-                DisplayTree();
             }
         }
     }

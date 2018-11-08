@@ -4,7 +4,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ViewModel
@@ -49,7 +48,7 @@ namespace ViewModel
             }
             return false;
         }
-        internal async Task ReadAsync(string path = null)
+        private void ReadFromFile(string path = null)
         {
             Logger.Write(SeverityEnum.Information, "The option to load was selected");
             if (path == null)
@@ -87,7 +86,7 @@ namespace ViewModel
 
                 } while (true);
             }
-            object assembly = await Task.Run(() => (object)Assembly.Load(File.ReadAllBytes(path)));
+            object assembly =  (object)Assembly.Load(File.ReadAllBytes(path));
             try
             {
                 assemblyMetadata = (AssemblyMetadata)assembly;
@@ -104,7 +103,7 @@ namespace ViewModel
 
         public ICommand ReadCommand
         {
-            get { return readCommand ?? (readCommand = new RelayCommand(async () => await ReadAsync())); }
+            get { return readCommand ?? (readCommand = new RelayCommand( () =>  ReadFromFile())); }
         }
     }
 }
