@@ -5,27 +5,27 @@ namespace Logging
 {
     public class FileLogger : Logger
     {
-        TraceSource log;
+        TraceSource traceSource;
         public FileLogger()
         {
-            string name = ConfigurationManager.AppSettings["logSourceName"];
-            log = new TraceSource(name);
+            string fileName = ConfigurationManager.AppSettings["logSourceName"];
+            traceSource = new TraceSource(fileName);
         }
         protected override void TraceInformation(string message)
         {
-            log.TraceInformation(message);
+            traceSource.TraceInformation(message);
         }
         protected override void TraceWarning(string message)
         {
-            log.TraceEvent(TraceEventType.Warning, 0, message);
+            traceSource.TraceEvent(TraceEventType.Warning, 0, message);
         }
         protected override void TraceError(string message)
         {
-            log.TraceEvent(TraceEventType.Error, 0, message);
+            traceSource.TraceEvent(TraceEventType.Error, 0, message);
         }
         protected override void TraceCritical(string message)
         {
-            log.TraceEvent(TraceEventType.Critical, 0, message);
+            traceSource.TraceEvent(TraceEventType.Critical, 0, message);
         }
     }
 }

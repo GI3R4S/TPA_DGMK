@@ -10,11 +10,12 @@ namespace ViewModel
 {
     public class ViewModelBase
     {
+        private int selection = 0;
+        private AssemblyMetadata assemblyMetadata;
+
+        private IFileSelector fileSelector;
         private Logger logger;
         private ObservableCollection<TreeViewItem> items = new ObservableCollection<TreeViewItem>();
-        private int selection;
-        private AssemblyMetadata assemblyMetadata;
-        private IFileSelector fileSelector;
 
         public ObservableCollection<TreeViewItem> Items
         {

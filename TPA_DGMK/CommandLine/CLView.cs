@@ -10,13 +10,16 @@ namespace CommandLine
 {
     public class CLView
     {
-        private Logger logger;
-        private ViewModelBase viewModel;
-        private int selection;
-        private List<KeyValuePair<TreeViewItem, int>> tree = new List<KeyValuePair<TreeViewItem, int>>();
+
+        private int selection = 0;
         private int treeCounter = 0;
         private int treeIndentation = 0;
-        private int previousItemsCount;
+        private int previousItemsCount = 0;
+
+        private Logger logger;
+        private ViewModelBase viewModel;
+
+        private List<KeyValuePair<TreeViewItem, int>> tree = new List<KeyValuePair<TreeViewItem, int>>();
         private List<NotifyCollectionChangedEventArgs> itemsChanged = new List<NotifyCollectionChangedEventArgs>();
 
         public CLView(Logger logger)
@@ -52,7 +55,7 @@ namespace CommandLine
                     logger.Write(SeverityEnum.Information, "Element was selected " + selection);
                 else
                     logger.Write(SeverityEnum.Error, "Selected element does not exist " + selection);
-                ChooseItem();
+                viewModel.Select(selection);
             }
 
             else if (input.ToLower().Equals("load"))
@@ -111,11 +114,6 @@ namespace CommandLine
                     + tree.ElementAt(i).Key.ToString() + " "
                     + (tree.ElementAt(i).Key.IsExpandable() ? "(+)" : "(-)"));
             }
-        }
-
-        private void ChooseItem()
-        {
-            viewModel.Select(selection);
         }
 
         private bool IsChoiceValid()
