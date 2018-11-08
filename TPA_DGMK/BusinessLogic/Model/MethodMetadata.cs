@@ -8,23 +8,14 @@ namespace Model
 {
     public class MethodMetadata
     {
-        private string m_Name;
-        private IEnumerable<TypeMetadata> m_GenericArguments;
-        private Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum> m_Modifiers;
-        private TypeMetadata m_ReturnType;
-        private bool m_Extension;
-        private IEnumerable<ParameterMetadata> m_Parameters;
-        private IEnumerable<TypeMetadata> m_AttributesMetadata;
-        private TypeMetadata m_ReflectedType;
-
-        public string Name { get => m_Name; private set => m_Name = value; }
-        public IEnumerable<TypeMetadata> GenericArguments { get => m_GenericArguments; private set => m_GenericArguments = value; }
-        public Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum> Modifiers { get => m_Modifiers; private set => m_Modifiers = value; }
-        public TypeMetadata ReturnType { get => m_ReturnType; private set => m_ReturnType = value; }
-        public bool Extension { get => m_Extension; private set => m_Extension = value; }
-        public IEnumerable<ParameterMetadata> Parameters { get => m_Parameters; private set => m_Parameters = value; }
-        public IEnumerable<TypeMetadata> AttributesMetadata { get => m_AttributesMetadata; private set => m_AttributesMetadata = value; }
-        public TypeMetadata ReflectedType { get => m_ReflectedType; private set => m_ReflectedType = value; }
+        public string Name{get; private set;}
+        public IEnumerable<TypeMetadata> GenericArguments{get; private set;}
+        public Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum> Modifiers{get; private set;}
+        public TypeMetadata ReturnType{get; private set;}
+        public bool Extension{get; private set;}
+        public IEnumerable<ParameterMetadata> Parameters{get; private set;}
+        public IEnumerable<TypeMetadata> AttributesMetadata{get; private set;}
+        public TypeMetadata ReflectedType{get; private set;}
 
         private MethodMetadata(MethodBase method)
         {

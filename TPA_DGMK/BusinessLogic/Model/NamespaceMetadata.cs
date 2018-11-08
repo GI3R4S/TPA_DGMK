@@ -6,11 +6,8 @@ namespace Model
 {
     public class NamespaceMetadata
     {
-        private string m_NamespaceName;
-        private IEnumerable<TypeMetadata> m_Types;
-
-        public string NamespaceName { get => m_NamespaceName; private set => m_NamespaceName = value; }
-        public IEnumerable<TypeMetadata> Types { get => m_Types; private set => m_Types = value; }
+        public string NamespaceName{get; private set;}
+        public IEnumerable<TypeMetadata> Types{get; private set;}
 
         internal NamespaceMetadata(string name, IEnumerable<Type> types)
         {

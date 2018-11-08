@@ -54,7 +54,7 @@ namespace ViewModel
         }
         private string AccurateTypeToString()
         {
-            if (typeMetadata.TypeKind1 == TypeKind.InterfaceType) return "Interface: ";
+            if (typeMetadata.TypeKind == TypeKind.InterfaceType) return "Interface: ";
             else return "Type: ";
         }
         private string ModifiersToString()

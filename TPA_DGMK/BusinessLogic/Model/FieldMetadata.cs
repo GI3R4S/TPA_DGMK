@@ -7,13 +7,10 @@ namespace Model
 {
     public class FieldMetadata
     {
-        private string m_Name;
-        private TypeMetadata m_TypeMetadata;
-        private ICollection<TypeMetadata> m_AttributesMetadata;
+        public string Name { get; private set; }
+        public TypeMetadata TypeMetadata { get; private set; }
+        public ICollection<TypeMetadata> AttributesMetadata { get; private set; }
 
-        public string Name { get => m_Name; private set => m_Name = value; }
-        public TypeMetadata TypeMetadata { get => m_TypeMetadata; private set => m_TypeMetadata = value; }
-        public ICollection<TypeMetadata> AttributesMetadata { get => m_AttributesMetadata; private set => m_AttributesMetadata = value; }
         public AccessLevel AccessLevel { get; private set; }
         public bool IsStatic { get; private set; }
 
@@ -38,12 +35,19 @@ namespace Model
         {
             AccessLevel access = AccessLevel.IsPrivate;
             if (field.IsPublic)
+            {
                 access = AccessLevel.IsPublic;
+            }
             else if (field.IsFamily)
+            {
                 access = AccessLevel.IsProtected;
+            }
             else if (field.IsFamilyAndAssembly)
+            {
                 access = AccessLevel.IsProtectedInternal;
-            return new Tuple<AccessLevel, bool>(access, field.IsStatic );
+            }
+
+            return new Tuple<AccessLevel, bool>(access, field.IsStatic);
         }
     }
 }

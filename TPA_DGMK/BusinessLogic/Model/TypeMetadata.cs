@@ -7,37 +7,22 @@ namespace Model
 {
     public class TypeMetadata
     {
-        private string m_typeName;
-        private string m_NamespaceName;
-        private string m_fullTypeName;
-        private TypeMetadata m_BaseType;
-        private IEnumerable<TypeMetadata> m_GenericArguments;
-        private Tuple<AccessLevel, SealedEnum, AbstractEnum> m_Modifiers;
-        private TypeKind m_TypeKind;
-        private IEnumerable<TypeMetadata> m_Attributes;
-        private IEnumerable<TypeMetadata> m_ImplementedInterfaces;
-        private IEnumerable<TypeMetadata> m_NestedTypes;
-        private IEnumerable<PropertyMetadata> m_Properties;
-        private IEnumerable<FieldMetadata> m_Fields;
-        private TypeMetadata m_DeclaringType;
-        private IEnumerable<MethodMetadata> m_Methods;
-        private IEnumerable<MethodMetadata> m_Constructors;
+        public string TypeName{get; private set;}
+        public string NamespaceName{get; private set;}
+        public string FullTypeName{get; private set;}
+        public TypeMetadata BaseType{get; private set;}
+        public IEnumerable<TypeMetadata> GenericArguments{get; private set;}
+        public Tuple<AccessLevel, SealedEnum, AbstractEnum> Modifiers{get; private set;}
+        public TypeKind TypeKind{get; private set;}
+        public IEnumerable<TypeMetadata> Attributes{get; private set;}
+        public IEnumerable<TypeMetadata> ImplementedInterfaces{get; private set;}
+        public IEnumerable<TypeMetadata> NestedTypes{get; private set;}
+        public IEnumerable<PropertyMetadata> Properties{get; private set;}
+        public IEnumerable<FieldMetadata> Fields{get; private set;}
+        public TypeMetadata DeclaringType{get; private set;}
+        public IEnumerable<MethodMetadata> Methods{get; private set;}
+        public IEnumerable<MethodMetadata> Constructors{get; private set;}
 
-        public string TypeName { get => m_typeName; private set => m_typeName = value; }
-        public string NamespaceName { get => m_NamespaceName; private set => m_NamespaceName = value; }
-        public string FullTypeName { get => m_fullTypeName; private set => m_fullTypeName = value; }
-        public TypeMetadata BaseType { get => m_BaseType; private set => m_BaseType = value; }
-        public IEnumerable<TypeMetadata> GenericArguments { get => m_GenericArguments; private set => m_GenericArguments = value; }
-        internal Tuple<AccessLevel, SealedEnum, AbstractEnum> Modifiers { get => m_Modifiers; private set => m_Modifiers = value; }
-        public TypeKind TypeKind1 { get => m_TypeKind; private set => m_TypeKind = value; }
-        public IEnumerable<TypeMetadata> Attributes { get => m_Attributes; private set => m_Attributes = value; }
-        public IEnumerable<TypeMetadata> ImplementedInterfaces { get => m_ImplementedInterfaces; private set => m_ImplementedInterfaces = value; }
-        public IEnumerable<TypeMetadata> NestedTypes { get => m_NestedTypes; private set => m_NestedTypes = value; }
-        public IEnumerable<PropertyMetadata> Properties { get => m_Properties; private set => m_Properties = value; }
-        public IEnumerable<FieldMetadata> Fields { get => m_Fields; private set => m_Fields = value; }
-        public TypeMetadata DeclaringType { get => m_DeclaringType; private set => m_DeclaringType = value; }
-        public IEnumerable<MethodMetadata> Methods { get => m_Methods; private set => m_Methods = value; }
-        public IEnumerable<MethodMetadata> Constructors { get => m_Constructors; private set => m_Constructors = value; }
         public AccessLevel AccessLevel { get; private set; }
         public bool IsAbstract { get; private set; }
         public bool IsSealed { get; private set; }
@@ -62,24 +47,24 @@ namespace Model
                 dictionary[FullTypeName].BaseType = EmitExtends(type.BaseType);
                 dictionary[FullTypeName].Properties = PropertyMetadata.EmitProperties(type.GetProperties());
                 dictionary[FullTypeName].Fields = FieldMetadata.EmitFields(type.GetFields());
-                dictionary[FullTypeName].TypeKind1 = GetTypeKind(type);
+                dictionary[FullTypeName].TypeKind = GetTypeKind(type);
                 dictionary[FullTypeName].Attributes = EmitAttributes(type.GetCustomAttributes(false).Cast<Attribute>());
             }
 
-            m_DeclaringType = dictionary[FullTypeName].DeclaringType;
-            m_Constructors = dictionary[FullTypeName].Constructors;
-            m_Methods = dictionary[FullTypeName].Methods;
-            m_NestedTypes = dictionary[FullTypeName].NestedTypes;
-            m_ImplementedInterfaces = dictionary[FullTypeName].ImplementedInterfaces;
-            m_GenericArguments = dictionary[FullTypeName].GenericArguments;
+            DeclaringType = dictionary[FullTypeName].DeclaringType;
+            Constructors = dictionary[FullTypeName].Constructors;
+            Methods = dictionary[FullTypeName].Methods;
+            NestedTypes = dictionary[FullTypeName].NestedTypes;
+            ImplementedInterfaces = dictionary[FullTypeName].ImplementedInterfaces;
+            GenericArguments = dictionary[FullTypeName].GenericArguments;
             AccessLevel = dictionary[FullTypeName].AccessLevel;
             IsSealed = dictionary[FullTypeName].IsSealed;
             IsAbstract = dictionary[FullTypeName].IsAbstract;
-            m_BaseType = dictionary[FullTypeName].BaseType;
-            m_Properties = dictionary[FullTypeName].Properties;
-            m_Fields = dictionary[FullTypeName].Fields;
-            m_TypeKind = dictionary[FullTypeName].TypeKind1;
-            m_Attributes = dictionary[FullTypeName].Attributes;
+            BaseType = dictionary[FullTypeName].BaseType;
+            Properties = dictionary[FullTypeName].Properties;
+            Fields = dictionary[FullTypeName].Fields;
+            TypeKind = dictionary[FullTypeName].TypeKind;
+            Attributes = dictionary[FullTypeName].Attributes;
         }
         internal static TypeMetadata EmitReference(Type type)
         {

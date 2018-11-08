@@ -13,8 +13,8 @@ namespace ViewModel
         private int selection = 0;
         private AssemblyMetadata assemblyMetadata;
 
-        private IFileSelector fileSelector;
-        private Logger logger;
+        public IFileSelector FileSelector { get; private set; }
+        public Logger Logger { get; set; }
         private ObservableCollection<TreeViewItem> items = new ObservableCollection<TreeViewItem>();
 
         public ObservableCollection<TreeViewItem> Items
@@ -25,8 +25,6 @@ namespace ViewModel
                 items = value;
             }
         }
-        public Logger Logger { get => logger; private set => logger = value; }
-        public IFileSelector FileSelector { get => fileSelector; private set => fileSelector = value; }
 
         public ViewModelBase(IFileSelector fileSelector, Logger logger)
         {
