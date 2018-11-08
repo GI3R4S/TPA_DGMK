@@ -52,42 +52,9 @@ namespace ViewModel
         private void ReadFromFile(string path = null)
         {
             Logger.Write(SeverityEnum.Information, "The option to load was selected");
-            if (path == null)
-            {
-                do
-                {
-                    Console.WriteLine("Insert path of .dll file.");
-                    string loadedPath = FileSelector.SelectSource();
-                    if (!File.Exists(loadedPath))
-                    {
-                        Console.WriteLine("There's no file at given path.\n Press any key to retry, ESC to end program");
-                        if (Console.ReadKey().Key != ConsoleKey.Escape)
-                        {
-                            Console.Clear();
-                            continue;
-                        }
+            path = FileSelector.SelectSource();
 
-                        Environment.Exit(-1);
-                    }
-                    else if (!loadedPath.EndsWith(".dll"))
-                    {
-                        Console.WriteLine("Selected file doesn't have correct extension\n Press any key to retry, ESC to end program");
-                        if (Console.ReadKey().Key != ConsoleKey.Escape)
-                        {
-                            Console.Clear();
-                            continue;
-                        }
-
-                        Environment.Exit(-1);
-                    }
-
-                    path = loadedPath;
-                    break;
-
-
-                } while (true);
-            }
-            object assembly =  (object)Assembly.Load(File.ReadAllBytes(path));
+            object assembly = (object)Assembly.Load(File.ReadAllBytes(path));
             try
             {
                 assemblyMetadata = (AssemblyMetadata)assembly;
@@ -104,7 +71,7 @@ namespace ViewModel
 
         public ICommand ReadCommand
         {
-            get { return readCommand ?? (readCommand = new RelayCommand( () =>  ReadFromFile())); }
+            get { return readCommand ?? (readCommand = new RelayCommand(() => ReadFromFile())); }
         }
     }
 }

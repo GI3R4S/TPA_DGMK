@@ -8,12 +8,25 @@ namespace Wpf
         public string SelectSource()
         {
             string path = null;
-            OpenFileDialog dialog = new OpenFileDialog();
-            DialogResult result = dialog.ShowDialog();
-            if (result == DialogResult.OK)
+            do
             {
-                path = dialog.FileName;
-            }
+                OpenFileDialog dialog = new OpenFileDialog();
+                DialogResult result = dialog.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    path = dialog.FileName;
+                }
+
+                if (!path.EndsWith(".dll"))
+                {
+                    MessageBox.Show("Selected file doesn't have .dll extension. Please retry selection.");
+                }
+                else
+                {
+                    break;
+                }
+            } while (true);
+
             return path;
         }
     }
