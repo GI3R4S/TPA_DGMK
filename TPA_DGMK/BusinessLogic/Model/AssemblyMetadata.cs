@@ -19,7 +19,7 @@ namespace Model
         private string m_Name;
         private IEnumerable<NamespaceMetadata> m_Namespaces;
 
-        public IEnumerable<NamespaceMetadata> Namespaces { get => m_Namespaces; set => m_Namespaces = value; }
-        public string Name { get => m_Name; set => m_Name = value; }
+        public IEnumerable<NamespaceMetadata> Namespaces { get => m_Namespaces; private set => m_Namespaces = value; }
+        public string Name { get => m_Name; private set => m_Name = value; }
     }
 }

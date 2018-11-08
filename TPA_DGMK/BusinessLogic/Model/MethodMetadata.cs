@@ -17,14 +17,14 @@ namespace Model
         private IEnumerable<TypeMetadata> m_AttributesMetadata;
         private TypeMetadata m_ReflectedType;
 
-        public string Name { get => m_Name; set => m_Name = value; }
-        public IEnumerable<TypeMetadata> GenericArguments { get => m_GenericArguments; set => m_GenericArguments = value; }
-        public Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum> Modifiers { get => m_Modifiers; set => m_Modifiers = value; }
-        public TypeMetadata ReturnType { get => m_ReturnType; set => m_ReturnType = value; }
-        public bool Extension { get => m_Extension; set => m_Extension = value; }
-        public IEnumerable<ParameterMetadata> Parameters { get => m_Parameters; set => m_Parameters = value; }
-        public IEnumerable<TypeMetadata> AttributesMetadata { get => m_AttributesMetadata; set => m_AttributesMetadata = value; }
-        public TypeMetadata ReflectedType { get => m_ReflectedType; set => m_ReflectedType = value; }
+        public string Name { get => m_Name; private set => m_Name = value; }
+        public IEnumerable<TypeMetadata> GenericArguments { get => m_GenericArguments; private set => m_GenericArguments = value; }
+        public Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum> Modifiers { get => m_Modifiers; private set => m_Modifiers = value; }
+        public TypeMetadata ReturnType { get => m_ReturnType; private set => m_ReturnType = value; }
+        public bool Extension { get => m_Extension; private set => m_Extension = value; }
+        public IEnumerable<ParameterMetadata> Parameters { get => m_Parameters; private set => m_Parameters = value; }
+        public IEnumerable<TypeMetadata> AttributesMetadata { get => m_AttributesMetadata; private set => m_AttributesMetadata = value; }
+        public TypeMetadata ReflectedType { get => m_ReflectedType; private set => m_ReflectedType = value; }
 
         private MethodMetadata(MethodBase method)
         {

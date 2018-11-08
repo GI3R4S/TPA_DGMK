@@ -20,13 +20,13 @@ namespace ViewModel
         public ObservableCollection<TreeViewItem> Items
         {
             get => items;
-            set
+            private set
             {
                 items = value;
             }
         }
-        public Logger Logger { get => logger; set => logger = value; }
-        public IFileSelector FileSelector { get => fileSelector; set => fileSelector = value; }
+        public Logger Logger { get => logger; private set => logger = value; }
+        public IFileSelector FileSelector { get => fileSelector; private set => fileSelector = value; }
 
         public ViewModelBase(IFileSelector fileSelector, Logger logger)
         {

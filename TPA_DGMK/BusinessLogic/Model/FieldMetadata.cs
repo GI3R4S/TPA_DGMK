@@ -11,17 +11,17 @@ namespace Model
         private TypeMetadata m_TypeMetadata;
         private ICollection<TypeMetadata> m_AttributesMetadata;
 
-        public string Name { get => m_Name; set => m_Name = value; }
-        public TypeMetadata TypeMetadata { get => m_TypeMetadata; set => m_TypeMetadata = value; }
-        public ICollection<TypeMetadata> AttributesMetadata { get => m_AttributesMetadata; set => m_AttributesMetadata = value; }
-        public AccessLevel AccessLevel { get; set; }
-        public bool IsStatic { get; set; }
+        public string Name { get => m_Name; private set => m_Name = value; }
+        public TypeMetadata TypeMetadata { get => m_TypeMetadata; private set => m_TypeMetadata = value; }
+        public ICollection<TypeMetadata> AttributesMetadata { get => m_AttributesMetadata; private set => m_AttributesMetadata = value; }
+        public AccessLevel AccessLevel { get; private set; }
+        public bool IsStatic { get; private set; }
 
         public FieldMetadata(FieldInfo field)
         {
             Name = field.Name;
             TypeMetadata = TypeMetadata.EmitReference(field.FieldType);
-            AttributesMetadata = Model.TypeMetadata.EmitAttributes(field.GetCustomAttributes());
+            AttributesMetadata = TypeMetadata.EmitAttributes(field.GetCustomAttributes());
             Tuple<AccessLevel, bool> modifiers = EmitModifiers(field);
             AccessLevel = modifiers.Item1;
             IsStatic = modifiers.Item2;
