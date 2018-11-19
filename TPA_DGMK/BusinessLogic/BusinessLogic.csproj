@@ -72,6 +72,10 @@
     <Compile Include="ViewModel\ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Data%28de%29Serialization\Data%28De%29Serialization.csproj">
+      <Project>{b925d28a-6fe3-40e6-b670-3e6e294f3236}</Project>
+      <Name>Data%28De%29Serialization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Logging\Logging.csproj">
       <Project>{78b6e34b-ce2b-4e97-a8a2-685023020749}</Project>
       <Name>Logging</Name>
