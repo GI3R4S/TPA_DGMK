@@ -1,4 +1,5 @@
-﻿using Logging;
+﻿using Data_De_Serialization;
+using Logging;
 using Model;
 using System;
 using System.Collections.ObjectModel;
@@ -14,6 +15,8 @@ namespace ViewModel
         private AssemblyMetadata assemblyMetadata;
 
         public IFileSelector FileSelector { get; private set; }
+        public SerializerTemplate<Object> serializerTemplate { get; private set; }
+
         public Logger Logger { get; set; }
         private ObservableCollection<TreeViewItem> items = new ObservableCollection<TreeViewItem>();
 
@@ -65,11 +68,28 @@ namespace ViewModel
             Items.Add(new AssemblyViewModel(assemblyMetadata, Logger));
         }
 
+
+        private void Serialize() { }
+        private void Deserialize() { }
+
+
+        private RelayCommand deserializeCommand;
+        private RelayCommand serializeCommand;
         private RelayCommand readCommand;
 
+
+        public ICommand SerializeCommand
+        {
+            get { return serializeCommand ?? (serializeCommand = new RelayCommand(() => Serialize())); }
+        }
+        public ICommand DeserializeCommand
+        {
+            get { return deserializeCommand ?? (deserializeCommand = new RelayCommand(() => Deserialize())); }
+        }
         public ICommand ReadCommand
         {
             get { return readCommand ?? (readCommand = new RelayCommand(() => ReadFromFile())); }
         }
+
     }
 }
