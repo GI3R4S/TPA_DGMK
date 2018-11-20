@@ -4,15 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B925D28A-6FE3-40E6-B670-3E6E294F3236}</ProjectGuid>
+    <ProjectGuid>{99557A26-9024-4BEB-9A98-D96FAED65D25}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Data_de_Serialization</RootNamespace>
-    <AssemblyName>Data%28de%29Serialization</AssemblyName>
+    <RootNamespace>Model</RootNamespace>
+    <AssemblyName>Model</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,9 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,15 +41,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SerializerTemplate.cs" />
+    <Compile Include="AssemblyMetadata.cs" />
+    <Compile Include="Enums\AbstractEnum.cs" />
+    <Compile Include="Enums\AccessLevel.cs" />
+    <Compile Include="Enums\SealedEnum.cs" />
+    <Compile Include="Enums\StaticEnum.cs" />
+    <Compile Include="Enums\TypeKindEnum.cs" />
+    <Compile Include="Enums\VirtualEnum.cs" />
+    <Compile Include="ExtenstionMethods.cs" />
+    <Compile Include="FieldMetadata.cs" />
+    <Compile Include="MethodMetadata.cs" />
+    <Compile Include="NamespaceMetadata.cs" />
+    <Compile Include="ParameterMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="XMLSerializer.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Model\Model.csproj">
-      <Project>{99557a26-9024-4beb-9a98-d96faed65d25}</Project>
-      <Name>Model</Name>
-    </ProjectReference>
+    <Compile Include="PropertyMetadata.cs" />
+    <Compile Include="TypeMetadata.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

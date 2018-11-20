@@ -11,7 +11,7 @@ namespace CommandLine
             string path = "";
             do
             {
-
+                Console.WriteLine("Current directory: " + Directory.GetCurrentDirectory());
                 Console.WriteLine("Insert path of .dll file.");
                 string loadedPath = Console.ReadLine();
 

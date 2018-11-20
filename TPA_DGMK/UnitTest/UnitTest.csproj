@@ -59,10 +59,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj">
-      <Project>{6374CB47-A4D2-4DCC-AEF0-7EECD4B4BED7}</Project>
-      <Name>BusinessLogic</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Logging\Logging.csproj">
       <Project>{78B6E34B-CE2B-4E97-A8A2-685023020749}</Project>
       <Name>Logging</Name>

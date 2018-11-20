@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Logging;
 using ViewModel;
+using System.IO;
 
 namespace CommandLine
 {
