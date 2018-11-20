@@ -3,7 +3,7 @@ using Logging;
 
 namespace ViewModel
 {
-    internal class AssemblyViewModel : TreeViewItem
+    public class AssemblyViewModel : TreeViewItem
     {
         private AssemblyMetadata assemblyMetadata;
 

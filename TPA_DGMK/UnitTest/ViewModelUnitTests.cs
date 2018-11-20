@@ -19,7 +19,7 @@ namespace UnitTest
         [TestInitialize]
         public void Initialize()
         {
-            assembly = Assembly.LoadFrom("./../../../BusinessLogic/bin/Debug/BusinessLogic.dll");
+            assembly = Assembly.LoadFrom("./../../../ViewModel/bin/Debug/ViewModel.dll");
             assemblyViewModel = new AssemblyViewModel(new AssemblyMetadata(assembly), logger);
         }
 

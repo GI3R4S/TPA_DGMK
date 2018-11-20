@@ -29,7 +29,7 @@ namespace Model
 
         public static Dictionary<string, TypeMetadata> dictionary = new Dictionary<string, TypeMetadata>();
 
-        internal TypeMetadata(Type type)
+        public TypeMetadata(Type type)
         {
             TypeName = type.Name;
             NamespaceName = type.Namespace;
@@ -66,7 +66,7 @@ namespace Model
             TypeKind = dictionary[FullTypeName].TypeKind;
             Attributes = dictionary[FullTypeName].Attributes;
         }
-        internal static TypeMetadata EmitReference(Type type)
+        public static TypeMetadata EmitReference(Type type)
         {
             string fullTypeName = type.ToString();
             if (dictionary.ContainsKey(fullTypeName))

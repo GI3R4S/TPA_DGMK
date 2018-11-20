@@ -3,21 +3,21 @@ using System.Reflection;
 
 namespace Model
 {
-    internal static class ExtensionMethods
+    public static class ExtensionMethods
     {
-        internal static bool GetVisible(this Type type)
+        public static bool GetVisible(this Type type)
         {
             return type.IsPublic || type.IsNestedPublic || type.IsNestedFamily || type.IsNestedFamANDAssem;
         }
-        internal static bool GetVisible(this MethodBase method)
+        public static bool GetVisible(this MethodBase method)
         {
             return method != null && (method.IsPublic || method.IsFamily || method.IsFamilyAndAssembly);
         }
-        internal static bool GetVisible(this FieldInfo field)
+        public static bool GetVisible(this FieldInfo field)
         {
             return field != null && (field.IsPublic || field.IsFamily || field.IsFamilyAndAssembly);
         }
-        internal static string GetNamespace(this Type type)
+        public static string GetNamespace(this Type type)
         {
             string ns = type.Namespace;
             return ns ?? string.Empty;

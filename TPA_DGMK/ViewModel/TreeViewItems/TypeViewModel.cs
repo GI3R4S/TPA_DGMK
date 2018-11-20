@@ -5,7 +5,7 @@ using Model.Enums;
 
 namespace ViewModel
 {
-    class TypeViewModel : TreeViewItem
+    public class TypeViewModel : TreeViewItem
     {
         private TypeMetadata typeMetadata;
 
