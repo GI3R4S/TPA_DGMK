@@ -15,7 +15,7 @@ namespace ViewModel
         private AssemblyMetadata assemblyMetadata;
 
         public IFileSelector FileSelector { get; private set; }
-        public SerializerTemplate<Object> serializerTemplate { get; private set; }
+        public SerializerTemplate<Object> serializer { get; private set; }
 
         public Logger Logger { get; set; }
         private ObservableCollection<TreeViewItem> items = new ObservableCollection<TreeViewItem>();
@@ -50,12 +50,21 @@ namespace ViewModel
             }
             return false;
         }
-        private void ReadFromFile(string path = null)
+        private void LoadDllFile(string path = null)
         {
             Logger.Write(SeverityEnum.Information, "The option to load was selected");
-            path = FileSelector.SelectSource();
+
+            do
+            {
+                path = FileSelector.SelectSource();
+                if(path == null || !path.EndsWith(".dll"))
+                {
+                    FileSelector.FailureAlert();
+                }
+            } while (path == null || !path.EndsWith(".dll"));
 
             object assembly = (object)Assembly.Load(File.ReadAllBytes(path));
+
             try
             {
                 assemblyMetadata = (AssemblyMetadata)assembly;
@@ -68,10 +77,43 @@ namespace ViewModel
             Items.Add(new AssemblyViewModel(assemblyMetadata, Logger));
         }
 
+        private void Deserialize(string path = null)
+        {
+            Logger.Write(SeverityEnum.Information, "Option 'deserialize' was chosen");
 
-        private void Serialize() { }
-        private void Deserialize() { }
+            if (path == null)
+            {
+                path = FileSelector.SelectSource();
+            }
 
+            object assembly = serializer.Deserialize(path);
+
+            try
+            {
+                assemblyMetadata = (AssemblyMetadata)assembly;
+            }
+            catch
+            {
+                assemblyMetadata = (AssemblyMetadata)Activator.CreateInstance(typeof(AssemblyMetadata), assembly);
+            }
+            Items.Clear();
+            Items.Add(new AssemblyViewModel(assemblyMetadata, Logger));
+        }
+
+        private void Serialize(string path = null)
+        {
+            Logger.Write(SeverityEnum.Information, "Option 'serialize' was chosen: ");
+            if (assemblyMetadata == null)
+            {
+                return;
+            }
+
+            if (path == null)
+            {
+                path = FileSelector.SelectSource();
+            }
+            serializer.Serialize(assemblyMetadata, path);
+        }
 
         private RelayCommand deserializeCommand;
         private RelayCommand serializeCommand;
@@ -88,7 +130,7 @@ namespace ViewModel
         }
         public ICommand ReadCommand
         {
-            get { return readCommand ?? (readCommand = new RelayCommand(() => ReadFromFile())); }
+            get { return readCommand ?? (readCommand = new RelayCommand(() => LoadDllFile())); }
         }
 
     }

@@ -1,5 +1,5 @@
-﻿using ViewModel;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
+using ViewModel;
 
 namespace Wpf
 {
@@ -7,27 +7,18 @@ namespace Wpf
     {
         public string SelectSource()
         {
-            string path = null;
-            do
+            OpenFileDialog dialog = new OpenFileDialog();
+            DialogResult result = dialog.ShowDialog();
+            return dialog.FileName;
+        }
+
+        public void FailureAlert()
+        {
+            DialogResult result = MessageBox.Show("File at chosen path doesn't exist or has incorrect extension", "Confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+            if (result == DialogResult.Cancel)
             {
-                OpenFileDialog dialog = new OpenFileDialog();
-                DialogResult result = dialog.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    path = dialog.FileName;
-                }
-
-                if (!path.EndsWith(".dll"))
-                {
-                    MessageBox.Show("Selected file doesn't have .dll extension. Please retry selection.");
-                }
-                else
-                {
-                    break;
-                }
-            } while (true);
-
-            return path;
+                System.Environment.Exit(0);
+            }
         }
     }
 }
