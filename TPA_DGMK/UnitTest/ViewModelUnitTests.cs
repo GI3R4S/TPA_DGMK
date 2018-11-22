@@ -19,7 +19,7 @@ namespace UnitTest
         [TestInitialize]
         public void Initialize()
         {
-            assembly = Assembly.LoadFrom("./../../../ViewModel/bin/Debug/ViewModel.dll");
+            assembly = Assembly.LoadFrom("./../../../ViewModel/bin/Debug/netstandard2.0/ViewModel.dll");
             assemblyViewModel = new AssemblyViewModel(new AssemblyMetadata(assembly), logger);
         }
 
