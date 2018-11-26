@@ -74,8 +74,9 @@ namespace ViewModel
                 builder.Append(typeMetadata.BaseType == null ? " : " : ", ");
                 foreach (TypeMetadata implementedInterface in typeMetadata.ImplementedInterfaces)
                 {
-                    builder.Append(implementedInterface.FullTypeName);
+                    builder.Append(implementedInterface.TypeName + ", ");
                 }
+                builder.Length = builder.Length - 2;
             }
             return builder.ToString();
         }

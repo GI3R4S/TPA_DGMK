@@ -109,7 +109,7 @@ namespace ViewModel
 
             if (path == null)
             {
-                path = FileSelector.SelectSource();
+                path = FileSelector.SelectTarget();
             }
             serializer.Serialize(assemblyMetadata, path);
         }

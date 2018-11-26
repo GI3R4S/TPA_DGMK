@@ -14,6 +14,14 @@ namespace CommandLine
             return Console.ReadLine();       
         }
 
+        public string SelectTarget()
+        {
+            Console.Clear();
+            Console.WriteLine("Current directory: " + Directory.GetCurrentDirectory());
+            Console.WriteLine("Insert path of file, if file does not exist it will be created.");
+            return Console.ReadLine();
+        }
+
         public void FailureAlert()
         {
             Console.WriteLine("File at chosen path doesn't exist or has incorrect extension");

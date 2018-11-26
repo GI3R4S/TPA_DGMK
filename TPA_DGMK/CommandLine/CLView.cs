@@ -29,7 +29,7 @@ namespace CommandLine
             viewModel = new ViewModelBase(new CLFileSelector(), logger, serializer);
             selection = viewModel.Items.Count;
             previousItemsCount = viewModel.Items.Count;
-            Console.WriteLine("Write 'LOAD' at any time to change library");
+            Console.WriteLine("Write 'Load', 'Serialize' or 'Deserialize' at any time");
             Console.WriteLine("Press any key to cotinue: ");
             Console.ReadKey();
         }
