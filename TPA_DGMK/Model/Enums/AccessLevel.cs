@@ -1,7 +1,9 @@
-﻿namespace Model
+﻿using System.Runtime.Serialization;
+
+namespace Model
 {
     public enum AccessLevel
     {
-        IsPublic, IsProtected, IsProtectedInternal, IsPrivate
+        [EnumMember] IsPublic, [EnumMember] IsProtected, [EnumMember] IsProtectedInternal, [EnumMember] IsPrivate
     }
 }

@@ -10,11 +10,12 @@ namespace Wpf
     {
         public Logger logger { get; set; }
         public SerializerTemplate<Object> serializer { get; set; }
+        public IFileSelector fileSelector{ get; set; }
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            fileSelector = new WpfFileSelector();
             logger = new FileLogger();
-            IFileSelector fileSelector = new WpfFileSelector();
             serializer = new XMLSerializer<Object>();
             ViewModelBase vm = new ViewModelBase(fileSelector, logger, serializer);
             MainWindow window = new MainWindow();

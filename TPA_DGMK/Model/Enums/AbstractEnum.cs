@@ -1,7 +1,9 @@
-﻿namespace Model
+﻿using System.Runtime.Serialization;
+
+namespace Model
 {
     public enum AbstractEnum
     {
-        NotAbstract, Abstract
+       [EnumMember] NotAbstract, [EnumMember] Abstract
     }
 }

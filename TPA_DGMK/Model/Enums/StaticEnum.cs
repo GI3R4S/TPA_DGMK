@@ -1,7 +1,9 @@
-﻿namespace Model
+﻿using System.Runtime.Serialization;
+
+namespace Model
 {
     public enum StaticEnum
     {
-        NotStatic, Static
+        [EnumMember] NotStatic, [EnumMember] Static
     }
 }

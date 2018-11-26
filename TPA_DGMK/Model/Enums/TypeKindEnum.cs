@@ -1,7 +1,9 @@
-﻿namespace Model.Enums
+﻿using System.Runtime.Serialization;
+
+namespace Model.Enums
 {
     public enum TypeKind
     {
-        ClassType, EnumType, InterfaceType, StructType
+        [EnumMember] ClassType, [EnumMember] EnumType, [EnumMember] InterfaceType, [EnumMember] StructType
     }
 }

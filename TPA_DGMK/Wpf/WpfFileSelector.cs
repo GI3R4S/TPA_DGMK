@@ -11,13 +11,6 @@ namespace Wpf
             DialogResult result = dialog.ShowDialog();
             return dialog.FileName;
         }
-        
-        public string SelectTarget()
-        {
-            OpenFileDialog dialog = new OpenFileDialog();
-            DialogResult result = dialog.ShowDialog();
-            return dialog.FileName;
-        }
 
         public void FailureAlert()
         {

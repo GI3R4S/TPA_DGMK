@@ -1,7 +1,9 @@
-﻿namespace Model
+﻿using System.Runtime.Serialization;
+
+namespace Model
 {
     public enum VirtualEnum
     {
-        NotVirtual, Virtual
+        [EnumMember] NotVirtual, [EnumMember] Virtual
     }
 }

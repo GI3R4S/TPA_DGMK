@@ -2,29 +2,48 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Model
 {
+    [DataContract(IsReference = true)]
     public class TypeMetadata
     {
+        [DataMember]
         public string TypeName{get; private set;}
+        [DataMember]
         public string NamespaceName{get; private set;}
+        [DataMember]
         public string FullTypeName{get; private set;}
+        [DataMember]
         public TypeMetadata BaseType{get; private set;}
+        [DataMember]
         public IEnumerable<TypeMetadata> GenericArguments{get; private set;}
+        [DataMember]
         public Tuple<AccessLevel, SealedEnum, AbstractEnum> Modifiers{get; private set;}
+        [DataMember]
         public TypeKind TypeKind{get; private set;}
+        [DataMember]
         public IEnumerable<TypeMetadata> Attributes{get; private set;}
+        [DataMember]
         public IEnumerable<TypeMetadata> ImplementedInterfaces{get; private set;}
+        [DataMember]
         public IEnumerable<TypeMetadata> NestedTypes{get; private set;}
+        [DataMember]
         public IEnumerable<PropertyMetadata> Properties{get; private set;}
+        [DataMember]
         public IEnumerable<FieldMetadata> Fields{get; private set;}
+        [DataMember]
         public TypeMetadata DeclaringType{get; private set;}
+        [DataMember]
         public IEnumerable<MethodMetadata> Methods{get; private set;}
+        [DataMember]
         public IEnumerable<MethodMetadata> Constructors{get; private set;}
-
+        [DataMember]
         public AccessLevel AccessLevel { get; private set; }
+        [DataMember]
         public bool IsAbstract { get; private set; }
+        [DataMember]
         public bool IsSealed { get; private set; }
 
         public static Dictionary<string, TypeMetadata> dictionary = new Dictionary<string, TypeMetadata>();
@@ -66,6 +85,9 @@ namespace Model
             TypeKind = dictionary[FullTypeName].TypeKind;
             Attributes = dictionary[FullTypeName].Attributes;
         }
+
+        private TypeMetadata() { }
+
         public static TypeMetadata EmitReference(Type type)
         {
             string fullTypeName = type.ToString();

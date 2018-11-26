@@ -13,13 +13,6 @@ namespace CommandLine
             Console.WriteLine("Insert path of file.");
             return Console.ReadLine();       
         }
-        public string SelectTarget()
-        {
-            Console.Clear();
-            Console.WriteLine("Current directory: " + Directory.GetCurrentDirectory());
-            Console.WriteLine("Insert path of file.");
-            return Console.ReadLine();
-        }
 
         public void FailureAlert()
         {

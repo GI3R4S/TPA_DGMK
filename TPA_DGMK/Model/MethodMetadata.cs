@@ -3,18 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 
 namespace Model
 {
+    [DataContract(IsReference = true)]
     public class MethodMetadata
     {
+        [DataMember]
         public string Name{get; private set;}
+        [DataMember]
         public IEnumerable<TypeMetadata> GenericArguments{get; private set;}
+        [DataMember]
         public Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum> Modifiers{get; private set;}
+        [DataMember]
         public TypeMetadata ReturnType{get; private set;}
+        [DataMember]
         public bool Extension{get; private set;}
+        [DataMember]
         public IEnumerable<ParameterMetadata> Parameters{get; private set;}
+        [DataMember]
         public IEnumerable<TypeMetadata> AttributesMetadata{get; private set;}
+        [DataMember]
         public TypeMetadata ReflectedType{get; private set;}
 
         private MethodMetadata(MethodBase method)
@@ -28,6 +38,9 @@ namespace Model
             AttributesMetadata = TypeMetadata.EmitAttributes(method.GetCustomAttributes());
             ReflectedType = TypeMetadata.EmitReference(method.ReflectedType);
         }
+
+        private MethodMetadata() { }
+
         internal static IEnumerable<MethodMetadata> EmitMethods(IEnumerable<MethodBase> methods)
         {
             return from MethodBase _currentMethod in methods

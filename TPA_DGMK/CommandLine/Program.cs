@@ -13,6 +13,7 @@ namespace CommandLineInterface
         static void Main(string[] args)
         {
             logger = new FileLogger();
+            serializer = new XMLSerializer<object>();
             CLView view = new CLView(logger, serializer);
             logger.Write(SeverityEnum.Information, "The program has been started");
             view.Run();

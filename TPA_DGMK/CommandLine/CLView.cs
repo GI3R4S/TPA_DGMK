@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using Logging;
 using ViewModel;
-using System.IO;
 using Data_De_Serialization;
 
 namespace CommandLine
@@ -59,7 +58,6 @@ namespace CommandLine
                     logger.Write(SeverityEnum.Error, "Selected element does not exist " + selection);
                 viewModel.Select(selection);
             }
-
             else if (input.ToLower().Equals("load"))
             {
                 Console.Clear();
@@ -70,7 +68,28 @@ namespace CommandLine
                 {
                     viewModel.ReadCommand.Execute(null);
                 }
-                
+            }
+            else if (input.ToLower().Equals("deserialize"))
+            {
+                Console.Clear();
+                tree.Clear();
+                viewModel.Items.CollectionChanged += ItemsChangedEventHandler;
+
+                if (viewModel.DeserializeCommand.CanExecute(null))
+                {
+                    viewModel.DeserializeCommand.Execute(null);
+                }
+            }
+            else if (input.ToLower().Equals("serialize"))
+            {
+                Console.Clear();
+                tree.Clear();
+                viewModel.Items.CollectionChanged += ItemsChangedEventHandler;
+
+                if (viewModel.SerializeCommand.CanExecute(null))
+                {
+                    viewModel.SerializeCommand.Execute(null);
+                }
             }
             else
             {

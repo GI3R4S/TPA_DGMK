@@ -1,7 +1,9 @@
-﻿namespace Model
+﻿using System.Runtime.Serialization;
+
+namespace Model
 {
     public enum SealedEnum
     {
-        Sealed, NotSealed
+        [EnumMember] Sealed, [EnumMember] NotSealed
     }
 }
