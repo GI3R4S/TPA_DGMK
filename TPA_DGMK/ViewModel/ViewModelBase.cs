@@ -3,8 +3,6 @@ using Logging;
 using Model;
 using System;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Reflection;
 using System.Windows.Input;
 
 namespace ViewModel
@@ -12,7 +10,7 @@ namespace ViewModel
     public class ViewModelBase
     {
         private int selection = 0;
-        private AssemblyMetadata assemblyMetadata;
+        private Reflector reflector;
 
         public IFileSelector FileSelector { get; private set; }
         public SerializerTemplate<Object> serializer { get; private set; }
@@ -64,23 +62,21 @@ namespace ViewModel
                 }
             } while (path == null || !path.EndsWith(".dll"));
 
-            object assembly = (object)Assembly.Load(File.ReadAllBytes(path));
-
             try
             {
-                assemblyMetadata = (AssemblyMetadata)assembly;
+                reflector = new Reflector(path);
             }
             catch
             {
-                assemblyMetadata = (AssemblyMetadata)Activator.CreateInstance(typeof(AssemblyMetadata), assembly);
+                Logger.Write(SeverityEnum.Error, "Reflection error while loading dll");
             }
             Items.Clear();
-            Items.Add(new AssemblyViewModel(assemblyMetadata, Logger));
+            Items.Add(new AssemblyViewModel(reflector.AssemblyMetadata, Logger));
         }
 
         private void Deserialize(string path = null)
         {
-            Logger.Write(SeverityEnum.Information, "Option 'deserialize' was chosen");
+            Logger.Write(SeverityEnum.Information, "The option to 'deserialize' was chosen");
 
             if (path == null)
             {
@@ -88,6 +84,7 @@ namespace ViewModel
             }
 
             object assembly = serializer.Deserialize(path);
+            AssemblyMetadata assemblyMetadata;
 
             try
             {
@@ -95,6 +92,7 @@ namespace ViewModel
             }
             catch
             {
+                Logger.Write(SeverityEnum.Error, "Reflection error while deserializing");
                 assemblyMetadata = (AssemblyMetadata)Activator.CreateInstance(typeof(AssemblyMetadata), assembly);
             }
             Items.Clear();
@@ -103,15 +101,15 @@ namespace ViewModel
 
         private void Serialize(string path = null)
         {
-            Logger.Write(SeverityEnum.Information, "Option 'serialize' was chosen: ");
-            if (assemblyMetadata == null)
+            Logger.Write(SeverityEnum.Information, "The option to 'serialize' was chosen: ");
+            if (reflector.AssemblyMetadata == null)
                 return;
 
             if (path == null)
             {
                 path = FileSelector.SelectTarget();
             }
-            serializer.Serialize(assemblyMetadata, path);
+            serializer.Serialize(reflector.AssemblyMetadata, path);
         }
 
         private RelayCommand readCommand;

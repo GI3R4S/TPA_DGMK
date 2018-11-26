@@ -15,12 +15,14 @@ namespace UnitTest
         internal static Assembly assembly;
         internal static AssemblyViewModel assemblyViewModel;
         internal static Logger logger;
+        internal static Reflector reflector;
 
         [TestInitialize]
         public void Initialize()
         {
-            assembly = Assembly.LoadFrom("./../../../ViewModel/bin/Debug/netstandard2.0/ViewModel.dll");
-            assemblyViewModel = new AssemblyViewModel(new AssemblyMetadata(assembly), logger);
+            reflector = new Reflector("./../../../ViewModel/bin/Debug/netstandard2.0/ViewModel.dll");
+            assembly = reflector.Assembly;
+            assemblyViewModel = new AssemblyViewModel(reflector.AssemblyMetadata, logger);
             logger = new FileLogger();
         }
 

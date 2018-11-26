@@ -4,6 +4,7 @@ using Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Model;
 using Model.Singleton;
+using ViewModel;
 
 namespace UnitTest
 {
@@ -12,6 +13,7 @@ namespace UnitTest
     {
         internal static Assembly assembly;
         internal static AssemblyMetadata assemblyModel;
+        internal static Reflector reflector;
 
         //To get Type from outside the Model
         internal static SeverityEnum severityEnum;
@@ -20,8 +22,9 @@ namespace UnitTest
         [TestInitialize]
         public void Initialize()
         {
-            assembly = Assembly.LoadFrom("./../../../Model/bin/Debug/netstandard2.0/Model.dll");
-            assemblyModel = new AssemblyMetadata(assembly);
+            reflector = new Reflector("./../../../Model/bin/Debug/netstandard2.0/Model.dll");
+            assembly = reflector.Assembly;
+            assemblyModel = reflector.AssemblyMetadata;
 
             severityEnum = SeverityEnum.Information;
             type = severityEnum.GetType();
