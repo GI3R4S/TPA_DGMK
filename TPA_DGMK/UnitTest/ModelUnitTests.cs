@@ -3,6 +3,7 @@ using System.Reflection;
 using Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Model;
+using Model.Singleton;
 
 namespace UnitTest
 {
@@ -14,7 +15,7 @@ namespace UnitTest
 
         //To get Type from outside the Model
         internal static SeverityEnum severityEnum;
-        internal static Type t;
+        internal static Type type;
 
         [TestInitialize]
         public void Initialize()
@@ -23,7 +24,7 @@ namespace UnitTest
             assemblyModel = new AssemblyMetadata(assembly);
 
             severityEnum = SeverityEnum.Information;
-            t = severityEnum.GetType();
+            type = severityEnum.GetType();
         }
 
         #region DictionaryTypeMetadataTests
@@ -31,20 +32,20 @@ namespace UnitTest
         public void EnteredTheSameValueTest()
         {
             TypeMetadata tm = TypeMetadata.EmitReference(assembly.GetTypes()[0]);
-            int referencesCount = TypeMetadata.dictionary.Count;
+            int referencesCount = DictionarySingleton.Occurrence.Count();
 
             TypeMetadata tm2 = TypeMetadata.EmitReference(assembly.GetTypes()[0]);
-            Assert.AreEqual(referencesCount, TypeMetadata.dictionary.Count);
-            Assert.AreEqual(TypeMetadata.dictionary[tm.FullTypeName], TypeMetadata.dictionary[tm2.FullTypeName]);
+            Assert.AreEqual(referencesCount, DictionarySingleton.Occurrence.Count());
+            Assert.AreEqual(DictionarySingleton.Occurrence.Get(tm.FullTypeName), DictionarySingleton.Occurrence.Get(tm2.FullTypeName));
         }
 
         [TestMethod]
         public void EnteredOtherValueTest()
         {
-            int referencesCount = TypeMetadata.dictionary.Count;
-            TypeMetadata tm = TypeMetadata.EmitReference(t);
-            Assert.AreEqual(++referencesCount, TypeMetadata.dictionary.Count);
-            Assert.AreEqual(tm, TypeMetadata.dictionary[t.ToString()]);
+            int referencesCount = DictionarySingleton.Occurrence.Count();
+            TypeMetadata typeMetadata = TypeMetadata.EmitReference(type);
+            Assert.AreEqual(++referencesCount, DictionarySingleton.Occurrence.Count());
+            Assert.AreEqual(typeMetadata, DictionarySingleton.Occurrence.Get(type.ToString()));
         }
         #endregion
 
@@ -52,12 +53,12 @@ namespace UnitTest
         [TestMethod]
         public void GetNamespaceTest()
         {
-            Assert.AreEqual(t.Namespace, t.GetNamespace());
+            Assert.AreEqual(type.Namespace, type.GetNamespace());
         }
         [TestMethod]
         public void GetVisibleTypeTest()
         {
-            Assert.AreEqual(t.IsVisible, t.GetVisible());
+            Assert.AreEqual(type.IsVisible, type.GetVisible());
         }
         [TestMethod]
         public void GetVisibleMethodBaseTest()

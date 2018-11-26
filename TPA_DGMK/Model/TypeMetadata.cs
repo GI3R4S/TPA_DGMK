@@ -1,4 +1,5 @@
 ﻿using Model.Enums;
+using Model.Singleton;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,44 +47,30 @@ namespace Model
         [DataMember]
         public bool IsSealed { get; private set; }
 
-        public static Dictionary<string, TypeMetadata> dictionary = new Dictionary<string, TypeMetadata>();
+        //public static Dictionary<string, TypeMetadata> dictionary = new Dictionary<string, TypeMetadata>();
 
         public TypeMetadata(Type type)
         {
             TypeName = type.Name;
             NamespaceName = type.Namespace;
             FullTypeName = type.ToString();
-            if (!dictionary.ContainsKey(FullTypeName))
+            if(!DictionarySingleton.Occurrence.ContainsKey(FullTypeName))
             {
-                dictionary.Add(FullTypeName, this);
-                dictionary[FullTypeName].DeclaringType = EmitDeclaringType(type.DeclaringType);
-                dictionary[FullTypeName].Constructors = MethodMetadata.EmitMethods(type.GetConstructors());
-                dictionary[FullTypeName].Methods = MethodMetadata.EmitMethods(type.GetMethods());
-                dictionary[FullTypeName].NestedTypes = EmitNestedTypes(type.GetNestedTypes());
-                dictionary[FullTypeName].ImplementedInterfaces = EmitImplements(type.GetInterfaces());
-                dictionary[FullTypeName].GenericArguments = !type.IsGenericTypeDefinition ? null : TypeMetadata.EmitGenericArguments(type.GetGenericArguments());
-                dictionary[FullTypeName].Modifiers = EmitModifiers(type);
-                dictionary[FullTypeName].BaseType = EmitExtends(type.BaseType);
-                dictionary[FullTypeName].Properties = PropertyMetadata.EmitProperties(type.GetProperties());
-                dictionary[FullTypeName].Fields = FieldMetadata.EmitFields(type.GetFields());
-                dictionary[FullTypeName].TypeKind = GetTypeKind(type);
-                dictionary[FullTypeName].Attributes = EmitAttributes(type.GetCustomAttributes(false).Cast<Attribute>());
+                DictionarySingleton.Occurrence.Add(FullTypeName, this);
             }
 
-            DeclaringType = dictionary[FullTypeName].DeclaringType;
-            Constructors = dictionary[FullTypeName].Constructors;
-            Methods = dictionary[FullTypeName].Methods;
-            NestedTypes = dictionary[FullTypeName].NestedTypes;
-            ImplementedInterfaces = dictionary[FullTypeName].ImplementedInterfaces;
-            GenericArguments = dictionary[FullTypeName].GenericArguments;
-            AccessLevel = dictionary[FullTypeName].AccessLevel;
-            IsSealed = dictionary[FullTypeName].IsSealed;
-            IsAbstract = dictionary[FullTypeName].IsAbstract;
-            BaseType = dictionary[FullTypeName].BaseType;
-            Properties = dictionary[FullTypeName].Properties;
-            Fields = dictionary[FullTypeName].Fields;
-            TypeKind = dictionary[FullTypeName].TypeKind;
-            Attributes = dictionary[FullTypeName].Attributes;
+            DeclaringType = EmitDeclaringType(type.DeclaringType);
+            Constructors = MethodMetadata.EmitMethods(type.GetConstructors());
+            Methods = MethodMetadata.EmitMethods(type.GetMethods());
+            NestedTypes = EmitNestedTypes(type.GetNestedTypes());
+            ImplementedInterfaces = EmitImplements(type.GetInterfaces());
+            GenericArguments = !type.IsGenericTypeDefinition ? null : TypeMetadata.EmitGenericArguments(type.GetGenericArguments());
+            Modifiers = EmitModifiers(type);
+            BaseType = EmitExtends(type.BaseType);
+            Properties = PropertyMetadata.EmitProperties(type.GetProperties());
+            Fields = FieldMetadata.EmitFields(type.GetFields());
+            TypeKind = GetTypeKind(type);
+            Attributes = EmitAttributes(type.GetCustomAttributes(false).Cast<Attribute>());
         }
 
         private TypeMetadata() { }
@@ -91,8 +78,8 @@ namespace Model
         public static TypeMetadata EmitReference(Type type)
         {
             string fullTypeName = type.ToString();
-            if (dictionary.ContainsKey(fullTypeName))
-                return dictionary[fullTypeName];
+            if (DictionarySingleton.Occurrence.ContainsKey(fullTypeName))
+                return DictionarySingleton.Occurrence.Get(fullTypeName);
             return new TypeMetadata(type);
         }
         internal static IEnumerable<TypeMetadata> EmitGenericArguments(IEnumerable<Type> arguments)
