@@ -21,6 +21,7 @@ namespace UnitTest
         {
             assembly = Assembly.LoadFrom("./../../../ViewModel/bin/Debug/netstandard2.0/ViewModel.dll");
             assemblyViewModel = new AssemblyViewModel(new AssemblyMetadata(assembly), logger);
+            logger = new FileLogger();
         }
 
         #region Expandable

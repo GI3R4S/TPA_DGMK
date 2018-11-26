@@ -29,10 +29,11 @@ namespace ViewModel
             }
         }
 
-        public ViewModelBase(IFileSelector fileSelector, Logger logger)
+        public ViewModelBase(IFileSelector fileSelector, Logger logger, SerializerTemplate<Object> serializer)
         {
             this.Logger = logger;
             this.FileSelector = fileSelector;
+            this.serializer = serializer;
         }
         public bool Select(int selection)
         {
@@ -104,9 +105,7 @@ namespace ViewModel
         {
             Logger.Write(SeverityEnum.Information, "Option 'serialize' was chosen: ");
             if (assemblyMetadata == null)
-            {
                 return;
-            }
 
             if (path == null)
             {
@@ -115,23 +114,21 @@ namespace ViewModel
             serializer.Serialize(assemblyMetadata, path);
         }
 
+        private RelayCommand readCommand;
         private RelayCommand deserializeCommand;
         private RelayCommand serializeCommand;
-        private RelayCommand readCommand;
 
-
-        public ICommand SerializeCommand
+        public ICommand ReadCommand
         {
-            get { return serializeCommand ?? (serializeCommand = new RelayCommand(() => Serialize())); }
+            get { return readCommand ?? (readCommand = new RelayCommand(() => LoadDllFile())); }
         }
         public ICommand DeserializeCommand
         {
             get { return deserializeCommand ?? (deserializeCommand = new RelayCommand(() => Deserialize())); }
         }
-        public ICommand ReadCommand
+        public ICommand SerializeCommand
         {
-            get { return readCommand ?? (readCommand = new RelayCommand(() => LoadDllFile())); }
+            get { return serializeCommand ?? (serializeCommand = new RelayCommand(() => Serialize())); }
         }
-
     }
 }

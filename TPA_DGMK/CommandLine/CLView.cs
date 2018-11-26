@@ -6,6 +6,7 @@ using System.Text;
 using Logging;
 using ViewModel;
 using System.IO;
+using Data_De_Serialization;
 
 namespace CommandLine
 {
@@ -23,10 +24,10 @@ namespace CommandLine
         private List<KeyValuePair<TreeViewItem, int>> tree = new List<KeyValuePair<TreeViewItem, int>>();
         private List<NotifyCollectionChangedEventArgs> itemsChanged = new List<NotifyCollectionChangedEventArgs>();
 
-        public CLView(Logger logger)
+        public CLView(Logger logger, SerializerTemplate<Object> serializer)
         {
             this.logger = logger;
-            viewModel = new ViewModelBase(new CLFileSelector(), logger);
+            viewModel = new ViewModelBase(new CLFileSelector(), logger, serializer);
             selection = viewModel.Items.Count;
             previousItemsCount = viewModel.Items.Count;
             Console.WriteLine("Write 'LOAD' at any time to change library");

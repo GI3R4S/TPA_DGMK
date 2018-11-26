@@ -4,6 +4,8 @@
     {
         string SelectSource();
 
+        string SelectTarget();
+
         void FailureAlert(); 
     }
 }
