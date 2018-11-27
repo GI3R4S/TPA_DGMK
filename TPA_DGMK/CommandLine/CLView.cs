@@ -23,7 +23,7 @@ namespace CommandLine
         private List<KeyValuePair<TreeViewItem, int>> tree = new List<KeyValuePair<TreeViewItem, int>>();
         private List<NotifyCollectionChangedEventArgs> itemsChanged = new List<NotifyCollectionChangedEventArgs>();
 
-        public CLView(Logger logger, SerializerTemplate<Object> serializer)
+        public CLView(Logger logger, SerializerTemplate serializer)
         {
             this.logger = logger;
             viewModel = new ViewModelBase(new CLFileSelector(), logger, serializer);

@@ -1,7 +1,6 @@
 ﻿using Data_De_Serialization;
 using Logging;
 using Model;
-using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -13,7 +12,7 @@ namespace ViewModel
         private Reflector reflector;
 
         public IFileSelector FileSelector { get; private set; }
-        public SerializerTemplate<Object> serializer { get; private set; }
+        public SerializerTemplate serializer { get; private set; }
 
         public Logger Logger { get; set; }
         private ObservableCollection<TreeViewItem> items = new ObservableCollection<TreeViewItem>();
@@ -27,7 +26,7 @@ namespace ViewModel
             }
         }
 
-        public ViewModelBase(IFileSelector fileSelector, Logger logger, SerializerTemplate<Object> serializer)
+        public ViewModelBase(IFileSelector fileSelector, Logger logger, SerializerTemplate serializer)
         {
             this.Logger = logger;
             this.FileSelector = fileSelector;
@@ -83,17 +82,15 @@ namespace ViewModel
                 path = FileSelector.SelectSource();
             }
 
-            object assembly = serializer.Deserialize(path);
-            AssemblyMetadata assemblyMetadata;
+            AssemblyMetadata assemblyMetadata = serializer.Deserialize<AssemblyMetadata>(path);
 
             try
             {
-                assemblyMetadata = (AssemblyMetadata)assembly;
+                reflector = new Reflector(assemblyMetadata);
             }
             catch
             {
                 Logger.Write(SeverityEnum.Error, "Reflection error while deserializing");
-                assemblyMetadata = (AssemblyMetadata)Activator.CreateInstance(typeof(AssemblyMetadata), assembly);
             }
             Items.Clear();
             Items.Add(new AssemblyViewModel(assemblyMetadata, Logger));

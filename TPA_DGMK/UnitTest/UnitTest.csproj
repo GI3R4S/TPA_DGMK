@@ -72,6 +72,8 @@
     <Compile Include="LoggingUnitTests.cs" />
     <Compile Include="ModelUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReflectorUnitTests.cs" />
+    <Compile Include="SerializingUnitTests.cs" />
     <Compile Include="ViewModelUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +83,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Data%28de%29Serialization\Data%28de%29Serialization.csproj">
+      <Project>{116EE92B-B3C4-462F-AED8-7403E84111B5}</Project>
+      <Name>Data%28de%29Serialization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Logging\Logging.csproj">
       <Project>{f15a466f-8472-4826-a270-b135cb532188}</Project>
       <Name>Logging</Name>

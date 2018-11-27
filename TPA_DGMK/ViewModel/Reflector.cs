@@ -5,7 +5,7 @@ namespace ViewModel
 {
     public class Reflector
     {
-        public AssemblyMetadata AssemblyMetadata { get; private set; }
+        public AssemblyMetadata AssemblyMetadata { get;  private set; }
         public Assembly Assembly { get; private set; }
         public Reflector(string assemblyFile)
         {
@@ -17,6 +17,10 @@ namespace ViewModel
         public Reflector(Assembly assembly)
         {
             AssemblyMetadata = new AssemblyMetadata(assembly);
+        }
+        public Reflector(AssemblyMetadata assemblyMetadata)
+        {
+            AssemblyMetadata = assemblyMetadata;
         }
     }
 }
