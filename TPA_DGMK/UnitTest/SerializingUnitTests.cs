@@ -1,8 +1,6 @@
 ﻿using Data_De_Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Model;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ViewModel;

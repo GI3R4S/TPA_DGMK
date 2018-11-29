@@ -47,8 +47,6 @@ namespace Model
         [DataMember]
         public bool IsSealed { get; private set; }
 
-        //public static Dictionary<string, TypeMetadata> dictionary = new Dictionary<string, TypeMetadata>();
-
         public TypeMetadata(Type type)
         {
             TypeName = type.Name;

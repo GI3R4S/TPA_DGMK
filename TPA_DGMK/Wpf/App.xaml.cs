@@ -1,7 +1,6 @@
-﻿using System;
-using System.Windows;
-using Data_De_Serialization;
+﻿using Data_De_Serialization;
 using Logging;
+using System.Windows;
 using ViewModel;
 
 namespace Wpf
