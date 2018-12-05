@@ -13,9 +13,9 @@ namespace Wpf
             grid.Background = (Brush)brushConverter.ConvertFrom("#272727");
             TreeView.Background = (Brush)brushConverter.ConvertFrom("#272727");
         }
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            Application.Current.MainWindow = this;
-        }
+        //private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    Application.Current.MainWindow = this;
+        //}
     }
 }

@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.IO;
 using Logging;
-using System.IO;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTest
+namespace UnitTestLogging
 {
     [TestClass]
     public class LoggingUnitTests
@@ -14,7 +14,7 @@ namespace UnitTest
         public void Initialize()
         {
             logger = new FileLogger();
-            path = "./../../../UnitTest/bin/Debug/AppLog.txt";
+            path = "./../../../UnitTestLogging/bin/Debug/AppLog.txt";
         }
 
         [TestMethod]

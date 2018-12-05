@@ -1,33 +1,27 @@
 ﻿using System;
 using System.Reflection;
-using Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Model;
 using Model.Singleton;
-using ViewModel;
 
-namespace UnitTest
+namespace UnitTestModel
 {
     [TestClass]
     public class ModelUnitTests
     {
         internal static Assembly assembly;
-        internal static AssemblyMetadata assemblyModel;
-        internal static Reflector reflector;
+        internal static AssemblyMetadata assemblyMetadata;
 
         //To get Type from outside the Model
-        internal static SeverityEnum severityEnum;
         internal static Type type;
 
         [TestInitialize]
         public void Initialize()
         {
-            reflector = new Reflector("./../../../Model/bin/Debug/netstandard2.0/Model.dll");
-            assembly = reflector.Assembly;
-            assemblyModel = reflector.AssemblyMetadata;
+            assembly = Assembly.LoadFrom("./../../../Model/bin/Debug/netstandard2.0/Model.dll");
+            assemblyMetadata = new AssemblyMetadata(assembly);
 
-            severityEnum = SeverityEnum.Information;
-            type = severityEnum.GetType();
+            type = typeof(System.RuntimeArgumentHandle);
         }
 
         #region DictionaryTypeMetadataTests

@@ -1,5 +1,5 @@
-﻿using Logging;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using Logging;
 
 namespace ViewModel
 {

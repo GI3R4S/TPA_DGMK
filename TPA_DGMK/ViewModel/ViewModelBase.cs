@@ -26,12 +26,13 @@ namespace ViewModel
             }
         }
 
-        public ViewModelBase(IFileSelector fileSelector, Logger logger, SerializerTemplate serializer)
+        public ViewModelBase(IFileSelector fileSelector)
         {
-            this.Logger = logger;
+            this.Logger = new FileLogger();
             this.FileSelector = fileSelector;
-            this.serializer = serializer;
+            this.serializer = new XMLSerializer();
         }
+
         public bool Select(int selection)
         {
             this.selection = selection;
