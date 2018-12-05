@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ViewModel;
 
-namespace UnitTest
+namespace UnitTestViewModel
 {
     [TestClass]
     public class ReflectorUnitTests

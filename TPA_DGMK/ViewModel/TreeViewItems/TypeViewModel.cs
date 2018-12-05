@@ -16,6 +16,12 @@ namespace ViewModel
             if (CanLoadChildren())
                 Children.Add(null);
         }
+        public TypeViewModel(TypeMetadata typeMetadata)
+        {
+            this.typeMetadata = typeMetadata;
+            if (CanLoadChildren())
+                Children.Add(null);
+        }
 
         public override string Name => this.ToString();
 

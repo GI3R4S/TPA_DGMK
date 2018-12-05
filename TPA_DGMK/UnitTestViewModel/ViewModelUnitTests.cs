@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Model;
 using ViewModel;
 
-namespace UnitTest
+namespace UnitTestViewModel
 {
     [TestClass]
     public class ViewModelUnitTests
     {
         internal static Assembly assembly;
         internal static AssemblyViewModel assemblyViewModel;
-        internal static Logger logger;
         internal static Reflector reflector;
 
         [TestInitialize]
@@ -22,8 +20,7 @@ namespace UnitTest
         {
             reflector = new Reflector("./../../../ViewModel/bin/Debug/netstandard2.0/ViewModel.dll");
             assembly = reflector.Assembly;
-            assemblyViewModel = new AssemblyViewModel(reflector.AssemblyMetadata, logger);
-            logger = new FileLogger();
+            assemblyViewModel = new AssemblyViewModel(reflector.AssemblyMetadata);
         }
 
         #region Expandable
@@ -39,7 +36,7 @@ namespace UnitTest
             Assert.AreEqual(assembly.GetTypes().Any(), assemblyViewModel.IsExpandable());
             Type[] t = assembly.GetTypes();
             TypeMetadata tm = new TypeMetadata(t[5]);
-            TypeViewModel tvm = new TypeViewModel(tm, logger);
+            TypeViewModel tvm = new TypeViewModel(tm);
             MethodMetadata mm = tm.Constructors.First();
             Assert.AreEqual((mm.Parameters != null && mm.AttributesMetadata != null), tvm.IsExpandable());
         }

@@ -15,6 +15,13 @@ namespace ViewModel
                 Children.Add(null);
         }
 
+        public AssemblyViewModel(AssemblyMetadata assembly)
+        {
+            this.assemblyMetadata = assembly;
+            if (CanLoadChildren())
+                Children.Add(null);
+        }
+
         public override string Name => this.ToString();
 
         protected override void LoadChildren()
