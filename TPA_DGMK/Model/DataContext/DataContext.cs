@@ -6,7 +6,7 @@ namespace Model
     {
         public DataContext(string dataBaseName) : base(dataBaseName)
         {
-            this.Configuration.LazyLoadingEnabled = false;
+            this.Configuration.LazyLoadingEnabled = true;
         }
         public virtual DbSet<AssemblyMetadata> AssemblyModel { get; set; }
         public virtual DbSet<NamespaceMetadata> Namespaces { get; set; }

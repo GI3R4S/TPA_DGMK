@@ -108,7 +108,7 @@ namespace ViewModel
                 Logger.Write(SeverityEnum.Error, "Reflection error while deserializing");
             }
             Items.Clear();
-            Items.Add(new AssemblyViewModel(assemblyMetadata, Logger));
+            Items.Add(new AssemblyViewModel(reflector.AssemblyMetadata, Logger));
         }
 
         private async Task Serialize(string path = null)

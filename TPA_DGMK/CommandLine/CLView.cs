@@ -17,6 +17,7 @@ namespace CommandLine
         private int treeCounter = 0;
         private int treeIndentation = 0;
         private int previousItemsCount = 0;
+        private bool tmpToDeserialize;
 
         private Logger logger;
         private ViewModelBase viewModel;
@@ -67,23 +68,20 @@ namespace CommandLine
                     viewModel.ReadCommand.Execute(null);
                 }
             }
-            else if (input.ToLower().Equals("deserialize"))
+            else if (input.ToLower().Equals("de"))
             {
-                //Console.Clear();
-                //tree.Clear();
+                Console.Clear();
+                tree.Clear();
                 viewModel.Items.CollectionChanged += ItemsChangedEventHandler;
+                tmpToDeserialize = true;
 
                 if (viewModel.DeserializeCommand.CanExecute(null))
                 {
                     viewModel.DeserializeCommand.Execute(null);
                 }
             }
-            else if (input.ToLower().Equals("serialize"))
+            else if (input.ToLower().Equals("se"))
             {
-                Console.Clear();
-                tree.Clear();
-                viewModel.Items.CollectionChanged += ItemsChangedEventHandler;
-
                 if (viewModel.SerializeCommand.CanExecute(null))
                 {
                     viewModel.SerializeCommand.Execute(null);
@@ -138,6 +136,12 @@ namespace CommandLine
                 previousItemsCount = 1;
                 treeCounter = 0;
                 treeIndentation = 0;
+                if (tmpToDeserialize)
+                {
+                    FillTree();
+                    DisplayTree();
+                    tmpToDeserialize = false;
+                }
             }
         }
     }
