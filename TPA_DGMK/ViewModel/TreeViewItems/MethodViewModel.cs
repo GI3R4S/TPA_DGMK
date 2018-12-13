@@ -62,7 +62,7 @@ namespace ViewModel
             builder.Append(methodMetadata.Modifiers.Item4 == VirtualEnum.Virtual ? "virtual " : "");
             return builder.ToString();
         }
-        private string ParametersToString(IEnumerable<ParameterMetadata> parameters)
+        private string ParametersToString(ICollection<ParameterMetadata> parameters)
         {
             StringBuilder builder = new StringBuilder();
             builder.Append(" (");

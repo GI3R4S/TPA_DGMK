@@ -18,7 +18,7 @@ namespace UnitTestModel
         [TestInitialize]
         public void Initialize()
         {
-            assembly = Assembly.LoadFrom("./../../../Model/bin/Debug/netstandard2.0/Model.dll");
+            assembly = Assembly.LoadFrom("./../../../UnitTestModel/bin/Debug/Model.dll");
             assemblyMetadata = new AssemblyMetadata(assembly);
 
             type = typeof(System.RuntimeArgumentHandle);

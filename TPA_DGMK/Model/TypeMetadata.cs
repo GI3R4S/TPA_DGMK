@@ -11,6 +11,8 @@ namespace Model
     public class TypeMetadata
     {
         [DataMember]
+        public int Id { get; private set; }
+        [DataMember]
         public string TypeName{get; private set;}
         [DataMember]
         public string NamespaceName{get; private set;}
@@ -19,27 +21,29 @@ namespace Model
         [DataMember]
         public TypeMetadata BaseType{get; private set;}
         [DataMember]
-        public IEnumerable<TypeMetadata> GenericArguments{get; private set;}
+        public ICollection<TypeMetadata> GenericArguments{get; private set;}
         [DataMember]
         public Tuple<AccessLevel, SealedEnum, AbstractEnum> Modifiers{get; private set;}
         [DataMember]
         public TypeKind TypeKind{get; private set;}
         [DataMember]
-        public IEnumerable<TypeMetadata> Attributes{get; private set;}
+        public ICollection<TypeMetadata> Attributes{get; private set;}
         [DataMember]
-        public IEnumerable<TypeMetadata> ImplementedInterfaces{get; private set;}
+        public ICollection<TypeMetadata> ImplementedInterfaces{get; private set;}
         [DataMember]
-        public IEnumerable<TypeMetadata> NestedTypes{get; private set;}
+        public ICollection<TypeMetadata> NestedTypes{get; private set;}
         [DataMember]
-        public IEnumerable<PropertyMetadata> Properties{get; private set;}
+        public ICollection<PropertyMetadata> Properties{get; private set;}
         [DataMember]
-        public IEnumerable<FieldMetadata> Fields{get; private set;}
+        public ICollection<FieldMetadata> Fields{get; private set;}
         [DataMember]
         public TypeMetadata DeclaringType{get; private set;}
         [DataMember]
-        public IEnumerable<MethodMetadata> Methods{get; private set;}
+        public ICollection<MethodMetadata> Methods{get; private set;}
         [DataMember]
-        public IEnumerable<MethodMetadata> Constructors{get; private set;}
+        public ICollection<MethodMetadata> Methods2{get; private set;}
+        [DataMember]
+        public ICollection<MethodMetadata> Constructors{get; private set;}
         [DataMember]
         public AccessLevel AccessLevel { get; private set; }
         [DataMember]
@@ -47,10 +51,10 @@ namespace Model
         [DataMember]
         public bool IsSealed { get; private set; }
 
-        //public static Dictionary<string, TypeMetadata> dictionary = new Dictionary<string, TypeMetadata>();
 
         public TypeMetadata(Type type)
         {
+            Id = ++counter;
             TypeName = type.Name;
             NamespaceName = type.Namespace;
             FullTypeName = type.ToString();
@@ -74,6 +78,7 @@ namespace Model
         }
 
         private TypeMetadata() { }
+        private static int counter = 0;
 
         public static TypeMetadata EmitReference(Type type)
         {
@@ -82,7 +87,7 @@ namespace Model
                 return DictionarySingleton.Occurrence.Get(fullTypeName);
             return new TypeMetadata(type);
         }
-        internal static IEnumerable<TypeMetadata> EmitGenericArguments(IEnumerable<Type> arguments)
+        internal static ICollection<TypeMetadata> EmitGenericArguments(ICollection<Type> arguments)
         {
             return (from Type _argument in arguments select EmitReference(_argument)).ToList();
         }
@@ -92,13 +97,13 @@ namespace Model
                 return null;
             return EmitReference(declaringType);
         }
-        private IEnumerable<TypeMetadata> EmitNestedTypes(IEnumerable<Type> nestedTypes)
+        private ICollection<TypeMetadata> EmitNestedTypes(ICollection<Type> nestedTypes)
         {
             return (from _type in nestedTypes
                    where _type.GetVisible()
                    select new TypeMetadata(_type)).ToList();
         }
-        private IEnumerable<TypeMetadata> EmitImplements(IEnumerable<Type> interfaces)
+        private ICollection<TypeMetadata> EmitImplements(ICollection<Type> interfaces)
         {
             return (from currentInterface in interfaces
                    select EmitReference(currentInterface)).ToList();

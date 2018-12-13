@@ -9,21 +9,25 @@ namespace Model
     public class PropertyMetadata
     {
         [DataMember]
+        public int Id { get; private set; }
+        [DataMember]
         public string Name { get; private set; }
         [DataMember]
         public TypeMetadata TypeMetadata { get; private set; }
         [DataMember]
-        public IEnumerable<TypeMetadata> AttributesMetadata { get; private set; }
+        public ICollection<TypeMetadata> AttributesMetadata { get; private set; }
 
         private PropertyMetadata(string propertyName, TypeMetadata propertyType)
         {
+            Id = ++counter;
             Name = propertyName;
             TypeMetadata = propertyType;
         }
 
         private PropertyMetadata() { }
+        private static int counter = 0;
 
-        internal static IEnumerable<PropertyMetadata> EmitProperties(IEnumerable<PropertyInfo> props)
+        internal static ICollection<PropertyMetadata> EmitProperties(ICollection<PropertyInfo> props)
         {
             return (from prop in props
                     where prop.GetGetMethod().GetVisible() || prop.GetSetMethod().GetVisible()

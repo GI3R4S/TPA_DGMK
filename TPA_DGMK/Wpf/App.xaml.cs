@@ -11,6 +11,7 @@ namespace Wpf
         {
             fileSelector = new WpfFileSelector();
             ViewModelBase vm = new ViewModelBase(fileSelector);
+            vm.DatabaseSelector = new WPFDatabaseSelector();
             MainWindow window = new MainWindow();
             window.DataContext = vm;
             window.Show();

@@ -23,6 +23,7 @@ namespace CommandLine
         public CLView()
         {
             viewModel = new ViewModelBase(new CLFileSelector());
+            //viewModel.DatabaseSelector = new CLFileSelector();
             selection = viewModel.Items.Count;
             previousItemsCount = viewModel.Items.Count;
             Console.WriteLine("Write 'Load', 'Serialize' or 'Deserialize' at any time");

@@ -28,5 +28,18 @@ namespace UnitTestLogging
             logger.Write(SeverityEnum.Information, "The program has been started");
             Assert.IsTrue(File.Exists(path));
         }
+
+       /* [TestMethod]
+        public void Logger2WriteTest()
+        {
+            logger = new DatabaseLogger();
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            Assert.IsFalse(File.Exists(path));
+            logger.Write(SeverityEnum.Information, "The program has been started");
+            Assert.IsTrue(File.Exists(path));
+        }*/
     }
 }

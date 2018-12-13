@@ -12,6 +12,7 @@ namespace ViewModel
         private Reflector reflector;
 
         public IFileSelector FileSelector { get; private set; }
+        public IFileSelector DatabaseSelector { get; set; }
         public SerializerTemplate serializer { get; private set; }
 
         public Logger Logger { get; set; }
@@ -28,9 +29,14 @@ namespace ViewModel
 
         public ViewModelBase(IFileSelector fileSelector)
         {
-            this.Logger = new FileLogger();
+            this.Logger = new DatabaseLogger();
             this.FileSelector = fileSelector;
-            this.serializer = new XMLSerializer();
+            this.serializer = new DatabaseSerializer();
+        }
+
+        public ViewModelBase()
+        {
+
         }
 
         public bool Select(int selection)
@@ -80,7 +86,7 @@ namespace ViewModel
 
             if (path == null)
             {
-                path = FileSelector.SelectSource();
+                path = DatabaseSelector.SelectSource();
             }
 
             AssemblyMetadata assemblyMetadata = serializer.Deserialize<AssemblyMetadata>(path);
@@ -105,7 +111,7 @@ namespace ViewModel
 
             if (path == null)
             {
-                path = FileSelector.SelectTarget();
+                path = DatabaseSelector.SelectTarget();
             }
             serializer.Serialize(reflector.AssemblyMetadata, path);
         }

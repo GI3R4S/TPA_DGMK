@@ -10,6 +10,8 @@ namespace Model
     public class FieldMetadata
     {
         [DataMember]
+        public int Id { get; private set; }
+        [DataMember]
         public string Name { get; private set; }
         [DataMember]
         public TypeMetadata TypeMetadata { get; private set; }
@@ -22,6 +24,7 @@ namespace Model
 
         public FieldMetadata(FieldInfo field)
         {
+            Id = ++counter;
             Name = field.Name;
             TypeMetadata = TypeMetadata.EmitReference(field.FieldType);
             AttributesMetadata = TypeMetadata.EmitAttributes(field.GetCustomAttributes());
@@ -31,6 +34,7 @@ namespace Model
         }
 
         private FieldMetadata() { }
+        private static int counter = 0;
 
         internal static ICollection<FieldMetadata> EmitFields(IEnumerable<FieldInfo> fields)
         {

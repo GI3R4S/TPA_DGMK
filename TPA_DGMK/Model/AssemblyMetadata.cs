@@ -11,6 +11,7 @@ namespace Model
     {
         public AssemblyMetadata(Assembly assembly)
         {
+            Id = ++counter;
             Name = assembly.ManifestModule.Name;
             Namespaces = (from Type _type in assembly.GetTypes()
                           where _type.GetVisible()
@@ -20,10 +21,13 @@ namespace Model
         }
 
         private AssemblyMetadata() { }
+        private static int counter = 0;
 
+        [DataMember]
+        public int Id { get; private set; }
         [DataMember]
         public string Name { get; private set; }
         [DataMember]
-        public IEnumerable<NamespaceMetadata> Namespaces { get; private set; }
+        public ICollection<NamespaceMetadata> Namespaces { get; private set; }
     }
 }

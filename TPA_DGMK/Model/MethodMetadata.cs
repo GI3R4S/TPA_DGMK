@@ -11,9 +11,11 @@ namespace Model
     public class MethodMetadata
     {
         [DataMember]
+        public int Id { get; private set; }
+        [DataMember]
         public string Name{get; private set;}
         [DataMember]
-        public IEnumerable<TypeMetadata> GenericArguments{get; private set;}
+        public ICollection<TypeMetadata> GenericArguments{get; private set;}
         [DataMember]
         public Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum> Modifiers{get; private set;}
         [DataMember]
@@ -21,14 +23,15 @@ namespace Model
         [DataMember]
         public bool Extension{get; private set;}
         [DataMember]
-        public IEnumerable<ParameterMetadata> Parameters{get; private set;}
+        public ICollection<ParameterMetadata> Parameters{get; private set;}
         [DataMember]
-        public IEnumerable<TypeMetadata> AttributesMetadata{get; private set;}
+        public ICollection<TypeMetadata> AttributesMetadata{get; private set;}
         [DataMember]
         public TypeMetadata ReflectedType{get; private set;}
 
         private MethodMetadata(MethodBase method)
         {
+            Id = ++counter;
             Name = method.Name;
             GenericArguments = !method.IsGenericMethodDefinition ? null : TypeMetadata.EmitGenericArguments(method.GetGenericArguments());
             ReturnType = EmitReturnType(method);
@@ -40,17 +43,18 @@ namespace Model
         }
 
         private MethodMetadata() { }
+        private static int counter = 0;
 
-        internal static IEnumerable<MethodMetadata> EmitMethods(IEnumerable<MethodBase> methods)
+        internal static ICollection<MethodMetadata> EmitMethods(ICollection<MethodBase> methods)
         {
-            return from MethodBase _currentMethod in methods
+            return (from MethodBase _currentMethod in methods
                    where _currentMethod.GetVisible()
-                   select new MethodMetadata(_currentMethod);
+                   select new MethodMetadata(_currentMethod)).ToList();
         }
-        private static IEnumerable<ParameterMetadata> EmitParameters(IEnumerable<ParameterInfo> parms)
+        private static ICollection<ParameterMetadata> EmitParameters(ICollection<ParameterInfo> parms)
         {
-            return from parm in parms
-                   select new ParameterMetadata(parm.Name, TypeMetadata.EmitReference(parm.ParameterType));
+            return (from parm in parms
+                   select new ParameterMetadata(parm.Name, TypeMetadata.EmitReference(parm.ParameterType))).ToList();
         }
         private static TypeMetadata EmitReturnType(MethodBase method)
         {
