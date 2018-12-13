@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Model;
 using Logging;
+using System.ComponentModel.Composition;
 
 namespace ViewModel
 {
@@ -8,7 +9,7 @@ namespace ViewModel
     {
         private PropertyMetadata propertyMetadata;
 
-        public PropertyViewModel(PropertyMetadata propertyMetadata, Logger logger)
+        public PropertyViewModel(PropertyMetadata propertyMetadata, [Import(typeof(Logger))] Logger logger)
         {
             this.logger = logger;
             this.propertyMetadata = propertyMetadata;

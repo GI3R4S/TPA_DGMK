@@ -1,5 +1,6 @@
 ﻿using Model;
 using Logging;
+using System.ComponentModel.Composition;
 
 namespace ViewModel
 {
@@ -7,7 +8,7 @@ namespace ViewModel
     {
         private NamespaceMetadata namespaceMetadata;
 
-        public NamespaceViewModel(NamespaceMetadata namespaceMetadata, Logger logger)
+        public NamespaceViewModel(NamespaceMetadata namespaceMetadata, [Import(typeof(Logger))] Logger logger)
         {
             this.logger = logger;
             this.namespaceMetadata = namespaceMetadata;

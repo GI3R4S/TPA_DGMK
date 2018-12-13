@@ -1,8 +1,10 @@
-﻿using System.Configuration;
+﻿using System.ComponentModel.Composition;
+using System.Configuration;
 using System.Diagnostics;
 
 namespace Logging
 {
+    [Export(typeof(Logger))]
     public class FileLogger : Logger
     {
         TraceSource traceSource;

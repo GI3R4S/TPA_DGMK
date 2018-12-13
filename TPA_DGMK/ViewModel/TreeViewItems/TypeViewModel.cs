@@ -2,6 +2,7 @@
 using Model;
 using Logging;
 using Model.Enums;
+using System.ComponentModel.Composition;
 
 namespace ViewModel
 {
@@ -9,7 +10,7 @@ namespace ViewModel
     {
         private TypeMetadata typeMetadata;
 
-        public TypeViewModel(TypeMetadata typeMetadata, Logger logger)
+        public TypeViewModel(TypeMetadata typeMetadata, [Import(typeof(Logger))] Logger logger)
         {
             this.logger = logger;
             this.typeMetadata = typeMetadata;

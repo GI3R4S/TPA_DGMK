@@ -72,7 +72,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="WPFDatabaseSelector.cs" />
+    <Compile Include="WpfDatabaseSelector.cs" />
     <Compile Include="WpfFileSelector.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -117,6 +117,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Data%28de%29Serialization\Data%28de%29Serialization.csproj">
+      <Project>{116EE92B-B3C4-462F-AED8-7403E84111B5}</Project>
+      <Name>Data%28de%29Serialization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Logging\Logging.csproj">
+      <Project>{B4F4C31F-F8AF-44EE-876F-356E1628D7A8}</Project>
+      <Name>Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ViewModel\ViewModel.csproj">
       <Project>{9529f2b1-19de-4a95-be82-fdd08828a898}</Project>
       <Name>ViewModel</Name>

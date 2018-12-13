@@ -1,5 +1,6 @@
 ﻿using Model;
 using Logging;
+using System.ComponentModel.Composition;
 
 namespace ViewModel
 {
@@ -7,7 +8,7 @@ namespace ViewModel
     {
         ParameterMetadata parameterMetadata;
 
-        public ParameterViewModel(ParameterMetadata parameterMetadata, Logger logger)
+        public ParameterViewModel(ParameterMetadata parameterMetadata, [Import(typeof(Logger))] Logger logger)
         {
             this.logger = logger;
             this.parameterMetadata = parameterMetadata;

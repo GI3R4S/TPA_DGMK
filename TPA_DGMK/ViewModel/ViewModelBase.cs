@@ -2,6 +2,8 @@
 using Logging;
 using Model;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ViewModel
@@ -12,7 +14,7 @@ namespace ViewModel
         private Reflector reflector;
 
         public IFileSelector FileSelector { get; private set; }
-        public IFileSelector DatabaseSelector { get; set; }
+        public IFileSelector DatabaseSelector { get; private set; }
         public SerializerTemplate serializer { get; private set; }
 
         public Logger Logger { get; set; }
@@ -27,11 +29,14 @@ namespace ViewModel
             }
         }
 
-        public ViewModelBase(IFileSelector fileSelector)
+        [ImportingConstructor]
+        public ViewModelBase(IFileSelector fileSelector, IFileSelector databaseSelector, [Import(typeof(Logger))] Logger logger,
+            [Import(typeof(SerializerTemplate))] SerializerTemplate serializer)
         {
-            this.Logger = new DatabaseLogger();
+            this.Logger = logger;
+            this.DatabaseSelector = databaseSelector;
             this.FileSelector = fileSelector;
-            this.serializer = new DatabaseSerializer();
+            this.serializer = serializer;
         }
 
         public ViewModelBase()
@@ -62,7 +67,7 @@ namespace ViewModel
             do
             {
                 path = FileSelector.SelectSource();
-                if(path == null || !path.EndsWith(".dll"))
+                if (path == null || !path.EndsWith(".dll"))
                 {
                     FileSelector.FailureAlert();
                 }
@@ -80,16 +85,19 @@ namespace ViewModel
             Items.Add(new AssemblyViewModel(reflector.AssemblyMetadata, Logger));
         }
 
-        private void Deserialize(string path = null)
+        private async Task Deserialize(string path = null)
         {
             Logger.Write(SeverityEnum.Information, "The option to 'deserialize' was chosen");
 
             if (path == null)
             {
-                path = DatabaseSelector.SelectSource();
+                if (serializer.ToString().ToLower().Contains("database"))
+                    path = DatabaseSelector.SelectSource();
+                else
+                    path = FileSelector.SelectSource();
             }
 
-            AssemblyMetadata assemblyMetadata = serializer.Deserialize<AssemblyMetadata>(path);
+            AssemblyMetadata assemblyMetadata = await Task.Run(() => serializer.Deserialize<AssemblyMetadata>(path));
 
             try
             {
@@ -103,7 +111,7 @@ namespace ViewModel
             Items.Add(new AssemblyViewModel(assemblyMetadata, Logger));
         }
 
-        private void Serialize(string path = null)
+        private async Task Serialize(string path = null)
         {
             Logger.Write(SeverityEnum.Information, "The option to 'serialize' was chosen: ");
             if (reflector.AssemblyMetadata == null)
@@ -111,9 +119,12 @@ namespace ViewModel
 
             if (path == null)
             {
-                path = DatabaseSelector.SelectTarget();
+                if (serializer.ToString().ToLower().Contains("database"))
+                    path = DatabaseSelector.SelectTarget();
+                else
+                    path = FileSelector.SelectTarget();
             }
-            serializer.Serialize(reflector.AssemblyMetadata, path);
+            await Task.Run(() => serializer.Serialize(reflector.AssemblyMetadata, path));
         }
 
         private RelayCommand readCommand;
@@ -126,11 +137,11 @@ namespace ViewModel
         }
         public ICommand DeserializeCommand
         {
-            get { return deserializeCommand ?? (deserializeCommand = new RelayCommand(() => Deserialize())); }
+            get { return deserializeCommand ?? (deserializeCommand = new RelayCommand(async () => await Deserialize())); }
         }
         public ICommand SerializeCommand
         {
-            get { return serializeCommand ?? (serializeCommand = new RelayCommand(() => Serialize())); }
+            get { return serializeCommand ?? (serializeCommand = new RelayCommand(async () => await Serialize())); }
         }
     }
 }

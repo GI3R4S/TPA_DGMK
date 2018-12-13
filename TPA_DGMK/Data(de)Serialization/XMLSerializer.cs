@@ -1,10 +1,12 @@
 ﻿using Model;
+using System.ComponentModel.Composition;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Xml;
 
 namespace Data_De_Serialization
 {
+    [Export(typeof(SerializerTemplate))]
     public class XMLSerializer : SerializerTemplate
     {
         public XMLSerializer() { }

@@ -3,6 +3,7 @@ using System.Text;
 using Model;
 using Logging;
 using System;
+using System.ComponentModel.Composition;
 
 namespace ViewModel
 {
@@ -10,7 +11,7 @@ namespace ViewModel
     {
         private MethodMetadata methodMetadata;
 
-        public MethodViewModel(MethodMetadata methodMetadata, Logger logger)
+        public MethodViewModel(MethodMetadata methodMetadata, [Import(typeof(Logger))] Logger logger)
         {
             this.logger = logger;
             this.methodMetadata = methodMetadata;

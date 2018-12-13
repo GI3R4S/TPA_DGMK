@@ -1,8 +1,10 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.Configuration;
 
 namespace Logging
 {
+    [Export(typeof(Logger))]
     public class DatabaseLogger : Logger
     {
         private log4net.ILog log;

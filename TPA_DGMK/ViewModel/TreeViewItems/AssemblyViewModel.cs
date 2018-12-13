@@ -1,5 +1,6 @@
 ﻿using Model;
 using Logging;
+using System.ComponentModel.Composition;
 
 namespace ViewModel
 {
@@ -7,7 +8,7 @@ namespace ViewModel
     {
         private AssemblyMetadata assemblyMetadata;
 
-        public AssemblyViewModel(AssemblyMetadata assembly, Logger logger)
+        public AssemblyViewModel(AssemblyMetadata assembly, [Import(typeof(Logger))] Logger logger)
         {
             base.logger = logger;
             this.assemblyMetadata = assembly;

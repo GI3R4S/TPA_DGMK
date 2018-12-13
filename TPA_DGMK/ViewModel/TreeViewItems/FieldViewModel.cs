@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Model;
 using Logging;
+using System.ComponentModel.Composition;
 
 namespace ViewModel
 {
@@ -8,7 +9,7 @@ namespace ViewModel
     {
         FieldMetadata fieldMetadata;
 
-        public FieldViewModel(FieldMetadata fieldMetadata, Logger logger)
+        public FieldViewModel(FieldMetadata fieldMetadata, [Import(typeof(Logger))] Logger logger)
         {
             this.logger = logger;
             this.fieldMetadata = fieldMetadata;

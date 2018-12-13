@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Data_De_Serialization;
+using Logging;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using ViewModel;
@@ -15,15 +18,17 @@ namespace CommandLine
         private int treeIndentation = 0;
         private int previousItemsCount = 0;
 
+        private Logger logger;
         private ViewModelBase viewModel;
 
         private List<KeyValuePair<TreeViewItem, int>> tree = new List<KeyValuePair<TreeViewItem, int>>();
         private List<NotifyCollectionChangedEventArgs> itemsChanged = new List<NotifyCollectionChangedEventArgs>();
 
-        public CLView()
+        [ImportingConstructor]
+        public CLView([Import(typeof(Logger))] Logger logger, [Import(typeof(SerializerTemplate))] SerializerTemplate serializer)
         {
-            viewModel = new ViewModelBase(new CLFileSelector());
-            //viewModel.DatabaseSelector = new CLFileSelector();
+            this.logger = logger;
+            viewModel = new ViewModelBase(new CLFileSelector(), new CLDatabaseSelector(), logger, serializer);
             selection = viewModel.Items.Count;
             previousItemsCount = viewModel.Items.Count;
             Console.WriteLine("Write 'Load', 'Serialize' or 'Deserialize' at any time");
@@ -64,8 +69,8 @@ namespace CommandLine
             }
             else if (input.ToLower().Equals("deserialize"))
             {
-                Console.Clear();
-                tree.Clear();
+                //Console.Clear();
+                //tree.Clear();
                 viewModel.Items.CollectionChanged += ItemsChangedEventHandler;
 
                 if (viewModel.DeserializeCommand.CanExecute(null))

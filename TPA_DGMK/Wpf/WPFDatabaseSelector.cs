@@ -1,10 +1,9 @@
-﻿using System.Windows.Forms;
-using ViewModel;
+﻿using ViewModel;
 using Microsoft.VisualBasic;
 
 namespace Wpf
 {
-    public class WPFDatabaseSelector : IFileSelector
+    public class WpfDatabaseSelector : IFileSelector
     {
         public string SelectTarget()
         {
@@ -20,11 +19,6 @@ namespace Wpf
 
         public void FailureAlert()
         {
-            DialogResult result = MessageBox.Show("File at chosen path doesn't exist or has incorrect extension", "Confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-            if (result == DialogResult.Cancel)
-            {
-                System.Environment.Exit(0);
-            }
         }
     }
 }

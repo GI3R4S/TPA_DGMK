@@ -1,5 +1,6 @@
 ﻿using Logging;
 using Model;
+using System.ComponentModel.Composition;
 
 namespace ViewModel
 {
@@ -8,7 +9,7 @@ namespace ViewModel
         TypeMetadata attributeMetadata;
         TypeViewModel attributeViewModel;
 
-        public AttributeViewModel(TypeMetadata attributeMetadata, Logger logger)
+        public AttributeViewModel(TypeMetadata attributeMetadata, [Import(typeof(Logger))] Logger logger)
         {
             this.logger = logger;
             this.attributeMetadata = attributeMetadata;

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
-using System.Windows.Forms;
 using Model;
+using System.ComponentModel.Composition;
 
 namespace Data_De_Serialization
 {
+    [Export(typeof(SerializerTemplate))]
     public class DatabaseSerializer : SerializerTemplate
     {
         public DatabaseSerializer()
@@ -41,13 +42,14 @@ namespace Data_De_Serialization
 
         public override void Serialize<T>(T data, string databaseName)
         {
+            Database.SetInitializer(new DropCreateDatabaseAlways<DataContext>());
+            Database.SetInitializer<DataContext>(null);
             using (DataContext dataContext = new DataContext(databaseName))
             {
                 AssemblyMetadata assembly = (AssemblyMetadata)Convert.ChangeType(data, typeof(AssemblyMetadata));
                 dataContext.AssemblyModel.Add(assembly);
                 dataContext.SaveChanges();
             }
-            DialogResult result = MessageBox.Show("Done", "Confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
         }
     }
 }
