@@ -28,17 +28,8 @@ namespace CommandLineInterface
             List<SerializerTemplate> serializers = container.GetExportedValues<SerializerTemplate>().ToList();
             serializer = serializers.FirstOrDefault(component => component.ToString().Contains(ConfigurationManager.AppSettings["serializingComponent"]));
             CLView view = new CLView(logger, serializer);
-            try
-            {
-                container.ComposeParts(view);
-            }
-            catch (CompositionException compositionException)
-            {
-                logger.Write(SeverityEnum.Error, compositionException.ToString());
-            }
-            logger.Write(SeverityEnum.Information, "The program has been started");
+            container.ComposeParts(view);
             view.Run();
-            logger.Write(SeverityEnum.Information, "The program has been started");
         }
     }
 }

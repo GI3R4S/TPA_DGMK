@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Media;
 
 namespace Wpf
 {
@@ -9,9 +8,6 @@ namespace Wpf
         public MainWindow()
         {
             InitializeComponent();
-            BrushConverter brushConverter = new BrushConverter();
-            grid.Background = (Brush)brushConverter.ConvertFrom("#272727");
-            TreeView.Background = (Brush)brushConverter.ConvertFrom("#272727");
         }
     }
 }

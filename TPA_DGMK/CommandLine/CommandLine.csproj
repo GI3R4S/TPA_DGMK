@@ -47,8 +47,8 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Configuration.ConfigurationManager, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Configuration.ConfigurationManager.4.4.0\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
+    <Reference Include="System.Configuration.ConfigurationManager, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Configuration.ConfigurationManager.4.5.0\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Data.OracleClient" />
@@ -87,11 +87,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data%28de%29Serialization\Data%28de%29Serialization.csproj">
-      <Project>{116EE92B-B3C4-462F-AED8-7403E84111B5}</Project>
+      <Project>{116ee92b-b3c4-462f-aed8-7403e84111b5}</Project>
       <Name>Data%28de%29Serialization</Name>
     </ProjectReference>
     <ProjectReference Include="..\Logging\Logging.csproj">
-      <Project>{B4F4C31F-F8AF-44EE-876F-356E1628D7A8}</Project>
+      <Project>{b4f4c31f-f8af-44ee-876f-356e1628d7a8}</Project>
       <Name>Logging</Name>
     </ProjectReference>
     <ProjectReference Include="..\ViewModel\ViewModel.csproj">

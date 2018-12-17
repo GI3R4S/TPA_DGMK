@@ -28,19 +28,14 @@ namespace Wpf
             List<SerializerTemplate> serializers = container.GetExportedValues<SerializerTemplate>().ToList();
             serializer = serializers.FirstOrDefault(component => component.ToString().Contains(ConfigurationManager.AppSettings["serializingComponent"]));
 
-            try
+            container.ComposeParts(this);
+            ViewModelBase vm = new ViewModelBase(new WpfFileSelector(), new WpfDatabaseSelector(), logger, serializer);
+            MainWindow window = new MainWindow
             {
-                container.ComposeParts(this);
-                ViewModelBase vm = new ViewModelBase(new WpfFileSelector(), new WpfDatabaseSelector(), logger, serializer);
-                MainWindow window = new MainWindow();
-                window.DataContext = vm;
-                window.Show();
-                Application.Current.MainWindow = window;
-            }
-            catch (CompositionException compositionException)
-            {
-                logger.Write(SeverityEnum.Error, compositionException.ToString());
-            }
+                DataContext = vm
+            };
+            window.Show();
+            Application.Current.MainWindow = window;
         }
     }
 }

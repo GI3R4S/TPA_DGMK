@@ -7,16 +7,19 @@
         xmlns:local="clr-namespace:Wpf"
         mc:Ignorable="d"
         Title="TPA_DGMK" Height="768" Width="1024" Background="AliceBlue">
+    <Window.DataContext>
+        <vm:ViewModelBase/>
+    </Window.DataContext>
 
     <Window.Resources>
         <local:WpfFileSelector x:Key="FileSelector"/>
     </Window.Resources>
 
-    <Grid Name="grid">
-        <TreeView Name="TreeView" RenderTransformOrigin="0.5,0.5" ItemsSource="{Binding Items}" Canvas.Left="10" Canvas.Top="60" ScrollViewer.HorizontalScrollBarVisibility="Visible" Margin="0,110,0,10" >
+    <Grid Name="grid" Background="AliceBlue">
+        <TreeView Name="TreeView" RenderTransformOrigin="0.5,0.5" ItemsSource="{Binding Items}" Canvas.Left="10" Canvas.Top="60" ScrollViewer.HorizontalScrollBarVisibility="Visible" Margin="0,110,0,10" Background="Cornsilk" >
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
-                    <TextBlock Foreground="White" FontWeight="Bold" FontSize="16px" FontFamily="Verdana" Text="{Binding Path=Name}" Margin="0,0,4,0" />
+                    <TextBlock Foreground="Black" FontWeight="Bold" FontSize="16px" FontFamily="Verdana" Text="{Binding Path=Name}" Margin="0,0,4,0" />
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
             <TreeView.ItemContainerStyle>
