@@ -54,7 +54,7 @@ namespace BusinessLogic.Mapping
                 PropertyInfo nestedTypesProperty = type.GetProperty("NestedTypes",
                     BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
                 nestedTypesProperty?.SetValue(typeMetadata,
-                    HelperClass.ConvertList(type,
+                    ConvertionUtilities.ConvertList(type,
                         metadata.NestedTypes?.Select(c => EmitBaseType(c, type)).ToList()));
             }
 
@@ -63,7 +63,7 @@ namespace BusinessLogic.Mapping
                 PropertyInfo genericArgumentsProperty = type.GetProperty("GenericArguments",
                     BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
                 genericArgumentsProperty?.SetValue(typeMetadata,
-                    HelperClass.ConvertList(type,
+                    ConvertionUtilities.ConvertList(type,
                         metadata.GenericArguments?.Select(c => EmitBaseType(c, type)).ToList()));
             }
 
@@ -72,7 +72,7 @@ namespace BusinessLogic.Mapping
                 PropertyInfo implementedInterfacesProperty = type.GetProperty("ImplementedInterfaces",
                     BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
                 implementedInterfacesProperty?.SetValue(typeMetadata,
-                    HelperClass.ConvertList(type,
+                    ConvertionUtilities.ConvertList(type,
                         metadata.ImplementedInterfaces?.Select(c => EmitBaseType(c, type)).ToList()));
             }
 
@@ -81,7 +81,7 @@ namespace BusinessLogic.Mapping
                 PropertyInfo fieldsProperty = type.GetProperty("Fields",
                     BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
                 fieldsProperty?.SetValue(typeMetadata,
-                    HelperClass.ConvertList(fieldsProperty.PropertyType.GetGenericArguments()[0],
+                    ConvertionUtilities.ConvertList(fieldsProperty.PropertyType.GetGenericArguments()[0],
                         metadata.Fields?.Select(c =>
                             new FieldMetadataMapper().MapDown(c,
                                 fieldsProperty?.PropertyType.GetGenericArguments()[0])).ToList()));
@@ -92,7 +92,7 @@ namespace BusinessLogic.Mapping
                 PropertyInfo methodsProperty = type.GetProperty("Methods",
                     BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
                 methodsProperty?.SetValue(typeMetadata,
-                    HelperClass.ConvertList(methodsProperty.PropertyType.GetGenericArguments()[0],
+                    ConvertionUtilities.ConvertList(methodsProperty.PropertyType.GetGenericArguments()[0],
                         metadata.Methods?.Select(m =>
                                 new MethodMetadataMapper().MapDown(m,
                                     methodsProperty?.PropertyType.GetGenericArguments()[0]))
@@ -104,7 +104,7 @@ namespace BusinessLogic.Mapping
                 PropertyInfo constructorsProperty = type.GetProperty("Constructors",
                     BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
                 constructorsProperty?.SetValue(typeMetadata,
-                    HelperClass.ConvertList(constructorsProperty.PropertyType.GetGenericArguments()[0],
+                    ConvertionUtilities.ConvertList(constructorsProperty.PropertyType.GetGenericArguments()[0],
                         metadata.Constructors?.Select(c =>
                             new MethodMetadataMapper().MapDown(c,
                                 constructorsProperty?.PropertyType.GetGenericArguments()[0])).ToList()));
@@ -115,7 +115,7 @@ namespace BusinessLogic.Mapping
                 PropertyInfo propertiesProperty = type.GetProperty("Properties",
                     BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
                 propertiesProperty?.SetValue(typeMetadata,
-                    HelperClass.ConvertList(propertiesProperty.PropertyType.GetGenericArguments()[0],
+                    ConvertionUtilities.ConvertList(propertiesProperty.PropertyType.GetGenericArguments()[0],
                         metadata.Properties?.Select(c =>
                             new PropertyMetadataMapper().MapDown(c,
                                 propertiesProperty?.PropertyType.GetGenericArguments()[0])).ToList()));
@@ -147,7 +147,7 @@ namespace BusinessLogic.Mapping
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             if (nestedTypesProperty?.GetValue(metadata) != null)
             {
-                List<TypeMetadataBase> nestedTypes = (List<TypeMetadataBase>)HelperClass.ConvertList(typeof(TypeMetadataBase),
+                List<TypeMetadataBase> nestedTypes = (List<TypeMetadataBase>)ConvertionUtilities.ConvertList(typeof(TypeMetadataBase),
                     (IList)nestedTypesProperty?.GetValue(metadata));
                 typeMetadata.NestedTypes = nestedTypes?.Select(n => EmitType(n)).ToList();
             }
@@ -157,7 +157,7 @@ namespace BusinessLogic.Mapping
             if (genericArgumentsProperty?.GetValue(metadata) != null)
             {
                 List<TypeMetadataBase> genericArguments =
-                    (List<TypeMetadataBase>)HelperClass.ConvertList(typeof(TypeMetadataBase),
+                    (List<TypeMetadataBase>)ConvertionUtilities.ConvertList(typeof(TypeMetadataBase),
                         (IList)genericArgumentsProperty?.GetValue(metadata));
                 typeMetadata.GenericArguments = genericArguments?.Select(g => EmitType(g)).ToList();
             }
@@ -167,7 +167,7 @@ namespace BusinessLogic.Mapping
             if (implementedInterfacesProperty?.GetValue(metadata) != null)
             {
                 List<TypeMetadataBase> implementedInterfaces =
-                    (List<TypeMetadataBase>)HelperClass.ConvertList(typeof(TypeMetadataBase),
+                    (List<TypeMetadataBase>)ConvertionUtilities.ConvertList(typeof(TypeMetadataBase),
                         (IList)implementedInterfacesProperty?.GetValue(metadata));
                 typeMetadata.ImplementedInterfaces =
                     implementedInterfaces?.Select(i => EmitType(i)).ToList();
@@ -178,7 +178,7 @@ namespace BusinessLogic.Mapping
             if (fieldsProperty?.GetValue(metadata) != null)
             {
                 List<FieldMetadataBase> fields =
-                    (List<FieldMetadataBase>)HelperClass.ConvertList(typeof(FieldMetadataBase),
+                    (List<FieldMetadataBase>)ConvertionUtilities.ConvertList(typeof(FieldMetadataBase),
                         (IList)fieldsProperty?.GetValue(metadata));
                 typeMetadata.Fields = fields?.Select(g => new FieldMetadataMapper().MapUp(g))
                     .ToList();
@@ -188,7 +188,7 @@ namespace BusinessLogic.Mapping
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             if (methodsProperty?.GetValue(metadata) != null)
             {
-                List<MethodMetadataBase> methods = (List<MethodMetadataBase>)HelperClass.ConvertList(typeof(MethodMetadataBase),
+                List<MethodMetadataBase> methods = (List<MethodMetadataBase>)ConvertionUtilities.ConvertList(typeof(MethodMetadataBase),
                     (IList)methodsProperty?.GetValue(metadata));
                 typeMetadata.Methods = methods?.Select(c => new MethodMetadataMapper().MapUp(c)).ToList();
             }
@@ -198,7 +198,7 @@ namespace BusinessLogic.Mapping
             if (constructorsProperty?.GetValue(metadata) != null)
             {
                 List<MethodMetadataBase> constructors =
-                    (List<MethodMetadataBase>)HelperClass.ConvertList(typeof(MethodMetadataBase),
+                    (List<MethodMetadataBase>)ConvertionUtilities.ConvertList(typeof(MethodMetadataBase),
                         (IList)constructorsProperty?.GetValue(metadata));
                 typeMetadata.Constructors = constructors?.Select(c => new MethodMetadataMapper().MapUp(c))
                     .ToList();
@@ -209,7 +209,7 @@ namespace BusinessLogic.Mapping
             if (propertiesProperty?.GetValue(metadata) != null)
             {
                 List<PropertyMetadataBase> properties =
-                    (List<PropertyMetadataBase>)HelperClass.ConvertList(typeof(PropertyMetadataBase),
+                    (List<PropertyMetadataBase>)ConvertionUtilities.ConvertList(typeof(PropertyMetadataBase),
                         (IList)propertiesProperty?.GetValue(metadata));
                 typeMetadata.Properties = properties?.Select(g => new PropertyMetadataMapper().MapUp(g))
                     .ToList();

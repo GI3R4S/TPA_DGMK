@@ -24,7 +24,7 @@ namespace BusinessLogic.Mapping
             if (genericArgumentsProperty?.GetValue(metadata) != null)
             {
                 List<TypeMetadataBase> genericArguments =
-                    (List<TypeMetadataBase>)HelperClass.ConvertList(typeof(TypeMetadataBase),
+                    (List<TypeMetadataBase>)ConvertionUtilities.ConvertList(typeof(TypeMetadataBase),
                         (IList)genericArgumentsProperty?.GetValue(metadata));
                 methodMetadata.GenericArguments =
                     genericArguments.Select(g => TypeMetadataMapper.EmitType(g)).ToList();
@@ -37,7 +37,7 @@ namespace BusinessLogic.Mapping
             if (parametersProperty?.GetValue(metadata) != null)
             {
                 List<ParameterMetadataBase> parameters =
-                    (List<ParameterMetadataBase>)HelperClass.ConvertList(typeof(ParameterMetadataBase),
+                    (List<ParameterMetadataBase>)ConvertionUtilities.ConvertList(typeof(ParameterMetadataBase),
                         (IList)parametersProperty?.GetValue(metadata));
 
                 methodMetadata.Parameters = parameters
@@ -69,12 +69,12 @@ namespace BusinessLogic.Mapping
             extensionProperty?.SetValue(methodMetadata, model.Extension);
             if (model.GenericArguments != null)
                 genericArgumentsProperty?.SetValue(methodMetadata, 
-                    HelperClass.ConvertList(genericArgumentsProperty.PropertyType.GetGenericArguments()[0], 
+                    ConvertionUtilities.ConvertList(genericArgumentsProperty.PropertyType.GetGenericArguments()[0], 
                         model.GenericArguments.Select(t => TypeMetadataMapper.EmitBaseType(t, genericArgumentsProperty.PropertyType.GetGenericArguments()[0])).ToList()));
             modifiersProperty?.SetValue(methodMetadata, model.Modifiers);
             if (model.Parameters != null)
                 parametersProperty?.SetValue(methodMetadata, 
-                    HelperClass.ConvertList(parametersProperty.PropertyType.GetGenericArguments()[0], 
+                    ConvertionUtilities.ConvertList(parametersProperty.PropertyType.GetGenericArguments()[0], 
                         model.Parameters.Select(p => new ParameterMetadataMapper().MapDown(p, parametersProperty.PropertyType.GetGenericArguments()[0])).ToList()));
             if (model.ReturnType != null)
                 returnTypeProperty?.SetValue(methodMetadata,

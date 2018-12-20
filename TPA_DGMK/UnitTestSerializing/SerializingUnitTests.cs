@@ -65,7 +65,7 @@ namespace UnitTestSerializing
             Assert.AreEqual("BusinessLogic.dll", reflector.AssemblyMetadata.Name);
             Service.ToList().FirstOrDefault()?.Serialize(reflector.AssemblyMetadata, pathTarget);
             reflector = new Reflector(path2);
-            Assert.AreEqual("Data.dll", reflector.AssemblyMetadata.Name);
+            Assert.AreEqual("data.dll", reflector.AssemblyMetadata.Name.ToLower());
             AssemblyMetadata assemblyMetadata2 = Service.ToList().FirstOrDefault()?.Deserialize(pathTarget);
             reflector = new Reflector(assemblyMetadata2);
             Assert.AreEqual(assemblyMetadata2.Name, reflector.AssemblyMetadata.Name);

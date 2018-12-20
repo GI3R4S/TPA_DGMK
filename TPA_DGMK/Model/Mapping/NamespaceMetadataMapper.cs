@@ -19,7 +19,7 @@ namespace BusinessLogic.Mapping
             Type type = metadata.GetType();
             PropertyInfo typesProperty = type.GetProperty("Types",
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
-            List<TypeMetadataBase> types = (List<TypeMetadataBase>)HelperClass.ConvertList(typeof(TypeMetadataBase), (IList)typesProperty?.GetValue(metadata));
+            List<TypeMetadataBase> types = (List<TypeMetadataBase>)ConvertionUtilities.ConvertList(typeof(TypeMetadataBase), (IList)typesProperty?.GetValue(metadata));
             if (types != null)
                 namespaceMetadata.Types = types.Select(n => TypeMetadataMapper.EmitType(n)).ToList();
             return namespaceMetadata;
@@ -33,7 +33,7 @@ namespace BusinessLogic.Mapping
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             nameProperty?.SetValue(namespaceMetadata, metadata.NamespaceName);
             namespaceMetadatasProperty?.SetValue(namespaceMetadata,
-                HelperClass.ConvertList(namespaceMetadatasProperty.PropertyType.GetGenericArguments()[0],
+                ConvertionUtilities.ConvertList(namespaceMetadatasProperty.PropertyType.GetGenericArguments()[0],
                     metadata.Types.Select(t => new TypeMetadataMapper().MapDown(t, namespaceMetadatasProperty.PropertyType.GetGenericArguments()[0])).ToList()));
 
             return (NamespaceMetadataBase)namespaceMetadata;

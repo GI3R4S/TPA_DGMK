@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace BusinessLogic.Mapping
 {
-    public static class HelperClass
+    public static class ConvertionUtilities
     {
         public static object Cast(this Type Type, object data)
         {

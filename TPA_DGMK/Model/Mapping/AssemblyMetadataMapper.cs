@@ -18,7 +18,7 @@ namespace BusinessLogic.Mapping
             assemblyModel.Name = metadata.Name;
             PropertyInfo namespaceMetadatasProperty = type.GetProperty("Namespaces",
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
-            List<NamespaceMetadataBase> namespaces= (List<NamespaceMetadataBase>)HelperClass.ConvertList(typeof(NamespaceMetadataBase),(IList)namespaceMetadatasProperty?.GetValue(metadata));
+            List<NamespaceMetadataBase> namespaces= (List<NamespaceMetadataBase>)ConvertionUtilities.ConvertList(typeof(NamespaceMetadataBase),(IList)namespaceMetadatasProperty?.GetValue(metadata));
             if (namespaces != null)
                 assemblyModel.Namespaces = namespaces.Select(n => new NamespaceMetadataMapper().MapUp(n)).ToList();
             return assemblyModel;
@@ -33,7 +33,7 @@ namespace BusinessLogic.Mapping
             nameProperty?.SetValue(assemblyMetadata,metadata.Name);
             namespaceMetadataProperty?.SetValue(
                 assemblyMetadata,
-                HelperClass.ConvertList(namespaceMetadataProperty.PropertyType.GetGenericArguments()[0],
+                ConvertionUtilities.ConvertList(namespaceMetadataProperty.PropertyType.GetGenericArguments()[0],
                     metadata.Namespaces.Select(n => new NamespaceMetadataMapper().MapDown(n, namespaceMetadataProperty.PropertyType.GetGenericArguments()[0])).ToList()));
             return (AssemblyMetadataBase)assemblyMetadata;
         }
