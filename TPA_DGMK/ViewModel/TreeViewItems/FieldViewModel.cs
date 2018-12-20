@@ -1,7 +1,7 @@
 ﻿using System.Text;
-using Model;
-using Logging;
 using System.ComponentModel.Composition;
+using BusinessLogic.Model;
+using LoggerBase;
 
 namespace ViewModel
 {
@@ -32,7 +32,6 @@ namespace ViewModel
         private string ModifiersToString()
         {
             StringBuilder builder = new StringBuilder();
-            builder.Append(fieldMetadata.AccessLevel.ToString().Substring(2).ToLower() + " ");
             builder.Append(fieldMetadata.IsStatic ? "static " : "");
             return builder.ToString();
         }

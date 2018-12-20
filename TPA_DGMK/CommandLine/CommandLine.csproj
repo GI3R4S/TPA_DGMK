@@ -73,8 +73,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CLDatabaseSelector.cs" />
-    <Compile Include="CLFileSelector.cs" />
     <Compile Include="CLView.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -86,16 +84,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Data%28de%29Serialization\Data%28de%29Serialization.csproj">
-      <Project>{116ee92b-b3c4-462f-aed8-7403e84111b5}</Project>
-      <Name>Data%28de%29Serialization</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Logging\Logging.csproj">
-      <Project>{b4f4c31f-f8af-44ee-876f-356e1628d7a8}</Project>
-      <Name>Logging</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ViewModel\ViewModel.csproj">
-      <Project>{9529f2b1-19de-4a95-be82-fdd08828a898}</Project>
+      <Project>{11D16F88-ABAB-4954-80BD-48C80BEDEE20}</Project>
       <Name>ViewModel</Name>
     </ProjectReference>
   </ItemGroup>

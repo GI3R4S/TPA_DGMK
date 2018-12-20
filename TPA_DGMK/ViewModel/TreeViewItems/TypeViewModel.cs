@@ -1,8 +1,7 @@
 ﻿using System.Text;
-using Model;
-using Logging;
-using Model.Enums;
 using System.ComponentModel.Composition;
+using BusinessLogic.Model;
+using LoggerBase;
 
 namespace ViewModel
 {
@@ -29,8 +28,6 @@ namespace ViewModel
         protected override void LoadChildren()
         {
             base.LoadChildren();
-            foreach (TypeMetadata attribute in typeMetadata.Attributes.ReturnEmptyIfItIsNull())
-                base.Children.Add(new AttributeViewModel(attribute, logger));
             foreach (PropertyMetadata propertyMetadata in typeMetadata.Properties.ReturnEmptyIfItIsNull())
                 base.Children.Add(new PropertyViewModel(propertyMetadata, logger));
             foreach (TypeMetadata typeMetadata in typeMetadata.NestedTypes.ReturnEmptyIfItIsNull())
@@ -49,7 +46,7 @@ namespace ViewModel
         }
         protected override bool CanLoadChildren()
         {
-            return !(typeMetadata.Attributes.CheckIfItIsNullOrEmpty() && typeMetadata.Properties.CheckIfItIsNullOrEmpty()
+            return !(typeMetadata.Properties.CheckIfItIsNullOrEmpty()
                 && typeMetadata.NestedTypes.CheckIfItIsNullOrEmpty() && typeMetadata.Methods.CheckIfItIsNullOrEmpty() &&
                 typeMetadata.Constructors.CheckIfItIsNullOrEmpty() && typeMetadata.Fields.CheckIfItIsNullOrEmpty() &&
                 typeMetadata.BaseType == null);
@@ -57,17 +54,12 @@ namespace ViewModel
         public override string ToString()
         {
             string modifiers = ModifiersToString();
-            return AccurateTypeToString() + modifiers + typeMetadata.TypeName + GenericArgumentsToString() + ExtendsAndImplementsToString();
+            return modifiers + typeMetadata.TypeName + GenericArgumentsToString() + ExtendsAndImplementsToString();
         }
-        private string AccurateTypeToString()
-        {
-            if (typeMetadata.TypeKind == TypeKind.InterfaceType) return "Interface: ";
-            else return "Type: ";
-        }
+
         private string ModifiersToString()
         {
             StringBuilder builder = new StringBuilder();
-            builder.Append(typeMetadata.AccessLevel.ToString().Substring(2).ToLower() + " ");
             builder.Append(typeMetadata.IsSealed ? "sealed " : "");
             builder.Append(typeMetadata.IsAbstract ? "abstract " : "");
             return builder.ToString();

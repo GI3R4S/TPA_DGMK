@@ -1,7 +1,7 @@
 ﻿using System.Text;
-using Model;
-using Logging;
 using System.ComponentModel.Composition;
+using BusinessLogic.Model;
+using LoggerBase;
 
 namespace ViewModel
 {
@@ -22,8 +22,8 @@ namespace ViewModel
         protected override void LoadChildren()
         {
             base.LoadChildren();
-            foreach (TypeMetadata attribute in propertyMetadata.AttributesMetadata.ReturnEmptyIfItIsNull())
-                base.Children.Add(new AttributeViewModel(attribute, logger));
+            //foreach (TypeMetadata attribute in propertyMetadata.AttributesMetadata.ReturnEmptyIfItIsNull())
+            //    base.Children.Add(new AttributeViewModel(attribute, logger));
             base.Children.Add(new TypeViewModel(propertyMetadata.TypeMetadata, logger));
             base.FinishedLoadingChildren();
         }

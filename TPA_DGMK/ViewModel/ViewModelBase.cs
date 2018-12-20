@@ -1,8 +1,11 @@
-﻿using Data_De_Serialization;
-using Logging;
-using Model;
+﻿using BusinessLogic;
+using BusinessLogic.Model;
+using BusinessLogic.Reflection;
+using LoggerBase;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -13,11 +16,16 @@ namespace ViewModel
         private int selection = 0;
         private Reflector reflector;
 
-        public IFileSelector FileSelector { get; private set; }
-        public IFileSelector DatabaseSelector { get; private set; }
-        public SerializerTemplate serializer { get; private set; }
+        [Import(typeof(IFileSelector))] public IFileSelector FileSelector { get; set; }
+        [Import(typeof(IDatabaseSelector))] public IDatabaseSelector DatabaseSelector { get; set; }
+        [Import(typeof(Logger))] public Logger Logger { get; set; }
+        [ImportMany(typeof(LogicService))]
+        public IEnumerable<LogicService> Service { get; set; }
 
-        public Logger Logger { get; set; }
+        public RelayCommand readCommand;
+        public RelayCommand deserializeCommand;
+        public RelayCommand serializeCommand;
+
         private ObservableCollection<TreeViewItem> items = new ObservableCollection<TreeViewItem>();
 
         public ObservableCollection<TreeViewItem> Items
@@ -27,16 +35,6 @@ namespace ViewModel
             {
                 items = value;
             }
-        }
-
-        [ImportingConstructor]
-        public ViewModelBase(IFileSelector fileSelector, IFileSelector databaseSelector, [Import(typeof(Logger))] Logger logger,
-            [Import(typeof(SerializerTemplate))] SerializerTemplate serializer)
-        {
-            this.Logger = logger;
-            this.DatabaseSelector = databaseSelector;
-            this.FileSelector = fileSelector;
-            this.serializer = serializer;
         }
 
         public ViewModelBase()
@@ -91,13 +89,13 @@ namespace ViewModel
 
             if (path == null)
             {
-                if (serializer.ToString().ToLower().Contains("database"))
+                if (Service.ToList().FirstOrDefault().ToString().Contains("Database"))
                     path = DatabaseSelector.SelectSource();
                 else
                     path = FileSelector.SelectSource();
             }
 
-            AssemblyMetadata assemblyMetadata = await Task.Run(() => serializer.Deserialize<AssemblyMetadata>(path));
+            AssemblyMetadata assemblyMetadata = await Task.Run(() => Service.ToList().FirstOrDefault()?.Deserialize(path));
 
             try
             {
@@ -119,17 +117,13 @@ namespace ViewModel
 
             if (path == null)
             {
-                if (serializer.ToString().ToLower().Contains("database"))
+                if (Service.ToList().FirstOrDefault().ToString().Contains("Database"))
                     path = DatabaseSelector.SelectTarget();
                 else
                     path = FileSelector.SelectTarget();
             }
-            await Task.Run(() => serializer.Serialize(reflector.AssemblyMetadata, path));
+            await Task.Run(() => Service.ToList().FirstOrDefault()?.Serialize(reflector.AssemblyMetadata, path));
         }
-
-        private RelayCommand readCommand;
-        private RelayCommand deserializeCommand;
-        private RelayCommand serializeCommand;
 
         public ICommand ReadCommand
         {

@@ -1,6 +1,4 @@
-﻿using Data_De_Serialization;
-using Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel.Composition;
@@ -18,20 +16,17 @@ namespace CommandLine
         private int treeIndentation = 0;
         private int previousItemsCount = 0;
         private bool tmpToDeserialize;
-
-        private Logger logger;
-        private ViewModelBase viewModel;
-
         private List<KeyValuePair<TreeViewItem, int>> tree = new List<KeyValuePair<TreeViewItem, int>>();
         private List<NotifyCollectionChangedEventArgs> itemsChanged = new List<NotifyCollectionChangedEventArgs>();
 
+        public ViewModelBase ViewModel { get; set; }
+
         [ImportingConstructor]
-        public CLView([Import(typeof(Logger))] Logger logger, [Import(typeof(SerializerTemplate))] SerializerTemplate serializer)
+        public CLView()
         {
-            this.logger = logger;
-            viewModel = new ViewModelBase(new CLFileSelector(), new CLDatabaseSelector(), logger, serializer);
-            selection = viewModel.Items.Count;
-            previousItemsCount = viewModel.Items.Count;
+            ViewModel = new ViewModelBase();
+            selection = ViewModel.Items.Count;
+            previousItemsCount = ViewModel.Items.Count;
             Console.WriteLine("Write 'Load', 'Serialize' or 'Deserialize' at any time");
             Console.WriteLine("Press any key to cotinue: ");
             Console.ReadKey();
@@ -43,7 +38,7 @@ namespace CommandLine
             {
                 FillTree();
                 DisplayTree();
-                previousItemsCount = viewModel.Items.Count;
+                previousItemsCount = ViewModel.Items.Count;
                 string input = Console.ReadLine();
                 if (input == null)
                     break;
@@ -55,36 +50,36 @@ namespace CommandLine
         {
             if (Int32.TryParse(input, out selection))
             {
-                viewModel.Select(selection);
+                ViewModel.Select(selection);
             }
             else if (input.ToLower().Equals("load"))
             {
                 Console.Clear();
                 tree.Clear();
-                viewModel.Items.CollectionChanged += ItemsChangedEventHandler;
+                ViewModel.Items.CollectionChanged += ItemsChangedEventHandler;
 
-                if (viewModel.ReadCommand.CanExecute(null))
+                if (ViewModel.ReadCommand.CanExecute(null))
                 {
-                    viewModel.ReadCommand.Execute(null);
+                    ViewModel.ReadCommand.Execute(null);
                 }
             }
             else if (input.ToLower().Equals("de"))
             {
                 Console.Clear();
                 tree.Clear();
-                viewModel.Items.CollectionChanged += ItemsChangedEventHandler;
+                ViewModel.Items.CollectionChanged += ItemsChangedEventHandler;
                 tmpToDeserialize = true;
 
-                if (viewModel.DeserializeCommand.CanExecute(null))
+                if (ViewModel.DeserializeCommand.CanExecute(null))
                 {
-                    viewModel.DeserializeCommand.Execute(null);
+                    ViewModel.DeserializeCommand.Execute(null);
                 }
             }
             else if (input.ToLower().Equals("se"))
             {
-                if (viewModel.SerializeCommand.CanExecute(null))
+                if (ViewModel.SerializeCommand.CanExecute(null))
                 {
-                    viewModel.SerializeCommand.Execute(null);
+                    ViewModel.SerializeCommand.Execute(null);
                 }
             }
         }
@@ -94,7 +89,7 @@ namespace CommandLine
             if (IsChoiceValid())
             {
                 int i = 0;
-                foreach (TreeViewItem item in viewModel.Items)
+                foreach (TreeViewItem item in ViewModel.Items)
                 {
                     tree.Insert(treeCounter + i + selection - 1, new KeyValuePair<TreeViewItem, int>(item, treeIndentation));
                     i++;

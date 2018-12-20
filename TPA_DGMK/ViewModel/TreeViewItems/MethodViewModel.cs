@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using Model;
-using Logging;
-using System;
 using System.ComponentModel.Composition;
+using BusinessLogic.Model;
+using LoggerBase;
 
 namespace ViewModel
 {
@@ -26,43 +25,24 @@ namespace ViewModel
             base.LoadChildren();
             if (methodMetadata.ReturnType != null)
                 base.Children.Add(new TypeViewModel(methodMetadata.ReturnType, logger));
-            foreach (TypeMetadata attribute in methodMetadata.AttributesMetadata.ReturnEmptyIfItIsNull())
-                base.Children.Add(new AttributeViewModel(attribute, logger));
             foreach (ParameterMetadata parameter in methodMetadata.Parameters.ReturnEmptyIfItIsNull())
                 base.Children.Add(new ParameterViewModel(parameter, logger));
             base.FinishedLoadingChildren();
         }
         protected override bool CanLoadChildren()
         {
-            return !(methodMetadata.ReturnType == null && methodMetadata.AttributesMetadata.CheckIfItIsNullOrEmpty()
-                && methodMetadata.Parameters.CheckIfItIsNullOrEmpty());
+            return !(methodMetadata.ReturnType == null && methodMetadata.Parameters.CheckIfItIsNullOrEmpty());
         }
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();
-            if (methodMetadata.Name.Equals(methodMetadata.ReflectedType.TypeName))
-                builder.Append("Constructor: ");
-            else
-                builder.Append("Method: ");
-            builder.Append(ModifiersToString());
             if (methodMetadata.ReturnType != null)
                 builder.Append(methodMetadata.ReturnType.TypeName + " ");
-            else if (methodMetadata.ReflectedType.TypeName != methodMetadata.Name)
-                builder.Append("void ");
             builder.Append(methodMetadata.Name);
             builder.Append(ParametersToString(methodMetadata.Parameters));
             return builder.ToString();
         }
-        private string ModifiersToString()
-        {
-            StringBuilder builder = new StringBuilder();
-            Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum> modifiers = methodMetadata.Modifiers;
-            builder.Append(methodMetadata.Modifiers.Item1.ToString().Substring(2).ToLower() + " ");
-            builder.Append(methodMetadata.Modifiers.Item2 == AbstractEnum.Abstract ? "abstract " : "");
-            builder.Append(methodMetadata.Modifiers.Item3 == StaticEnum.Static ? "static " : "");
-            builder.Append(methodMetadata.Modifiers.Item4 == VirtualEnum.Virtual ? "virtual " : "");
-            return builder.ToString();
-        }
+
         private string ParametersToString(ICollection<ParameterMetadata> parameters)
         {
             StringBuilder builder = new StringBuilder();

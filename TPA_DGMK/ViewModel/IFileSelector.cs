@@ -6,7 +6,7 @@
 
         string SelectTarget();
 
-        void FailureAlert(); 
+        void FailureAlert();
     }
 }
 

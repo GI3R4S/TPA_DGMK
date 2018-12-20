@@ -1,5 +1,5 @@
-﻿using Logging;
-using Model;
+﻿using BusinessLogic.Model;
+using LoggerBase;
 using System.ComponentModel.Composition;
 
 namespace ViewModel

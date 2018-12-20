@@ -1,6 +1,6 @@
-﻿using Model;
-using Logging;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
+using BusinessLogic.Model;
+using LoggerBase;
 
 namespace ViewModel
 {
@@ -22,8 +22,6 @@ namespace ViewModel
         {
             base.LoadChildren();
             base.Children.Add(new TypeViewModel(parameterMetadata.TypeMetadata, logger));
-            foreach (TypeMetadata attribute in parameterMetadata.Attributes.ReturnEmptyIfItIsNull())
-                base.Children.Add(new AttributeViewModel(attribute, logger));
             base.FinishedLoadingChildren();
         }
         public override string ToString()

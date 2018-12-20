@@ -1,8 +1,8 @@
-﻿using System;
-using System.Reflection;
+﻿using BusinessLogic.Model;
+using BusinessLogic.Model.Singleton;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Model;
-using Model.Singleton;
+using System;
+using System.Reflection;
 
 namespace UnitTestModel
 {
@@ -18,7 +18,7 @@ namespace UnitTestModel
         [TestInitialize]
         public void Initialize()
         {
-            assembly = Assembly.LoadFrom("./../../../UnitTestModel/bin/Debug/Model.dll");
+            assembly = Assembly.LoadFrom("./../../../UnitTestModel/bin/Debug/BusinessLogic.dll");
             assemblyMetadata = new AssemblyMetadata(assembly);
 
             type = typeof(System.RuntimeArgumentHandle);

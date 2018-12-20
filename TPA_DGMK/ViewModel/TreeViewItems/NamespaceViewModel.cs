@@ -1,6 +1,6 @@
-﻿using Model;
-using Logging;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
+using BusinessLogic.Model;
+using LoggerBase;
 
 namespace ViewModel
 {

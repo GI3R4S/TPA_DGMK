@@ -1,34 +1,30 @@
 ﻿using CommandLine;
-using Data_De_Serialization;
-using Logging;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Configuration;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 
 namespace CommandLineInterface
 {
     class Program
     {
-        private static Logger logger;
-        private static SerializerTemplate serializer;
-
         static void Main(string[] args)
         {
-            CompositionContainer container;
-            AggregateCatalog catalog = new AggregateCatalog();
-            catalog.Catalogs.Add(new DirectoryCatalog(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)));
+            NameValueCollection paths = (NameValueCollection)ConfigurationManager.GetSection("paths");
+            string[] pathsCatalogs = paths.AllKeys;
+            List<DirectoryCatalog> directoryCatalogs = new List<DirectoryCatalog>();
+            foreach (string pathsCatalog in pathsCatalogs)
+            {
+                if (Directory.Exists(pathsCatalog))
+                    directoryCatalogs.Add(new DirectoryCatalog(pathsCatalog));
+            }
 
-            container = new CompositionContainer(catalog);
-            List<Logger> loggers = container.GetExportedValues<Logger>().ToList();
-            logger = loggers.FirstOrDefault(component => component.ToString().Contains(ConfigurationManager.AppSettings["loggingComponent"]));
-            List<SerializerTemplate> serializers = container.GetExportedValues<SerializerTemplate>().ToList();
-            serializer = serializers.FirstOrDefault(component => component.ToString().Contains(ConfigurationManager.AppSettings["serializingComponent"]));
-            CLView view = new CLView(logger, serializer);
-            container.ComposeParts(view);
+            AggregateCatalog catalog = new AggregateCatalog(directoryCatalogs);
+            CompositionContainer container = new CompositionContainer(catalog);
+            CLView view = new CLView();
+            container.ComposeParts(view.ViewModel);
             view.Run();
         }
     }
