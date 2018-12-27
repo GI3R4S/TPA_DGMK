@@ -24,16 +24,16 @@ namespace BusinessLogic.Mapping
             return propertyMetadata;
         }
 
-        public PropertyMetadataBase MapDown(PropertyMetadata metadata,Type propertyMetadataType)
+        public PropertyMetadataBase MapDown(PropertyMetadata metadata, Type propertyMetadataType)
         {
             object propertyMetadata = Activator.CreateInstance(propertyMetadataType);
             PropertyInfo nameProperty = propertyMetadataType.GetProperty("Name");
-            PropertyInfo typeProperty = propertyMetadataType.GetProperty("TypeMetadata", 
+            PropertyInfo typeProperty = propertyMetadataType.GetProperty("TypeMetadata",
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             nameProperty?.SetValue(propertyMetadata, metadata.Name);
 
             if (metadata.TypeMetadata != null)
-                typeProperty?.SetValue(propertyMetadata, 
+                typeProperty?.SetValue(propertyMetadata,
                     typeProperty.PropertyType.Cast(TypeMetadataMapper.EmitBaseType(metadata.TypeMetadata, typeProperty.PropertyType)));
 
             return (PropertyMetadataBase)propertyMetadata;

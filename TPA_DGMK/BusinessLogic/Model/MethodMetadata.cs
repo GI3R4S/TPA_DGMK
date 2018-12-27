@@ -9,12 +9,12 @@ namespace BusinessLogic.Model
 {
     public class MethodMetadata
     {
-        public string Name{get; set;}
-        public List<TypeMetadata> GenericArguments{get; set;}
-        public Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum> Modifiers{get; set;}
-        public TypeMetadata ReturnType{get; set;}
-        public bool Extension{get; set;}
-        public List<ParameterMetadata> Parameters{get; set;}
+        public string Name { get; set; }
+        public List<TypeMetadata> GenericArguments { get; set; }
+        public Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum> Modifiers { get; set; }
+        public TypeMetadata ReturnType { get; set; }
+        public bool Extension { get; set; }
+        public List<ParameterMetadata> Parameters { get; set; }
 
         private MethodMetadata(MethodBase method)
         {

@@ -19,7 +19,7 @@ namespace BusinessLogic.Mapping
                 Extension = metadata.Extension
             };
             Type type = metadata.GetType();
-            PropertyInfo genericArgumentsProperty = type.GetProperty("GenericArguments", 
+            PropertyInfo genericArgumentsProperty = type.GetProperty("GenericArguments",
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             if (genericArgumentsProperty?.GetValue(metadata) != null)
             {
@@ -44,7 +44,7 @@ namespace BusinessLogic.Mapping
                     .Select(p => new ParameterMetadataMapper().MapUp(p)).ToList();
             }
 
-            PropertyInfo returnTypeProperty = type.GetProperty("ReturnType", 
+            PropertyInfo returnTypeProperty = type.GetProperty("ReturnType",
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             TypeMetadataBase returnType = (TypeMetadataBase)returnTypeProperty?.GetValue(metadata);
             if (returnType != null)
@@ -57,10 +57,10 @@ namespace BusinessLogic.Mapping
             object methodMetadata = Activator.CreateInstance(methodMetadataType);
             PropertyInfo nameProperty = methodMetadataType.GetProperty("Name");
             PropertyInfo extensionProperty = methodMetadataType.GetProperty("Extension");
-            PropertyInfo genericArgumentsProperty = methodMetadataType.GetProperty("GenericArguments", 
+            PropertyInfo genericArgumentsProperty = methodMetadataType.GetProperty("GenericArguments",
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             PropertyInfo modifiersProperty = methodMetadataType.GetProperty("Modifiers");
-            PropertyInfo parametersProperty = methodMetadataType.GetProperty("Parameters", 
+            PropertyInfo parametersProperty = methodMetadataType.GetProperty("Parameters",
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             PropertyInfo returnTypeProperty = methodMetadataType.GetProperty("ReturnType",
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
@@ -68,13 +68,13 @@ namespace BusinessLogic.Mapping
             nameProperty?.SetValue(methodMetadata, model.Name);
             extensionProperty?.SetValue(methodMetadata, model.Extension);
             if (model.GenericArguments != null)
-                genericArgumentsProperty?.SetValue(methodMetadata, 
-                    ConvertionUtilities.ConvertList(genericArgumentsProperty.PropertyType.GetGenericArguments()[0], 
+                genericArgumentsProperty?.SetValue(methodMetadata,
+                    ConvertionUtilities.ConvertList(genericArgumentsProperty.PropertyType.GetGenericArguments()[0],
                         model.GenericArguments.Select(t => TypeMetadataMapper.EmitBaseType(t, genericArgumentsProperty.PropertyType.GetGenericArguments()[0])).ToList()));
             modifiersProperty?.SetValue(methodMetadata, model.Modifiers);
             if (model.Parameters != null)
-                parametersProperty?.SetValue(methodMetadata, 
-                    ConvertionUtilities.ConvertList(parametersProperty.PropertyType.GetGenericArguments()[0], 
+                parametersProperty?.SetValue(methodMetadata,
+                    ConvertionUtilities.ConvertList(parametersProperty.PropertyType.GetGenericArguments()[0],
                         model.Parameters.Select(p => new ParameterMetadataMapper().MapDown(p, parametersProperty.PropertyType.GetGenericArguments()[0])).ToList()));
             if (model.ReturnType != null)
                 returnTypeProperty?.SetValue(methodMetadata,

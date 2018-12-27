@@ -4,15 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{517B93E4-390F-4CF1-A3D3-F50FB951D58D}</ProjectGuid>
+    <ProjectGuid>{9820C2B1-C91C-4677-BAD3-8F7D86041DEA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ClFileSelector</RootNamespace>
-    <AssemblyName>ClFileSelector</AssemblyName>
+    <RootNamespace>BusinessLogic</RootNamespace>
+    <AssemblyName>BusinessLogic</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,18 +42,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClDatabaseSelector.cs" />
-    <Compile Include="ClFileSelector.cs" />
+    <Compile Include="LogicService.cs" />
+    <Compile Include="Mapping\AssemblyMetadataMapper.cs" />
+    <Compile Include="Mapping\ConversionUtilities.cs" />
+    <Compile Include="Mapping\FieldMetadataMapper.cs" />
+    <Compile Include="Mapping\MethodMetadataMapper.cs" />
+    <Compile Include="Mapping\NamespaceMetadataMapper.cs" />
+    <Compile Include="Mapping\ParameterMetadataMapper.cs" />
+    <Compile Include="Mapping\PropertyMetadataMapper.cs" />
+    <Compile Include="Mapping\TypeMetadataMapper.cs" />
+    <Compile Include="Model\AssemblyMetadata.cs" />
+    <Compile Include="Model\ExtensionMethods.cs" />
+    <Compile Include="Model\FieldMetadata.cs" />
+    <Compile Include="Model\MethodMetadata.cs" />
+    <Compile Include="Model\NamespaceMetadata.cs" />
+    <Compile Include="Model\ParameterMetadata.cs" />
+    <Compile Include="Model\PropertyMetadata.cs" />
+    <Compile Include="Model\Singleton\DictionarySingleton.cs" />
+    <Compile Include="Model\TypeMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reflection\Reflector.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj">
-      <Project>{9820c2b1-c91c-4677-bad3-8f7d86041dea}</Project>
-      <Name>BusinessLogic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ViewModel\ViewModel.csproj">
-      <Project>{11d16f88-abab-4954-80bd-48c80bedee20}</Project>
-      <Name>ViewModel</Name>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{F7A14A4D-6CCD-4395-813F-7448B086F726}</Project>
+      <Name>Data</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

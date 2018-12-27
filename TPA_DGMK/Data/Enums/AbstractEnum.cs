@@ -2,6 +2,6 @@
 {
     public enum AbstractEnum
     {
-       NotAbstract,  Abstract
+        NotAbstract, Abstract
     }
 }

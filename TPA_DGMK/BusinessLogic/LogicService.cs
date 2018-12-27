@@ -22,7 +22,7 @@ namespace BusinessLogic
             Serializer.ToList().FirstOrDefault()?.Serialize(AssemblyMetadataMapper.MapDown(metadata, AssemblyMetadata.GetType()), path);
         }
 
-        public AssemblyMetadata Deserialize (string path)
+        public AssemblyMetadata Deserialize(string path)
         {
             return AssemblyMetadataMapper.MapUp(Serializer.ToList().FirstOrDefault()?.Deserialize(path));
         }

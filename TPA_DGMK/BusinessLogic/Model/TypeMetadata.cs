@@ -9,20 +9,20 @@ namespace BusinessLogic.Model
 {
     public class TypeMetadata
     {
-        public string TypeName{get; set;}
-        public string NamespaceName{get; set;}
-        public string FullTypeName{get; set;}
-        public TypeMetadata BaseType{get; set;}
-        public List<TypeMetadata> GenericArguments{get; set;}
-        public Tuple<AccessLevel, SealedEnum, AbstractEnum> Modifiers{get; set;}
-        public TypeKind TypeKind{get; set;}
-        public List<TypeMetadata> ImplementedInterfaces{get; set;}
-        public List<TypeMetadata> NestedTypes{get; set;}
-        public List<PropertyMetadata> Properties{get; set;}
-        public List<FieldMetadata> Fields{get; set;}
-        public TypeMetadata DeclaringType{get; set;}
-        public List<MethodMetadata> Methods{get; set;}
-        public List<MethodMetadata> Constructors{get; set;}
+        public string TypeName { get; set; }
+        public string NamespaceName { get; set; }
+        public string FullTypeName { get; set; }
+        public TypeMetadata BaseType { get; set; }
+        public List<TypeMetadata> GenericArguments { get; set; }
+        public Tuple<AccessLevel, SealedEnum, AbstractEnum> Modifiers { get; set; }
+        public TypeKind TypeKind { get; set; }
+        public List<TypeMetadata> ImplementedInterfaces { get; set; }
+        public List<TypeMetadata> NestedTypes { get; set; }
+        public List<PropertyMetadata> Properties { get; set; }
+        public List<FieldMetadata> Fields { get; set; }
+        public TypeMetadata DeclaringType { get; set; }
+        public List<MethodMetadata> Methods { get; set; }
+        public List<MethodMetadata> Constructors { get; set; }
         public AccessLevel AccessLevel { get; set; }
         public bool IsAbstract { get; set; }
         public bool IsSealed { get; set; }
@@ -33,7 +33,7 @@ namespace BusinessLogic.Model
             TypeName = type.Name;
             NamespaceName = type.Namespace;
             FullTypeName = type.ToString();
-            if(!DictionarySingleton.Occurrence.ContainsKey(FullTypeName))
+            if (!DictionarySingleton.Occurrence.ContainsKey(FullTypeName))
             {
                 DictionarySingleton.Occurrence.Add(FullTypeName, this);
             }
@@ -75,14 +75,14 @@ namespace BusinessLogic.Model
         {
             List<Type> nestedTypes = type.GetNestedTypes(BindingFlags.Public | BindingFlags.NonPublic).ToList();
             return (from _type in nestedTypes
-                   where _type.GetVisible()
-                   select new TypeMetadata(_type)).ToList();
+                    where _type.GetVisible()
+                    select new TypeMetadata(_type)).ToList();
         }
         List<TypeMetadata> EmitImplements(Type type)
         {
             List<Type> interfaces = type.GetInterfaces().ToList();
             return (from currentInterface in interfaces
-                   select EmitReference(currentInterface)).ToList();
+                    select EmitReference(currentInterface)).ToList();
         }
         static TypeKind GetTypeKind(Type type)
         {

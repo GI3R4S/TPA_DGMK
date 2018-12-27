@@ -14,7 +14,7 @@ namespace BusinessLogic.Mapping
                 Name = metadata.Name
             };
             Type type = metadata.GetType();
-            PropertyInfo typeProperty = type.GetProperty("TypeMetadata", 
+            PropertyInfo typeProperty = type.GetProperty("TypeMetadata",
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             TypeMetadataBase typeModel = (TypeMetadataBase)typeProperty?.GetValue(metadata);
             if (typeModel != null)
@@ -30,7 +30,7 @@ namespace BusinessLogic.Mapping
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
             nameProperty?.SetValue(parameterMetadata, metadata.Name);
             if (metadata.TypeMetadata != null)
-                typeProperty?.SetValue(parameterMetadata, 
+                typeProperty?.SetValue(parameterMetadata,
                     typeProperty.PropertyType.Cast(TypeMetadataMapper.EmitBaseType(metadata.TypeMetadata, typeProperty.PropertyType)));
 
             return (ParameterMetadataBase)parameterMetadata;

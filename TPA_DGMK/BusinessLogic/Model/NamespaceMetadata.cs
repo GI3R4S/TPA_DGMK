@@ -6,8 +6,8 @@ namespace BusinessLogic.Model
 {
     public class NamespaceMetadata
     {
-        public string NamespaceName{get; set;}
-        public List<TypeMetadata> Types{get; set;}
+        public string NamespaceName { get; set; }
+        public List<TypeMetadata> Types { get; set; }
 
         internal NamespaceMetadata(string name, IList<Type> types)
         {

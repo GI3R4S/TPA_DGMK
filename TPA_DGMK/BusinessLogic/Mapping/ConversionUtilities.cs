@@ -20,9 +20,9 @@ namespace BusinessLogic.Mapping
         public static IList ConvertList(Type type, IList source)
         {
             var listType = typeof(List<>);
-            Type[] typeArgs = {type};
+            Type[] typeArgs = { type };
             var genericListType = listType.MakeGenericType(typeArgs);
-            var typedList = (IList) Activator.CreateInstance(genericListType);
+            var typedList = (IList)Activator.CreateInstance(genericListType);
             foreach (var item in source)
             {
                 typedList.Add(type.Cast(item));
