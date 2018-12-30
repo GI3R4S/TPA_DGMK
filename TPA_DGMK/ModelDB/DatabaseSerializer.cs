@@ -22,7 +22,6 @@ namespace ModelDB
                     .Include(t => t.Methods)
                     .Include(t => t.AccessLevel)
                     .Include(t => t.Modifiers)
-                    .Include(t => t.Attributes)
                     .Include(t => t.BaseType)
                     .Include(t => t.DeclaringType)
                     .Include(t => t.Fields)

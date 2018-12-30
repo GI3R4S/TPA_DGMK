@@ -13,7 +13,7 @@ namespace UnitTestModel
         [TestInitialize]
         public void Initialize()
         {
-            path = "./../../../Model/bin/Debug/netstandard2.0/BusinessLogic.dll";
+            path = "./../../../BusinessLogic/bin/Debug/BusinessLogic.dll";
         }
 
         [TestMethod]

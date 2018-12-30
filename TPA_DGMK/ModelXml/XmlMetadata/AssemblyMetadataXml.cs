@@ -7,7 +7,6 @@ namespace ModelXml.XmlMetadata
 {
     [DataContract(IsReference = true)]
     [Export(typeof(AssemblyMetadataBase))]
-    [KnownType(typeof(NamespaceMetadataXml))]
     public class AssemblyMetadataXml : AssemblyMetadataBase
     {
         [DataMember] public override string Name { get; set; }

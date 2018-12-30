@@ -35,7 +35,6 @@ namespace ModelDB.Entities
         public new List<TypeMetadataDB> GenericArguments { get; set; }
         public override Tuple<AccessLevel, SealedEnum, AbstractEnum> Modifiers { get; set; }
         public override TypeKind TypeKind { get; set; }
-        public new List<TypeMetadataDB> Attributes { get; set; }
         public new List<TypeMetadataDB> ImplementedInterfaces { get; set; }
         public new List<TypeMetadataDB> NestedTypes { get; set; }
         public new List<PropertyMetadataDB> Properties { get; set; }

@@ -8,7 +8,6 @@ namespace ModelXml.XmlMetadata
 {
     [DataContract(IsReference = true)]
     [KnownType(typeof(TypeMetadataXml))]
-    [KnownType(typeof(ParameterMetadataXml))]
     public class MethodMetadataXml : MethodMetadataBase
     {
         [DataMember] public override string Name { get; set; }

@@ -1,12 +1,14 @@
 ﻿using Data.Enums;
+using System.Runtime.Serialization;
 
 namespace Data.DataMetadata
 {
+    [DataContract(IsReference = true)]
     public abstract class FieldMetadataBase
     {
-        public virtual string Name { get; set; }
+        [DataMember] public virtual string Name { get; set; }
         public virtual TypeMetadataBase TypeMetadata { get; set; }
         public virtual AccessLevel AccessLevel { get; set; }
-        public virtual bool IsStatic { get; set; }
+        [DataMember] public virtual bool IsStatic { get; set; }
     }
 }

@@ -4,9 +4,6 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Runtime.Serialization;
 using ModelXml.XmlMetadata;
-using System.Xml;
-using System.Collections.Generic;
-using System;
 
 namespace ModelXml
 {

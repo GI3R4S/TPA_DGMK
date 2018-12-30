@@ -1,6 +1,5 @@
 ﻿using Data.DataMetadata;
 using Data.Enums;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace ModelXml.XmlMetadata
