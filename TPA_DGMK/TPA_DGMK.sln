@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestFileLogger", "UnitT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestModel", "UnitTestModel\UnitTestModel.csproj", "{1B5A4A41-C394-481E-8203-F6592DC48FAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestSerializing", "UnitTestSerializing\UnitTestSerializing.csproj", "{67217D33-0367-4531-9522-722899F14A20}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfFileSelector", "WpfFileSelector\WpfFileSelector.csproj", "{3A18448F-B51C-4D40-8064-EAB988133FE6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClFileSelector", "ClFileSelector\ClFileSelector.csproj", "{517B93E4-390F-4CF1-A3D3-F50FB951D58D}"
@@ -28,6 +26,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{F7A14A4D-6CCD-4395-813F-7448B086F726}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{9820C2B1-C91C-4677-BAD3-8F7D86041DEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestXmlSerializing", "UnitTestXmlSerializing\UnitTestXmlSerializing.csproj", "{67217D33-0367-4531-9522-722899F14A20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,10 +51,6 @@ Global
 		{1B5A4A41-C394-481E-8203-F6592DC48FAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B5A4A41-C394-481E-8203-F6592DC48FAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B5A4A41-C394-481E-8203-F6592DC48FAE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{67217D33-0367-4531-9522-722899F14A20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{67217D33-0367-4531-9522-722899F14A20}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{67217D33-0367-4531-9522-722899F14A20}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{67217D33-0367-4531-9522-722899F14A20}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3A18448F-B51C-4D40-8064-EAB988133FE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3A18448F-B51C-4D40-8064-EAB988133FE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A18448F-B51C-4D40-8064-EAB988133FE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -87,6 +83,10 @@ Global
 		{9820C2B1-C91C-4677-BAD3-8F7D86041DEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9820C2B1-C91C-4677-BAD3-8F7D86041DEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9820C2B1-C91C-4677-BAD3-8F7D86041DEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67217D33-0367-4531-9522-722899F14A20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67217D33-0367-4531-9522-722899F14A20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67217D33-0367-4531-9522-722899F14A20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67217D33-0367-4531-9522-722899F14A20}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

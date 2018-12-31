@@ -23,7 +23,6 @@ namespace ModelDB.Entities
             Methods = new List<MethodMetadataDB>();
             NestedTypes = new List<TypeMetadataDB>();
             Properties = new List<PropertyMetadataDB>();
-
         }
 
         [Key]
@@ -31,11 +30,11 @@ namespace ModelDB.Entities
         public override string AssemblyName { get; set; }
         public override bool IsExternal { get; set; }
         public override bool IsGeneric { get; set; }
+        public override Tuple<AccessLevel, SealedEnum, AbstractEnum, StaticEnum> Modifiers { get; set; }
+        public override TypeKind TypeKind { get; set; }
         public new TypeMetadataDB BaseType { get; set; }
         public new TypeMetadataDB DeclaringType { get; set; }
         public new List<TypeMetadataDB> GenericArguments { get; set; }
-        public override Tuple<AccessLevel, SealedEnum, AbstractEnum, StaticEnum> Modifiers { get; set; }
-        public override TypeKind TypeKind { get; set; }
         public new List<TypeMetadataDB> ImplementedInterfaces { get; set; }
         public new List<TypeMetadataDB> NestedTypes { get; set; }
         public new List<PropertyMetadataDB> Properties { get; set; }
@@ -53,7 +52,6 @@ namespace ModelDB.Entities
 
         public virtual ICollection<TypeMetadataDB> TypeGenericArguments { get; set; }
 
-        [InverseProperty("ImplementedInterfaces")]
         public virtual ICollection<TypeMetadataDB> TypeImplementedInterfaces { get; set; }
 
         public virtual ICollection<TypeMetadataDB> TypeNestedTypes { get; set; }

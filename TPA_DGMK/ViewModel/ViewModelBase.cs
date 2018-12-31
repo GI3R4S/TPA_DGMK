@@ -19,6 +19,7 @@ namespace ViewModel
         [Import(typeof(IFileSelector))] public IFileSelector FileSelector { get; set; }
         [Import(typeof(IDatabaseSelector))] public IDatabaseSelector DatabaseSelector { get; set; }
         [Import(typeof(Logger))] public Logger Logger { get; set; }
+        [Import(typeof(IDisplay))] public IDisplay Display { get; set; }
         [ImportMany(typeof(LogicService))]
         public IEnumerable<LogicService> Service { get; set; }
 
@@ -81,6 +82,26 @@ namespace ViewModel
             }
             Items.Clear();
             Items.Add(new AssemblyViewModel(reflector.AssemblyMetadata, Logger));
+            Logger.Write(SeverityEnum.Information, "Loading completed");
+            Display.DisplayInformation("Loading Completed");
+        }
+
+        private async Task Serialize(string path = null)
+        {
+            Logger.Write(SeverityEnum.Information, "The option to 'serialize' was chosen: ");
+            if (reflector.AssemblyMetadata == null)
+                return;
+
+            if (path == null)
+            {
+                if (Logger.ToString().Contains("Database"))
+                    path = DatabaseSelector.SelectTarget();
+                else
+                    path = FileSelector.SelectTarget();
+            }
+            await Task.Run(() => Service.ToList().FirstOrDefault()?.Serialize(reflector.AssemblyMetadata, path));
+            Logger.Write(SeverityEnum.Information, "Serialization completed");
+            Display.DisplayInformation("Serialization Completed");
         }
 
         private async Task Deserialize(string path = null)
@@ -107,22 +128,8 @@ namespace ViewModel
             }
             Items.Clear();
             Items.Add(new AssemblyViewModel(reflector.AssemblyMetadata, Logger));
-        }
-
-        private async Task Serialize(string path = null)
-        {
-            Logger.Write(SeverityEnum.Information, "The option to 'serialize' was chosen: ");
-            if (reflector.AssemblyMetadata == null)
-                return;
-
-            if (path == null)
-            {
-                if (Logger.ToString().Contains("Database"))
-                    path = DatabaseSelector.SelectTarget();
-                else
-                    path = FileSelector.SelectTarget();
-            }
-            await Task.Run(() => Service.ToList().FirstOrDefault()?.Serialize(reflector.AssemblyMetadata, path));
+            Logger.Write(SeverityEnum.Information, "Deserialization completed");
+            Display.DisplayInformation("Deserialization Completed");
         }
 
         public ICommand ReadCommand

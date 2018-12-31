@@ -41,9 +41,9 @@ namespace UnitTestSerializing
             container.ComposeParts(this);
             #endregion
 
-            path = "./../../../UnitTestSerializing/bin/Debug/Data.dll";
-            path2 = "./../../../UnitTestSerializing/bin/Debug/BusinessLogic.dll";
-            pathTarget = "./../../../UnitTestSerializing/bin/Debug/xmlTest.xml";
+            path = "./../../../UnitTestXmlSerializing/bin/Debug/Data.dll";
+            path2 = "./../../../UnitTestXmlSerializing/bin/Debug/BusinessLogic.dll";
+            pathTarget = "./../../../UnitTestXmlSerializing/bin/Debug/xmlTest.xml";
             reflector = new Reflector(path);
         }
 

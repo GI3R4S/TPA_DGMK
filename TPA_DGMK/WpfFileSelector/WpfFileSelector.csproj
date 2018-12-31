@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="WpfDatabaseSelector.cs" />
+    <Compile Include="WpfDisplayInformation.cs" />
     <Compile Include="WpfFileSelector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

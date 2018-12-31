@@ -2,6 +2,7 @@
 using Data.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ModelDB.Entities
@@ -18,11 +19,12 @@ namespace ModelDB.Entities
         }
 
         public int Id { get; set; }
+        [Required]
         public override string Name { get; set; }
-        public new List<TypeMetadataDB> GenericArguments { get; set; }
-        public override Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum> Modifiers { get; set; }
-        public new TypeMetadataDB ReturnType { get; set; }
         public override bool Extension { get; set; }
+        public override Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum> Modifiers { get; set; }
+        public new List<TypeMetadataDB> GenericArguments { get; set; }
+        public new TypeMetadataDB ReturnType { get; set; }
         public new List<ParameterMetadataDB> Parameters { get; set; }
 
         public virtual ICollection<TypeMetadataDB> TypeConstructors { get; set; }
