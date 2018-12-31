@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using BusinessLogic.Model;
 using LoggerBase;
 
@@ -27,32 +25,17 @@ namespace ViewModel
                 base.Children.Add(new TypeViewModel(methodMetadata.ReturnType, logger));
             foreach (ParameterMetadata parameter in methodMetadata.Parameters.ReturnEmptyIfItIsNull())
                 base.Children.Add(new ParameterViewModel(parameter, logger));
+            foreach (TypeMetadata genericArgument in methodMetadata.GenericArguments.ReturnEmptyIfItIsNull())
+                base.Children.Add(new TypeViewModel(genericArgument, logger));
             base.FinishedLoadingChildren();
         }
         protected override bool CanLoadChildren()
         {
-            return !(methodMetadata.ReturnType == null && methodMetadata.Parameters.CheckIfItIsNullOrEmpty());
+            return !(methodMetadata.ReturnType == null && methodMetadata.Parameters.CheckIfItIsNullOrEmpty() && methodMetadata.GenericArguments.CheckIfItIsNullOrEmpty());
         }
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder();
-            if (methodMetadata.ReturnType != null)
-                builder.Append(methodMetadata.ReturnType.TypeName + " ");
-            builder.Append(methodMetadata.Name);
-            builder.Append(ParametersToString(methodMetadata.Parameters));
-            return builder.ToString();
-        }
-
-        private string ParametersToString(ICollection<ParameterMetadata> parameters)
-        {
-            StringBuilder builder = new StringBuilder();
-            builder.Append(" (");
-            foreach (ParameterMetadata parameter in parameters)
-                builder.Append(parameter.TypeMetadata.TypeName + " " + parameter.Name + ", ");
-            if (builder.Length > 2)
-                builder.Remove(builder.Length - 2, 2);
-            builder.Append(")");
-            return builder.ToString();
+            return "(Method) " + methodMetadata.ToString();
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Text;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using BusinessLogic.Model;
 using LoggerBase;
 
@@ -22,26 +21,13 @@ namespace ViewModel
         protected override void LoadChildren()
         {
             base.LoadChildren();
-            //foreach (TypeMetadata attribute in propertyMetadata.AttributesMetadata.ReturnEmptyIfItIsNull())
-            //    base.Children.Add(new AttributeViewModel(attribute, logger));
-            base.Children.Add(new TypeViewModel(propertyMetadata.TypeMetadata, logger));
+            if (propertyMetadata.TypeMetadata != null)
+                base.Children.Add(new TypeViewModel(propertyMetadata.TypeMetadata, logger));
             base.FinishedLoadingChildren();
         }
         public override string ToString()
         {
-            return "Property: " + propertyMetadata.TypeMetadata.TypeName + GenericArgumentsToString() + " " + propertyMetadata.Name;
-        }
-        private string GenericArgumentsToString()
-        {
-            if (propertyMetadata.TypeMetadata.GenericArguments.CheckIfItIsNullOrEmpty())
-                return "";
-            StringBuilder builder = new StringBuilder();
-            builder.Append("<");
-            foreach (TypeMetadata arg in propertyMetadata.TypeMetadata.GenericArguments)
-                builder.Append(arg.TypeName + ",");
-            builder.Remove(builder.Length - 1, 1);
-            builder.Append(">");
-            return builder.ToString();
+            return "(Property) " + propertyMetadata.TypeMetadata.TypeName + " " + propertyMetadata.Name;
         }
     }
 }

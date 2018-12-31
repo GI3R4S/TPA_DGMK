@@ -10,29 +10,35 @@ namespace BusinessLogic.Model
     public class MethodMetadata
     {
         public string Name { get; set; }
-        public List<TypeMetadata> GenericArguments { get; set; }
-        public Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum> Modifiers { get; set; }
-        public TypeMetadata ReturnType { get; set; }
         public bool Extension { get; set; }
+        public TypeMetadata ReturnType { get; set; }
+        public List<TypeMetadata> GenericArguments { get; set; }
         public List<ParameterMetadata> Parameters { get; set; }
+        public Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum> Modifiers { get; set; }
 
         private MethodMetadata(MethodBase method)
         {
             Name = method.Name;
-            GenericArguments = !method.IsGenericMethodDefinition ? null : EmitGenericArguments(method);
+            Extension = EmitExtension(method);
             ReturnType = EmitReturnType(method);
+            GenericArguments = !method.IsGenericMethodDefinition ? null : EmitGenericArguments(method);
             Parameters = EmitParameters(method);
             Modifiers = EmitModifiers(method);
-            Extension = EmitExtension(method);
         }
 
         public MethodMetadata() { }
 
-        internal static List<MethodMetadata> EmitMethods(Type type)
+        public static List<MethodMetadata> EmitMethods(Type type)
         {
             return type.GetMethods(BindingFlags.NonPublic | BindingFlags.DeclaredOnly | BindingFlags.Public |
-                                               BindingFlags.Static | BindingFlags.Instance).Select(t => new MethodMetadata(t)).ToList();
+                        BindingFlags.Static | BindingFlags.Instance).Select(t => new MethodMetadata(t)).ToList();
         }
+        public static List<MethodMetadata> EmitConstructors(Type type)
+        {
+            return type.GetConstructors().Select(t => new MethodMetadata(t)).ToList();
+        }
+
+        #region Other emmits
         private List<TypeMetadata> EmitGenericArguments(MethodBase method)
         {
             return method.GetGenericArguments().Select(TypeMetadata.EmitReference).ToList();
@@ -54,13 +60,13 @@ namespace BusinessLogic.Model
         }
         private static Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum> EmitModifiers(MethodBase method)
         {
-            AccessLevel _access = AccessLevel.IsPrivate;
+            AccessLevel _access = AccessLevel.Private;
             if (method.IsPublic)
-                _access = AccessLevel.IsPublic;
+                _access = AccessLevel.Public;
             else if (method.IsFamily)
-                _access = AccessLevel.IsProtected;
+                _access = AccessLevel.Protected;
             else if (method.IsFamilyAndAssembly)
-                _access = AccessLevel.IsProtectedInternal;
+                _access = AccessLevel.ProtectedInternal;
             AbstractEnum _abstract = AbstractEnum.NotAbstract;
             if (method.IsAbstract)
                 _abstract = AbstractEnum.Abstract;
@@ -71,6 +77,20 @@ namespace BusinessLogic.Model
             if (method.IsVirtual)
                 _virtual = VirtualEnum.Virtual;
             return new Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum>(_access, _abstract, _static, _virtual);
+        }
+#endregion
+
+        public override string ToString()
+        {
+            string type = string.Empty;
+            type += Modifiers.Item1.ToString() + " ";
+            type += Modifiers.Item2 == AbstractEnum.Abstract ? AbstractEnum.Abstract.ToString() + " " : string.Empty;
+            type += Modifiers.Item3 == StaticEnum.Static ? StaticEnum.Static.ToString() + " " : string.Empty;
+            type += Modifiers.Item4 == VirtualEnum.Virtual ? VirtualEnum.Virtual.ToString() + " " : string.Empty;
+            type += ReturnType != null ? ReturnType.TypeName + " " : string.Empty;
+            type += Name;
+            type += Extension ? " :Extension method" : string.Empty;
+            return type;
         }
     }
 }

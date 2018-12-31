@@ -4,14 +4,9 @@ namespace BusinessLogic.Model.Singleton
 {
     public sealed class DictionarySingleton
     {
-        private static DictionarySingleton occurrence = new DictionarySingleton();
+        public static DictionarySingleton Occurrence { get; } = new DictionarySingleton();
 
-        public static DictionarySingleton Occurrence
-        {
-            get { return occurrence; }
-        }
-
-        private Dictionary<string, TypeMetadata> dictionaryForTypes = new Dictionary<string, TypeMetadata>();
+        private readonly Dictionary<string, TypeMetadata> dictionaryForTypes = new Dictionary<string, TypeMetadata>();
         private DictionarySingleton()
         {
         }
@@ -28,8 +23,7 @@ namespace BusinessLogic.Model.Singleton
 
         public TypeMetadata Get(string key)
         {
-            TypeMetadata value;
-            dictionaryForTypes.TryGetValue(key, out value);
+            dictionaryForTypes.TryGetValue(key, out TypeMetadata value);
             return value;
         }
 

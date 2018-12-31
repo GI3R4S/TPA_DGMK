@@ -5,7 +5,6 @@ using System.Runtime.Serialization;
 namespace ModelXml.XmlMetadata
 {
     [DataContract(IsReference = true)]
-    [KnownType(typeof(TypeMetadataXml))]
     public class NamespaceMetadataXml : NamespaceMetadataBase
     {
         [DataMember] public override string NamespaceName { get; set; }

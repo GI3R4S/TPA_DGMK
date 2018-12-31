@@ -9,10 +9,10 @@ namespace BusinessLogic.Model
         public string NamespaceName { get; set; }
         public List<TypeMetadata> Types { get; set; }
 
-        internal NamespaceMetadata(string name, IList<Type> types)
+        public NamespaceMetadata(string name, IList<Type> types)
         {
             NamespaceName = name;
-            Types = (from type in types orderby type.Name select new TypeMetadata(type)).ToList();
+            Types = types.OrderBy(t => t.Name).Select(TypeMetadata.EmitType).ToList();
         }
 
         public NamespaceMetadata() { }

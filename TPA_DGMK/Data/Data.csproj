@@ -43,7 +43,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataMetadata\AssemblyMetadataBase.cs" />
-    <Compile Include="DataMetadata\FieldMetadataBase.cs" />
     <Compile Include="DataMetadata\MethodMetadataBase.cs" />
     <Compile Include="DataMetadata\NamespaceMetadataBase.cs" />
     <Compile Include="DataMetadata\ParameterMetadataBase.cs" />

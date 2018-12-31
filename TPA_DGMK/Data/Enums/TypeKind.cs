@@ -2,6 +2,6 @@
 {
     public enum TypeKind
     {
-        ClassType, EnumType, InterfaceType, StructType
+        Class, Enum, Interface, Struct, None
     }
 }

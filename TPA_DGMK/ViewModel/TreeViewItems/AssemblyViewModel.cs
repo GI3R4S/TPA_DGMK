@@ -34,7 +34,7 @@ namespace ViewModel
         }
         public override string ToString()
         {
-            return "Assembly: " + assemblyMetadata.Name;
+            return "(Assembly) " + assemblyMetadata.Name;
         }
         protected override bool CanLoadChildren()
         {

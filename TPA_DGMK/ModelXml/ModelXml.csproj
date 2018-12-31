@@ -64,7 +64,6 @@
   <ItemGroup>
     <Compile Include="FileLogger.cs" />
     <Compile Include="XmlMetadata\AssemblyMetadataXml.cs" />
-    <Compile Include="XmlMetadata\FieldMetadataXml.cs" />
     <Compile Include="XmlMetadata\MethodMetadataXml.cs" />
     <Compile Include="XmlMetadata\NamespaceMetadataXml.cs" />
     <Compile Include="XmlMetadata\ParameterMetadataXml.cs" />

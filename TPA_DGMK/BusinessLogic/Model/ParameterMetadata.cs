@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace BusinessLogic.Model
+﻿namespace BusinessLogic.Model
 {
     public class ParameterMetadata
     {
@@ -9,8 +7,8 @@ namespace BusinessLogic.Model
 
         public ParameterMetadata(string name, TypeMetadata typeMetadata)
         {
-            this.Name = name;
-            this.TypeMetadata = typeMetadata;
+            Name = name;
+            TypeMetadata = typeMetadata;
         }
 
         public ParameterMetadata() { }

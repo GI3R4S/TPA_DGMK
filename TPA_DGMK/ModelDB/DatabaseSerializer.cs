@@ -14,13 +14,12 @@ namespace ModelDB
         {
             using (DataContext dataContext = new DataContext(databaseName))
             {
-                //dataContext.Configuration.ProxyCreationEnabled = false;
+                dataContext.Configuration.ProxyCreationEnabled = false;
                 dataContext.Namespaces
                     .Include(n => n.Types).Load();
                 dataContext.Types
                     .Include(t => t.Constructors)
                     .Include(t => t.Methods)
-                    .Include(t => t.AccessLevel)
                     .Include(t => t.Modifiers)
                     .Include(t => t.BaseType)
                     .Include(t => t.DeclaringType)
@@ -48,8 +47,6 @@ namespace ModelDB
                 dataContext.Properties
                     .Include(p => p.TypeMetadata)
                     .Include(p => p.TypeProperties).Load();
-                dataContext.Fields
-                    .Include(f => f.TypeMetadata).Load();
 
                 AssemblyMetadataBase assembly = dataContext.AssemblyModel.Include(a => a.Namespaces).ToList().FirstOrDefault();
                 return assembly;

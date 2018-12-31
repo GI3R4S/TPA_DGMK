@@ -18,13 +18,13 @@ namespace BusinessLogic.Model
 
         public PropertyMetadata() { }
 
-        internal static List<PropertyMetadata> EmitProperties(Type type)
+        public static List<PropertyMetadata> EmitProperties(Type type)
         {
-            List<PropertyInfo> props = type.GetProperties(BindingFlags.NonPublic | BindingFlags.DeclaredOnly | BindingFlags.Public |
-                   BindingFlags.Static | BindingFlags.Instance).ToList();
-            return (from prop in props
-                    where prop.GetGetMethod().GetVisible() || prop.GetSetMethod().GetVisible()
-                    select new PropertyMetadata(prop.Name, TypeMetadata.EmitReference(prop.PropertyType))).ToList();
+            List<PropertyInfo> props = type.GetProperties(BindingFlags.NonPublic | BindingFlags.DeclaredOnly 
+                | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance).ToList();
+
+            return props.Where(t => t.GetGetMethod().GetVisible() || t.GetSetMethod().GetVisible())
+                .Select(t => new PropertyMetadata(t.Name, TypeMetadata.EmitReference(t.PropertyType))).ToList();
         }
     }
 }

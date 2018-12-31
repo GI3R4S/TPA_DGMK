@@ -45,7 +45,6 @@
     <Compile Include="LogicService.cs" />
     <Compile Include="Mapping\AssemblyMetadataMapper.cs" />
     <Compile Include="Mapping\ConversionUtilities.cs" />
-    <Compile Include="Mapping\FieldMetadataMapper.cs" />
     <Compile Include="Mapping\MethodMetadataMapper.cs" />
     <Compile Include="Mapping\NamespaceMetadataMapper.cs" />
     <Compile Include="Mapping\ParameterMetadataMapper.cs" />
@@ -53,7 +52,6 @@
     <Compile Include="Mapping\TypeMetadataMapper.cs" />
     <Compile Include="Model\AssemblyMetadata.cs" />
     <Compile Include="Model\ExtensionMethods.cs" />
-    <Compile Include="Model\FieldMetadata.cs" />
     <Compile Include="Model\MethodMetadata.cs" />
     <Compile Include="Model\NamespaceMetadata.cs" />
     <Compile Include="Model\ParameterMetadata.cs" />

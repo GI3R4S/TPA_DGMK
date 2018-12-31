@@ -33,7 +33,7 @@ namespace UnitTestModel
 
             TypeMetadata tm2 = TypeMetadata.EmitReference(assembly.GetTypes()[0]);
             Assert.AreEqual(referencesCount, DictionarySingleton.Occurrence.Count());
-            Assert.AreEqual(DictionarySingleton.Occurrence.Get(tm.FullTypeName), DictionarySingleton.Occurrence.Get(tm2.FullTypeName));
+            Assert.AreEqual(DictionarySingleton.Occurrence.Get(tm.TypeName), DictionarySingleton.Occurrence.Get(tm2.TypeName));
         }
 
         [TestMethod]
@@ -42,7 +42,7 @@ namespace UnitTestModel
             int referencesCount = DictionarySingleton.Occurrence.Count();
             TypeMetadata typeMetadata = TypeMetadata.EmitReference(type);
             Assert.AreEqual(++referencesCount, DictionarySingleton.Occurrence.Count());
-            Assert.AreEqual(typeMetadata, DictionarySingleton.Occurrence.Get(type.ToString()));
+            Assert.AreEqual(typeMetadata, DictionarySingleton.Occurrence.Get(type.Name));
         }
         #endregion
 
@@ -67,7 +67,7 @@ namespace UnitTestModel
         public void GetVisibleFieldTest()
         {
             FieldInfo[] fi;
-            Type t = typeof(FieldMetadata);
+            Type t = typeof(ParameterMetadata);
             fi = t.GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
             Assert.AreEqual(fi[0].IsPrivate, !fi[0].GetVisible());
         }

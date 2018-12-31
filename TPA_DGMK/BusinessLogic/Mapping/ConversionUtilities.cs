@@ -9,27 +9,24 @@ namespace BusinessLogic.Mapping
     {
         public static object Cast(this Type Type, object data)
         {
-            ParameterExpression DataParam = Expression.Parameter(typeof(object), "data");
-            BlockExpression Body = Expression.Block(Expression.Convert(Expression.Convert(DataParam, data.GetType()), Type));
-
-            Delegate Run = Expression.Lambda(Body, DataParam).Compile();
+            ParameterExpression parametersOfData = Expression.Parameter(typeof(object), "data");
+            BlockExpression blockExpression = Expression.Block(Expression.Convert(Expression.Convert(parametersOfData, data.GetType()), Type));
+            Delegate Run = Expression.Lambda(blockExpression, parametersOfData).Compile();
             object ret = Run.DynamicInvoke(data);
             return ret;
         }
 
         public static IList ConvertList(Type type, IList source)
         {
-            var listType = typeof(List<>);
-            Type[] typeArgs = { type };
-            var genericListType = listType.MakeGenericType(typeArgs);
-            var typedList = (IList)Activator.CreateInstance(genericListType);
+            var typeOfList = typeof(List<>);
+            Type[] typeArguments = { type };
+            var genericArgumentsListType = typeOfList.MakeGenericType(typeArguments);
+            var listOfTypes = (IList)Activator.CreateInstance(genericArgumentsListType);
             foreach (var item in source)
             {
-                typedList.Add(type.Cast(item));
+                listOfTypes.Add(type.Cast(item));
             }
-
-            return typedList;
-
+            return listOfTypes;
         }
     }
 }

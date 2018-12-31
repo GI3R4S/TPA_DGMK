@@ -72,7 +72,6 @@
     <Compile Include="DatabaseSerializer.cs" />
     <Compile Include="DataContext.cs" />
     <Compile Include="Entities\AssemblyMetadataDB.cs" />
-    <Compile Include="Entities\FieldMetadataDB.cs" />
     <Compile Include="Entities\MethodMetadataDB.cs" />
     <Compile Include="Entities\NamespaceMetadataDB.cs" />
     <Compile Include="Entities\ParameterMetadataDB.cs" />

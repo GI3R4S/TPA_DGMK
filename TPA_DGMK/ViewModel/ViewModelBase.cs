@@ -89,7 +89,7 @@ namespace ViewModel
 
             if (path == null)
             {
-                if (Service.ToList().FirstOrDefault().ToString().Contains("Database"))
+                if (Logger.ToString().Contains("Database"))
                     path = DatabaseSelector.SelectSource();
                 else
                     path = FileSelector.SelectSource();
@@ -117,7 +117,7 @@ namespace ViewModel
 
             if (path == null)
             {
-                if (Service.ToList().FirstOrDefault().ToString().Contains("Database"))
+                if (Logger.ToString().Contains("Database"))
                     path = DatabaseSelector.SelectTarget();
                 else
                     path = FileSelector.SelectTarget();

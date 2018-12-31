@@ -19,12 +19,12 @@ namespace BusinessLogic
 
         public void Serialize(AssemblyMetadata metadata, string path)
         {
-            Serializer.ToList().FirstOrDefault()?.Serialize(AssemblyMetadataMapper.MapDown(metadata, AssemblyMetadata.GetType()), path);
+            Serializer.ToList().FirstOrDefault()?.Serialize(AssemblyMetadataMapper.MapToSerialize(metadata, AssemblyMetadata.GetType()), path);
         }
 
         public AssemblyMetadata Deserialize(string path)
         {
-            return AssemblyMetadataMapper.MapUp(Serializer.ToList().FirstOrDefault()?.Deserialize(path));
+            return AssemblyMetadataMapper.MapToDeserialize(Serializer.ToList().FirstOrDefault()?.Deserialize(path));
         }
     }
 }

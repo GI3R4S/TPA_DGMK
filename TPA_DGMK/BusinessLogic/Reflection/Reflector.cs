@@ -6,13 +6,12 @@ namespace BusinessLogic.Reflection
     public class Reflector
     {
         public AssemblyMetadata AssemblyMetadata { get; private set; }
-        public Assembly Assembly { get; private set; }
         public Reflector(string assemblyFile)
         {
             if (string.IsNullOrEmpty(assemblyFile))
                 throw new System.ArgumentNullException();
-            Assembly = Assembly.LoadFrom(assemblyFile);
-            AssemblyMetadata = new AssemblyMetadata(Assembly);
+            Assembly assembly = Assembly.LoadFrom(assemblyFile);
+            AssemblyMetadata = new AssemblyMetadata(assembly);
         }
         public Reflector(Assembly assembly)
         {

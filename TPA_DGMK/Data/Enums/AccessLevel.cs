@@ -2,6 +2,6 @@
 {
     public enum AccessLevel
     {
-        IsPublic, IsProtected, IsProtectedInternal, IsPrivate
+        Public, Protected, ProtectedInternal, Private
     }
 }

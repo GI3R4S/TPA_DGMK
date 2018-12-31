@@ -31,7 +31,7 @@ namespace ViewModel
         }
         public override string ToString()
         {
-            return "Namespace: " + namespaceMetadata.NamespaceName;
+            return "(Namespace) " + namespaceMetadata.NamespaceName;
         }
     }
 }

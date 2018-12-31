@@ -41,8 +41,8 @@ namespace UnitTestSerializing
             container.ComposeParts(this);
             #endregion
 
-            path = "./../../../UnitTestSerializing/bin/Debug/BusinessLogic.dll";
-            path2 = "./../../../UnitTestSerializing/bin/Debug/Data.dll";
+            path = "./../../../UnitTestSerializing/bin/Debug/Data.dll";
+            path2 = "./../../../UnitTestSerializing/bin/Debug/BusinessLogic.dll";
             pathTarget = "./../../../UnitTestSerializing/bin/Debug/xmlTest.xml";
             reflector = new Reflector(path);
         }
@@ -62,10 +62,10 @@ namespace UnitTestSerializing
         [TestMethod]
         public void XMLSerializerDeserializeTest()
         {
-            Assert.AreEqual("BusinessLogic.dll", reflector.AssemblyMetadata.Name);
+            Assert.AreEqual("data.dll", reflector.AssemblyMetadata.Name.ToLower());
             Service.ToList().FirstOrDefault()?.Serialize(reflector.AssemblyMetadata, pathTarget);
             reflector = new Reflector(path2);
-            Assert.AreEqual("data.dll", reflector.AssemblyMetadata.Name.ToLower());
+            Assert.AreEqual("businesslogic.dll", reflector.AssemblyMetadata.Name.ToLower());
             AssemblyMetadata assemblyMetadata2 = Service.ToList().FirstOrDefault()?.Deserialize(pathTarget);
             reflector = new Reflector(assemblyMetadata2);
             Assert.AreEqual(assemblyMetadata2.Name, reflector.AssemblyMetadata.Name);

@@ -21,12 +21,13 @@ namespace ViewModel
         protected override void LoadChildren()
         {
             base.LoadChildren();
-            base.Children.Add(new TypeViewModel(parameterMetadata.TypeMetadata, logger));
+            if (parameterMetadata.TypeMetadata != null)
+                base.Children.Add(new TypeViewModel(parameterMetadata.TypeMetadata, logger));
             base.FinishedLoadingChildren();
         }
         public override string ToString()
         {
-            return "Parameter: " + parameterMetadata.TypeMetadata.TypeName + " " + parameterMetadata.Name;
+            return "(Parameter) " + parameterMetadata.TypeMetadata.TypeName + " " + parameterMetadata.Name;
         }
     }
 }
