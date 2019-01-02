@@ -4,6 +4,8 @@ using System.ComponentModel.Composition;
 using Data;
 using Data.DataMetadata;
 using ModelDB.Entities;
+using System.Data.SqlClient;
+using System;
 
 namespace ModelDB
 {
@@ -37,6 +39,7 @@ namespace ModelDB
 
         public void Serialize(AssemblyMetadataBase data, string databaseName)
         {
+            Database.Delete(databaseName);
             using (DataContext dataContext = new DataContext(databaseName))
             {
                 AssemblyMetadataDB assembly = (AssemblyMetadataDB)data;
