@@ -1,4 +1,5 @@
 ﻿using Data.Enums;
+using Data.Modifiers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace BusinessLogic.Model
         public TypeMetadata ReturnType { get; set; }
         public List<TypeMetadata> GenericArguments { get; set; }
         public List<ParameterMetadata> Parameters { get; set; }
-        public Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum> Modifiers { get; set; }
+        public MethodModifiers Modifiers { get; set; }
 
         private MethodMetadata(MethodBase method)
         {
@@ -58,7 +59,7 @@ namespace BusinessLogic.Model
         {
             return method.IsDefined(typeof(ExtensionAttribute), true);
         }
-        private static Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum> EmitModifiers(MethodBase method)
+        private static MethodModifiers EmitModifiers(MethodBase method)
         {
             AccessLevel _access = AccessLevel.Private;
             if (method.IsPublic)
@@ -76,17 +77,26 @@ namespace BusinessLogic.Model
             VirtualEnum _virtual = VirtualEnum.NotVirtual;
             if (method.IsVirtual)
                 _virtual = VirtualEnum.Virtual;
-            return new Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum>(_access, _abstract, _static, _virtual);
+            return new MethodModifiers()
+            {
+                AccessLevel = _access,
+                AbstractEnum = _abstract,
+                StaticEnum = _static,
+                VirtualEnum = _virtual
+            };
         }
-#endregion
+        #endregion
 
         public override string ToString()
         {
             string type = string.Empty;
-            type += Modifiers.Item1.ToString() + " ";
-            type += Modifiers.Item2 == AbstractEnum.Abstract ? AbstractEnum.Abstract.ToString() + " " : string.Empty;
-            type += Modifiers.Item3 == StaticEnum.Static ? StaticEnum.Static.ToString() + " " : string.Empty;
-            type += Modifiers.Item4 == VirtualEnum.Virtual ? VirtualEnum.Virtual.ToString() + " " : string.Empty;
+            if (Modifiers != null)
+            {
+                type += Modifiers.AccessLevel.ToString() + " ";
+                type += Modifiers.AbstractEnum == AbstractEnum.Abstract ? AbstractEnum.Abstract.ToString() + " " : string.Empty;
+                type += Modifiers.StaticEnum == StaticEnum.Static ? StaticEnum.Static.ToString() + " " : string.Empty;
+                type += Modifiers.VirtualEnum == VirtualEnum.Virtual ? VirtualEnum.Virtual.ToString() + " " : string.Empty;
+            }
             type += ReturnType != null ? ReturnType.TypeName + " " : string.Empty;
             type += Name;
             type += Extension ? " :Extension method" : string.Empty;

@@ -1,5 +1,5 @@
 ﻿using Data.Enums;
-using System;
+using Data.Modifiers;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
@@ -14,7 +14,7 @@ namespace Data.DataMetadata
         [DataMember] public virtual bool IsExternal { get; set; }
         public virtual TypeMetadataBase BaseType { get; set; }
         public virtual List<TypeMetadataBase> GenericArguments { get; set; }
-        [DataMember] public virtual Tuple<AccessLevel, SealedEnum, AbstractEnum, StaticEnum> Modifiers { get; set; }
+        [DataMember] public virtual TypeModifiers Modifiers { get; set; }
         [DataMember] public virtual TypeKind TypeKind { get; set; }
         public virtual List<TypeMetadataBase> ImplementedInterfaces { get; set; }
         public virtual List<TypeMetadataBase> NestedTypes { get; set; }

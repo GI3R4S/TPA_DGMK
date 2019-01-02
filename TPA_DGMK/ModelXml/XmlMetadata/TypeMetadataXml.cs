@@ -1,5 +1,6 @@
 ﻿using Data.DataMetadata;
 using Data.Enums;
+using Data.Modifiers;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -15,7 +16,7 @@ namespace ModelXml.XmlMetadata
         [DataMember] public override bool IsExternal { get; set; }
         [DataMember] public new TypeMetadataXml BaseType { get; set; }
         [DataMember] public new List<TypeMetadataXml> GenericArguments { get; set; }
-        [DataMember] public override Tuple<AccessLevel, SealedEnum, AbstractEnum, StaticEnum> Modifiers { get; set; }
+        [DataMember] public override TypeModifiers Modifiers { get; set; }
         [DataMember] public override TypeKind TypeKind { get; set; }
         [DataMember] public new List<TypeMetadataXml> ImplementedInterfaces { get; set; }
         [DataMember] public new List<TypeMetadataXml> NestedTypes { get; set; }

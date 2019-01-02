@@ -15,40 +15,22 @@ namespace ModelDB
             using (DataContext dataContext = new DataContext(databaseName))
             {
                 dataContext.Configuration.ProxyCreationEnabled = false;
+                AssemblyMetadataBase assembly = dataContext.AssemblyModel.Include(a => a.Namespaces).ToList().FirstOrDefault();
                 dataContext.Namespaces
                     .Include(n => n.Types).Load();
                 dataContext.Types
-                    .Include(t => t.Constructors)
-                    .Include(t => t.Methods)
-                    .Include(t => t.Modifiers)
-                    .Include(t => t.BaseType)
-                    .Include(t => t.DeclaringType)
-                    .Include(t => t.Fields)
-                    .Include(t => t.Properties)
-                    .Include(t => t.GenericArguments)
-                    .Include(t => t.ImplementedInterfaces)
-                    .Include(t => t.MethodGenericArguments)
-                    .Include(t => t.NestedTypes)
-                    .Include(t => t.TypeGenericArguments)
-                    .Include(t => t.TypeBaseTypes)
-                    .Include(t => t.TypeDeclaringTypes)
-                    .Include(t => t.TypeImplementedInterfaces)
-                    .Include(t => t.TypeNestedTypes).Load();
-                dataContext.Parameters
-                    .Include(p => p.TypeMetadata)
-                    .Include(p => p.TypeFields)
-                    .Include(p => p.MethodParameters).Load();
+                    .Include(t => t.Constructors).Include(t => t.Methods)
+                    .Include(t => t.BaseType).Include(t => t.DeclaringType)
+                    .Include(t => t.Fields).Include(t => t.Properties)
+                    .Include(t => t.GenericArguments).Include(t => t.ImplementedInterfaces)
+                    .Include(t => t.Modifiers).Include(t => t.NestedTypes).Load();
                 dataContext.Methods
-                    .Include(m => m.GenericArguments)
-                    .Include(m => m.Parameters)
-                    .Include(m => m.ReturnType)
-                    .Include(m => m.TypeConstructors)
-                    .Include(m => m.TypeMethods).Load();
+                    .Include(m => m.GenericArguments).Include(m => m.Parameters)
+                    .Include(m => m.Modifiers).Include(m => m.ReturnType).Load();
+                dataContext.Parameters
+                    .Include(p => p.TypeMetadata).Load();
                 dataContext.Properties
-                    .Include(p => p.TypeMetadata)
-                    .Include(p => p.TypeProperties).Load();
-
-                AssemblyMetadataBase assembly = dataContext.AssemblyModel.Include(a => a.Namespaces).ToList().FirstOrDefault();
+                    .Include(p => p.TypeMetadata).Load();
                 return assembly;
             }
         }

@@ -1,5 +1,6 @@
 ﻿using BusinessLogic.Model.Singleton;
 using Data.Enums;
+using Data.Modifiers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace BusinessLogic.Model
         public TypeMetadata DeclaringType { get; set; }
         public TypeKind TypeKind { get; set; }
         public List<TypeMetadata> GenericArguments { get; set; }
-        public Tuple<AccessLevel, SealedEnum, AbstractEnum, StaticEnum> Modifiers { get; set; }
+        public TypeModifiers Modifiers { get; set; }
         public List<TypeMetadata> ImplementedInterfaces { get; set; }
         public List<TypeMetadata> NestedTypes { get; set; }
         public List<PropertyMetadata> Properties { get; set; }
@@ -114,7 +115,7 @@ namespace BusinessLogic.Model
                    type.IsClass ? TypeKind.Class :
                    TypeKind.None;
         }
-        private static Tuple<AccessLevel, SealedEnum, AbstractEnum, StaticEnum> EmitModifiers(Type type)
+        private static TypeModifiers EmitModifiers(Type type)
         {
             AccessLevel _access = AccessLevel.Private;
             AbstractEnum _abstract = AbstractEnum.NotAbstract;
@@ -134,7 +135,13 @@ namespace BusinessLogic.Model
                 _abstract = AbstractEnum.Abstract;
             if (type.IsSealed && type.IsAbstract)
                 _static = StaticEnum.Static;
-            return new Tuple<AccessLevel, SealedEnum, AbstractEnum, StaticEnum>(_access, _sealed, _abstract, _static);
+            return new TypeModifiers()
+            {
+                AccessLevel = _access,
+                SealedEnum = _sealed,
+                AbstractEnum = _abstract,
+                StaticEnum = _static
+            };
         }
         private static TypeMetadata EmitExtends(Type baseType)
         {
@@ -150,10 +157,10 @@ namespace BusinessLogic.Model
             string type = string.Empty;
             if (Modifiers != null)
             {
-                type += Modifiers.Item1.ToString() + " ";
-                type += Modifiers.Item2 == SealedEnum.Sealed ? SealedEnum.Sealed.ToString() + " " : string.Empty;
-                type += Modifiers.Item3 == AbstractEnum.Abstract ? AbstractEnum.Abstract.ToString() + " " : string.Empty;
-                type += Modifiers.Item4 == StaticEnum.Static ? StaticEnum.Static.ToString() + " " : string.Empty;
+                type += Modifiers.AccessLevel.ToString() + " ";
+                type += Modifiers.SealedEnum == SealedEnum.Sealed ? SealedEnum.Sealed.ToString() + " " : string.Empty;
+                type += Modifiers.AbstractEnum == AbstractEnum.Abstract ? AbstractEnum.Abstract.ToString() + " " : string.Empty;
+                type += Modifiers.StaticEnum == StaticEnum.Static ? StaticEnum.Static.ToString() + " " : string.Empty;
 
             }
             if (TypeKind != TypeKind.None)
