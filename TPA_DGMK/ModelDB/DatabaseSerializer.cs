@@ -4,8 +4,6 @@ using System.ComponentModel.Composition;
 using Data;
 using Data.DataMetadata;
 using ModelDB.Entities;
-using System.Data.SqlClient;
-using System;
 
 namespace ModelDB
 {
