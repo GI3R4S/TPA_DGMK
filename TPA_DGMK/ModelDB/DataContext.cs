@@ -1,4 +1,5 @@
-﻿using ModelDB.Entities;
+﻿using Data.Modifiers;
+using ModelDB.Entities;
 using System.Data.Entity;
 
 namespace ModelDB
@@ -28,9 +29,11 @@ namespace ModelDB
             modelBuilder.Entity<TypeMetadataDB>().HasOptional(t => t.BaseType).WithMany();
             modelBuilder.Entity<TypeMetadataDB>().HasOptional(t => t.DeclaringType).WithMany();
             modelBuilder.Entity<TypeMetadataDB>().HasOptional(t => t.Modifiers);
+            modelBuilder.Entity<TypeModifiers>().HasKey(t => t.Id);
             modelBuilder.Entity<MethodMetadataDB>().HasMany(m => m.GenericArguments).WithMany();
             modelBuilder.Entity<MethodMetadataDB>().HasMany(m => m.Parameters).WithMany();
             modelBuilder.Entity<MethodMetadataDB>().HasOptional(m => m.Modifiers);
+            modelBuilder.Entity<MethodModifiers>().HasKey(m => m.Id);
             modelBuilder.Entity<NamespaceMetadataDB>().HasMany(n => n.Types).WithMany();
         }
     }

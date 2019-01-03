@@ -1,21 +1,19 @@
 ﻿using Data.Enums;
 using Data.Modifiers;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace Data.DataMetadata
 {
-    [DataContract(IsReference = true)]
     public abstract class TypeMetadataBase
     {
-        [DataMember] public virtual string TypeName { get; set; }
-        [DataMember] public virtual string AssemblyName { get; set; }
-        [DataMember] public virtual bool IsGeneric { get; set; }
-        [DataMember] public virtual bool IsExternal { get; set; }
+        public virtual string TypeName { get; set; }
+        public virtual string AssemblyName { get; set; }
+        public virtual bool IsGeneric { get; set; }
+        public virtual bool IsExternal { get; set; }
         public virtual TypeMetadataBase BaseType { get; set; }
         public virtual List<TypeMetadataBase> GenericArguments { get; set; }
-        [DataMember] public virtual TypeModifiers Modifiers { get; set; }
-        [DataMember] public virtual TypeKind TypeKind { get; set; }
+        public virtual TypeModifiers Modifiers { get; set; }
+        public virtual TypeKind TypeKind { get; set; }
         public virtual List<TypeMetadataBase> ImplementedInterfaces { get; set; }
         public virtual List<TypeMetadataBase> NestedTypes { get; set; }
         public virtual List<PropertyMetadataBase> Properties { get; set; }
