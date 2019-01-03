@@ -34,13 +34,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExtensionMethods.cs" />
@@ -61,11 +54,11 @@
   <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj">
-      <Project>{9820c2b1-c91c-4677-bad3-8f7d86041dea}</Project>
+      <Project>{9820C2B1-C91C-4677-BAD3-8F7D86041DEA}</Project>
       <Name>BusinessLogic</Name>
     </ProjectReference>
     <ProjectReference Include="..\LoggerBase\LoggerBase.csproj">
-      <Project>{a8c42bcf-7b4e-4e9f-86b6-27fef1e15d4d}</Project>
+      <Project>{A8C42BCF-7B4E-4E9F-86B6-27FEF1E15D4D}</Project>
       <Name>LoggerBase</Name>
     </ProjectReference>
   </ItemGroup>

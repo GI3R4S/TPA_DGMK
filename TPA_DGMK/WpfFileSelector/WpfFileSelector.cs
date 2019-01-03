@@ -9,16 +9,20 @@ namespace WpfFileSelector
     {
         public string SelectSource()
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.CheckFileExists = true;
+            OpenFileDialog dialog = new OpenFileDialog
+            {
+                CheckFileExists = true
+            };
             DialogResult result = dialog.ShowDialog();
             return dialog.FileName;
         }
 
         public string SelectTarget()
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.CheckFileExists = false;
+            OpenFileDialog dialog = new OpenFileDialog
+            {
+                CheckFileExists = false
+            };
             DialogResult result = dialog.ShowDialog();
             return dialog.FileName;
         }
