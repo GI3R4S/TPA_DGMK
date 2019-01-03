@@ -18,7 +18,7 @@ namespace UnitTestModel
         [TestInitialize]
         public void Initialize()
         {
-            assembly = Assembly.LoadFrom("./../../../UnitTestModel/bin/Debug/BusinessLogic.dll");
+            assembly = Assembly.LoadFrom("./../../../DllForTests/ApplicationArchitecture/bin/Debug/TPA.ApplicationArchitecture.dll");
             assemblyMetadata = new AssemblyMetadata(assembly);
 
             type = typeof(System.RuntimeArgumentHandle);

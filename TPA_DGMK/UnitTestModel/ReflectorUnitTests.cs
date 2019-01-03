@@ -13,14 +13,14 @@ namespace UnitTestModel
         [TestInitialize]
         public void Initialize()
         {
-            path = "./../../../BusinessLogic/bin/Debug/BusinessLogic.dll";
+            path = "./../../../DllForTests/ApplicationArchitecture/bin/Debug/TPA.ApplicationArchitecture.dll";
         }
 
         [TestMethod]
         public void ConstructorTest()
         {
             reflector = new Reflector(path);
-            Assert.AreEqual("BusinessLogic.dll", reflector.AssemblyMetadata.Name);
+            Assert.AreEqual("TPA.ApplicationArchitecture.dll", reflector.AssemblyMetadata.Name);
             Assert.ThrowsException<ArgumentNullException>(() => new Reflector(""));
         }
     }

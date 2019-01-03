@@ -41,7 +41,7 @@ namespace UnitTestSerializing
             container.ComposeParts(this);
             #endregion
 
-            path = "./../../../UnitTestXmlSerializing/bin/Debug/Data.dll";
+            path = "./../../../DllForTests/ApplicationArchitecture/bin/Debug/TPA.ApplicationArchitecture.dll";
             path2 = "./../../../UnitTestXmlSerializing/bin/Debug/BusinessLogic.dll";
             pathTarget = "./../../../UnitTestXmlSerializing/bin/Debug/xmlTest.xml";
             reflector = new Reflector(path);
@@ -62,10 +62,10 @@ namespace UnitTestSerializing
         [TestMethod]
         public void XMLSerializerDeserializeTest()
         {
-            Assert.AreEqual("data.dll", reflector.AssemblyMetadata.Name.ToLower());
+            Assert.AreEqual("TPA.ApplicationArchitecture.dll", reflector.AssemblyMetadata.Name);
             Service.ToList().FirstOrDefault()?.Serialize(reflector.AssemblyMetadata, pathTarget);
             reflector = new Reflector(path2);
-            Assert.AreEqual("businesslogic.dll", reflector.AssemblyMetadata.Name.ToLower());
+            Assert.AreEqual("BusinessLogic.dll", reflector.AssemblyMetadata.Name);
             AssemblyMetadata assemblyMetadata2 = Service.ToList().FirstOrDefault()?.Deserialize(pathTarget);
             reflector = new Reflector(assemblyMetadata2);
             Assert.AreEqual(assemblyMetadata2.Name, reflector.AssemblyMetadata.Name);
@@ -95,6 +95,30 @@ namespace UnitTestSerializing
                     assemblyMetadata2.Namespaces.ElementAt(i).Types.Count());
                 Assert.AreEqual(reflector.AssemblyMetadata.Namespaces.ElementAt(i).GetType(),
                     assemblyMetadata2.Namespaces.ElementAt(i).GetType());
+            }
+        }
+
+        [TestMethod]
+        public void XMLGenericTest()
+        {
+            Service.ToList().FirstOrDefault()?.Serialize(reflector.AssemblyMetadata, pathTarget);
+            AssemblyMetadata assemblyMetadata2 = Service.ToList().FirstOrDefault()?.Deserialize(pathTarget);
+            for (int i = 0; i < reflector.AssemblyMetadata.Namespaces.Count(); i++)
+            {
+                Assert.AreEqual(reflector.AssemblyMetadata.Namespaces.ElementAt(i).Types.Where(t => t.IsGeneric == true).Count(),
+                    assemblyMetadata2.Namespaces.ElementAt(i).Types.Where(t => t.IsGeneric == true).Count());
+            }
+        }
+
+        [TestMethod]
+        public void XMLExternalTest()
+        {
+            Service.ToList().FirstOrDefault()?.Serialize(reflector.AssemblyMetadata, pathTarget);
+            AssemblyMetadata assemblyMetadata2 = Service.ToList().FirstOrDefault()?.Deserialize(pathTarget);
+            for (int i = 0; i < reflector.AssemblyMetadata.Namespaces.Count(); i++)
+            {
+                Assert.AreEqual(reflector.AssemblyMetadata.Namespaces.ElementAt(i).Types.Where(t => t.IsExternal == true).Count(),
+                    assemblyMetadata2.Namespaces.ElementAt(i).Types.Where(t => t.IsExternal == true).Count());
             }
         }
     }

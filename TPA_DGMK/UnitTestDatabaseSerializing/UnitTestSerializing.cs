@@ -18,14 +18,16 @@ namespace UnitTestDatabaseSerializing
         [TestClass]
         public class SerializerTest
         {
+            #region Private fields
             private string databasePath;
             private string dllPath;
             private Reflector reflector;
             private AssemblyMetadata assemblyMetadata;
-            private int namespaces;
-            private List<NamespaceMetadata> namespacess;
-            private int classes;
-            private List<TypeMetadata> types;
+            private int namespacesCount;
+            private List<NamespaceMetadata> namespaces;
+            private int classesCount;
+            private List<TypeMetadata> classes;
+            #endregion
 
             [ImportMany(typeof(LogicService))]
             public IEnumerable<LogicService> Service { get; set; }
@@ -49,16 +51,15 @@ namespace UnitTestDatabaseSerializing
                 #endregion
 
                 databasePath = "Data source=.;Initial catalog=Test;integrated security=true;persist security info=True;";
-                dllPath = "./../../../UnitTestDatabaseSerializing/bin/Debug/Data.dll";
+                dllPath = "./../../../DllForTests/ApplicationArchitecture/bin/Debug/TPA.ApplicationArchitecture.dll";
                 reflector = new Reflector(dllPath);
                 Service.ToList().FirstOrDefault()?.Serialize(reflector.AssemblyMetadata, databasePath);
 
-
-                #region Fields needed to tests
-                namespacess = reflector.AssemblyMetadata.Namespaces;
-                namespaces = namespacess.Count;
-                types = reflector.AssemblyMetadata.Namespaces.FirstOrDefault().Types;
-                classes = types.Count;
+                #region Fields neccessary to tests
+                namespaces = reflector.AssemblyMetadata.Namespaces;
+                namespacesCount = namespaces.Count;
+                classes = reflector.AssemblyMetadata.Namespaces.FirstOrDefault().Types;
+                classesCount = classes.Count;
                 #endregion
 
                 assemblyMetadata = Service.ToList().FirstOrDefault()?.Deserialize(databasePath);
@@ -66,27 +67,27 @@ namespace UnitTestDatabaseSerializing
             [TestMethod]
             public void DbSerializerDeserializerTest()
             {
-                Assert.AreEqual(namespaces, assemblyMetadata.Namespaces.Count);
-                for (int i = 0; i < namespaces; i++)
+                Assert.AreEqual(namespacesCount, assemblyMetadata.Namespaces.Count);
+                for (int i = 0; i < namespacesCount; i++)
                 {
-                    Assert.AreEqual(namespacess.ElementAt(i).NamespaceName,
+                    Assert.AreEqual(namespaces.ElementAt(i).NamespaceName,
                         assemblyMetadata.Namespaces.ElementAt(i).NamespaceName);
                 }
 
-                Assert.AreEqual(classes, assemblyMetadata.Namespaces.FirstOrDefault().Types.Count);
-                for (int i = 0; i < classes; i++)
+                Assert.AreEqual(classesCount, assemblyMetadata.Namespaces.FirstOrDefault().Types.Count);
+                for (int i = 0; i < classesCount; i++)
                 {
-                    Assert.AreEqual(types.ElementAt(i).AssemblyName,
+                    Assert.AreEqual(classes.ElementAt(i).AssemblyName,
                         assemblyMetadata.Namespaces.FirstOrDefault().Types.ElementAt(i).AssemblyName);
-                    Assert.AreEqual(types.ElementAt(i).BaseType,
+                    Assert.AreEqual(classes.ElementAt(i).BaseType,
                         assemblyMetadata.Namespaces.FirstOrDefault().Types.ElementAt(i).BaseType);
-                    Assert.AreEqual(types.ElementAt(i).DeclaringType,
+                    Assert.AreEqual(classes.ElementAt(i).DeclaringType,
                         assemblyMetadata.Namespaces.FirstOrDefault().Types.ElementAt(i).DeclaringType);
-                    Assert.AreEqual(types.ElementAt(i).IsExternal,
+                    Assert.AreEqual(classes.ElementAt(i).IsExternal,
                         assemblyMetadata.Namespaces.FirstOrDefault().Types.ElementAt(i).IsExternal);
-                    Assert.AreEqual(types.ElementAt(i).IsGeneric,
+                    Assert.AreEqual(classes.ElementAt(i).IsGeneric,
                         assemblyMetadata.Namespaces.FirstOrDefault().Types.ElementAt(i).IsGeneric);
-                    Assert.AreEqual(types.ElementAt(i).TypeName,
+                    Assert.AreEqual(classes.ElementAt(i).TypeName,
                         assemblyMetadata.Namespaces.FirstOrDefault().Types.ElementAt(i).TypeName);
                 }
             }
