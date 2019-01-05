@@ -1,96 +1,199 @@
-﻿using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Hosting;
-using System.Configuration;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using BusinessLogic;
+using BusinessLogic.Mapping;
 using BusinessLogic.Model;
 using BusinessLogic.Reflection;
+using Data;
+using Data.DataMetadata;
+using Data.Enums;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ModelDB;
+using ModelDB.Entities;
 
 namespace UnitTestDatabaseSerializing
 {
     [TestClass]
+    [DeploymentItem(@"DatabaseForTests\TestDatabase.mdf", @"DatabaseForTests")]
     public class UnitTestSerializing
     {
-        [TestClass]
-        public class SerializerTest
+        #region Private fields
+        private static string databasePath;
+        private static string dllPath;
+        private static Reflector reflector;
+        private static ISerializer serializer;
+        private static AssemblyMetadataBase assemblyMetadataBase;
+        private static AssemblyMetadata assemblyMetadata;
+        #endregion
+
+        [ClassInitialize]
+        public static void Initialize(TestContext testContext)
         {
-            #region Private fields
-            private string databasePath;
-            private string dllPath;
-            private Reflector reflector;
-            private AssemblyMetadata assemblyMetadata;
-            private int namespacesCount;
-            private List<NamespaceMetadata> namespaces;
-            private int classesCount;
-            private List<TypeMetadata> classes;
-            #endregion
+            string _DBRelativePath = @"DatabaseForTests\TestDatabase.mdf";
+            string _TestingWorkingFolder = Environment.CurrentDirectory;
+            string _DBPath = Path.Combine(_TestingWorkingFolder, _DBRelativePath);
+            FileInfo _databaseFile = new FileInfo(_DBPath);
+            Assert.IsTrue(_databaseFile.Exists, $"{Environment.CurrentDirectory}");
+            databasePath = $@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={_DBPath};Integrated Security = True; Connect Timeout = 30;";
 
-            [ImportMany(typeof(LogicService))]
-            public IEnumerable<LogicService> Service { get; set; }
+            dllPath = "./../../../DllForTests/ApplicationArchitecture/bin/Debug/TPA.ApplicationArchitecture.dll";
+            serializer = new DatabaseSerializer();
+            assemblyMetadataBase = new AssemblyMetadataDB();
 
-            [TestInitialize]
-            public void Initialize()
-            {
-                #region MEF
-                NameValueCollection paths = (NameValueCollection)ConfigurationManager.GetSection("paths");
-                string[] pathsCatalogs = paths.AllKeys;
-                List<DirectoryCatalog> directoryCatalogs = new List<DirectoryCatalog>();
-                foreach (string pathsCatalog in pathsCatalogs)
-                {
-                    if (Directory.Exists(pathsCatalog))
-                        directoryCatalogs.Add(new DirectoryCatalog(pathsCatalog));
-                }
-
-                AggregateCatalog catalog = new AggregateCatalog(directoryCatalogs);
-                CompositionContainer container = new CompositionContainer(catalog);
-                container.ComposeParts(this);
-                #endregion
-
-                databasePath = "Data source=.;Initial catalog=Test;integrated security=true;persist security info=True;";
-                dllPath = "./../../../DllForTests/ApplicationArchitecture/bin/Debug/TPA.ApplicationArchitecture.dll";
-                reflector = new Reflector(dllPath);
-                Service.ToList().FirstOrDefault()?.Serialize(reflector.AssemblyMetadata, databasePath);
-
-                #region Fields neccessary to tests
-                namespaces = reflector.AssemblyMetadata.Namespaces;
-                namespacesCount = namespaces.Count;
-                classes = reflector.AssemblyMetadata.Namespaces.FirstOrDefault().Types;
-                classesCount = classes.Count;
-                #endregion
-
-                assemblyMetadata = Service.ToList().FirstOrDefault()?.Deserialize(databasePath);
-            }
-            [TestMethod]
-            public void DbSerializerDeserializerTest()
-            {
-                Assert.AreEqual(namespacesCount, assemblyMetadata.Namespaces.Count);
-                for (int i = 0; i < namespacesCount; i++)
-                {
-                    Assert.AreEqual(namespaces.ElementAt(i).NamespaceName,
-                        assemblyMetadata.Namespaces.ElementAt(i).NamespaceName);
-                }
-
-                Assert.AreEqual(classesCount, assemblyMetadata.Namespaces.FirstOrDefault().Types.Count);
-                for (int i = 0; i < classesCount; i++)
-                {
-                    Assert.AreEqual(classes.ElementAt(i).AssemblyName,
-                        assemblyMetadata.Namespaces.FirstOrDefault().Types.ElementAt(i).AssemblyName);
-                    Assert.AreEqual(classes.ElementAt(i).BaseType,
-                        assemblyMetadata.Namespaces.FirstOrDefault().Types.ElementAt(i).BaseType);
-                    Assert.AreEqual(classes.ElementAt(i).DeclaringType,
-                        assemblyMetadata.Namespaces.FirstOrDefault().Types.ElementAt(i).DeclaringType);
-                    Assert.AreEqual(classes.ElementAt(i).IsExternal,
-                        assemblyMetadata.Namespaces.FirstOrDefault().Types.ElementAt(i).IsExternal);
-                    Assert.AreEqual(classes.ElementAt(i).IsGeneric,
-                        assemblyMetadata.Namespaces.FirstOrDefault().Types.ElementAt(i).IsGeneric);
-                    Assert.AreEqual(classes.ElementAt(i).TypeName,
-                        assemblyMetadata.Namespaces.FirstOrDefault().Types.ElementAt(i).TypeName);
-                }
-            }
+            reflector = new Reflector(dllPath);
+            serializer.Serialize(AssemblyMetadataMapper.MapToSerialize(reflector.AssemblyMetadata, assemblyMetadataBase.GetType()), databasePath);
+            assemblyMetadata = AssemblyMetadataMapper.MapToDeserialize(serializer.Deserialize(databasePath));
         }
+
+        [TestMethod]
+        public void CheckingTheNumberOfNamespaces()
+        {
+            Assert.AreEqual(4, assemblyMetadata.Namespaces.Count);
+        }
+
+        [TestMethod]
+        public void CheckingTheNumberOfClasses()
+        {
+            List<TypeMetadata> namespaceBusinessLogic = assemblyMetadata.Namespaces
+                .Find(t => t.NamespaceName == "TPA.ApplicationArchitecture.BusinessLogic").Types;
+            List<TypeMetadata> namespaceData = assemblyMetadata.Namespaces
+                .Find(t => t.NamespaceName == "TPA.ApplicationArchitecture.Data").Types;
+            List<TypeMetadata> namespaceDataCircularReference = assemblyMetadata.Namespaces
+                .Find(t => t.NamespaceName == "TPA.ApplicationArchitecture.Data.CircularReference").Types;
+            List<TypeMetadata> namespacePresentation = assemblyMetadata.Namespaces
+                .Find(t => t.NamespaceName == "TPA.ApplicationArchitecture.Presentation").Types;
+
+            Assert.AreEqual(5, namespaceBusinessLogic.Count);
+            Assert.AreEqual(12, namespaceData.Count);
+            Assert.AreEqual(2, namespaceDataCircularReference.Count);
+            Assert.AreEqual(1, namespacePresentation.Count);
+        }
+
+        [TestMethod]
+        public void CheckingTheNumberOfStaticClasses()
+        {
+            List<TypeMetadata> staticClasses = assemblyMetadata.Namespaces
+                .Find(t => t.NamespaceName == "TPA.ApplicationArchitecture.Data").Types
+                .Where(t => t.Modifiers.StaticEnum == StaticEnum.Static).ToList();
+            Assert.AreEqual(1, staticClasses.Count());
+        }
+
+        [TestMethod]
+        public void CheckingTheNumberOfAbstractClasses()
+        {
+            List<TypeMetadata> abstractClasses = assemblyMetadata.Namespaces
+                .Find(t => t.NamespaceName == "TPA.ApplicationArchitecture.Data").Types
+                .Where(t => t.Modifiers.AbstractEnum == AbstractEnum.Abstract).ToList();
+            Assert.AreEqual(3, abstractClasses.Count);
+        }
+
+        [TestMethod]
+        public void CheckingTheNumberOfClassesWithGenericArguments()
+        {
+            List<TypeMetadata> genericClasses = assemblyMetadata.Namespaces
+                .Find(t => t.NamespaceName == "TPA.ApplicationArchitecture.Data").Types
+                .Where(t => t.GenericArguments?.Count > 0).ToList();
+            Assert.AreEqual(1, genericClasses.Count);
+        }
+
+        [TestMethod]
+        public void CheckingTheNumberOfInterfaces()
+        {
+            List<TypeMetadata> interfaces = assemblyMetadata.Namespaces
+                .Find(t => t.NamespaceName == "TPA.ApplicationArchitecture.Data").Types
+                .Where(t => t.TypeKind == TypeKind.Interface).ToList();
+            Assert.AreEqual(1, interfaces.Count);
+        }
+
+        [TestMethod]
+        public void CheckingTheNumberOfStructs()
+        {
+            List<TypeMetadata> structs = assemblyMetadata.Namespaces
+                .Find(t => t.NamespaceName == "TPA.ApplicationArchitecture.Data").Types
+                .Where(t => t.TypeKind == TypeKind.Struct).ToList();
+            Assert.AreEqual(1, structs.Count);
+        }
+
+        [TestMethod]
+        public void CheckingTheNumberOfEnums()
+        {
+            List<TypeMetadata> enums = assemblyMetadata.Namespaces
+                .Find(t => t.NamespaceName == "TPA.ApplicationArchitecture.Data").Types
+                .Where(t => t.TypeKind == TypeKind.Enum).ToList();
+            Assert.AreEqual(1, enums.Count);
+        }
+
+        [TestMethod]
+        public void CheckingTheNumberOfClassesWithBaseType()
+        {
+            List<TypeMetadata> classesWithBaseType = assemblyMetadata.Namespaces
+                .Find(t => t.NamespaceName == "TPA.ApplicationArchitecture.Data").Types
+                .Where(t => t.BaseType != null).ToList();
+            Assert.AreEqual(1, classesWithBaseType.Count);
+        }
+
+        [TestMethod]
+        public void CheckingTheNumberOfPublicClasses()
+        {
+            List<TypeMetadata> publicClasses = assemblyMetadata.Namespaces
+                .Find(t => t.NamespaceName == "TPA.ApplicationArchitecture.Data").Types
+                .Where(t => t.Modifiers.AccessLevel == AccessLevel.Public).ToList();
+            Assert.AreEqual(9, publicClasses.Count);
+        }
+
+        [TestMethod]
+        public void CheckingTheNumberOfClassesWithImplementedInterfaces()
+        {
+            List<TypeMetadata> classesWithImplementedInterfaces = assemblyMetadata.Namespaces
+                .Find(t => t.NamespaceName == "TPA.ApplicationArchitecture.Data").Types
+                .Where(t => t.ImplementedInterfaces.Count > 0).ToList();
+            Assert.AreEqual(2, classesWithImplementedInterfaces.Count);
+        }
+
+        [TestMethod]
+        public void CheckingTheNumberOfClassesWithNestedTypes()
+        {
+            List<TypeMetadata> classesWithNestedTypes = assemblyMetadata.Namespaces
+                .Find(t => t.NamespaceName == "TPA.ApplicationArchitecture.Data").Types
+                .Where(t => t.NestedTypes.Count > 0).ToList();
+            Assert.AreEqual(1, classesWithNestedTypes.Count);
+        }
+
+        [TestMethod]
+        public void CheckingTheNumberOfPropertiesInClass()
+        {
+            List<TypeMetadata> classes = assemblyMetadata.Namespaces
+                .Find(t => t.NamespaceName == "TPA.ApplicationArchitecture.Data").Types
+                .Where(t => t.Modifiers.AccessLevel == AccessLevel.Public &&  t.TypeKind == TypeKind.Class).ToList();
+            Assert.AreEqual(1, classes.ElementAt(0).Properties.Count);
+        }
+        
+        [TestMethod]
+        public void CheckingTheNumberOfMethodsInClass()
+        {
+            List<TypeMetadata> classes = assemblyMetadata.Namespaces
+                .Find(t => t.NamespaceName == "TPA.ApplicationArchitecture.Data").Types
+                .Where(t => t.Modifiers.AccessLevel == AccessLevel.Public &&  t.TypeKind == TypeKind.Class).ToList();
+            Assert.AreEqual(3, classes.ElementAt(0).Methods.Count);
+        }
+        
+        [TestMethod]
+        public void CheckingTheNumberOfConstructorsInClass()
+        {
+            List<TypeMetadata> classes = assemblyMetadata.Namespaces
+                .Find(t => t.NamespaceName == "TPA.ApplicationArchitecture.Data").Types
+                .Where(t => t.Modifiers.AccessLevel == AccessLevel.Public &&  t.TypeKind == TypeKind.Class).ToList();
+            Assert.AreEqual(1, classes.ElementAt(1).Constructors.Count);
+        }
+        
+        [TestMethod]
+        public void CheckingTheNumberOfFieldsInClass()
+        {
+            List<TypeMetadata> classes = assemblyMetadata.Namespaces
+                .Find(t => t.NamespaceName == "TPA.ApplicationArchitecture.Data").Types
+                .Where(t => t.Modifiers.AccessLevel == AccessLevel.Public && t.TypeKind == TypeKind.Class).ToList();
+            Assert.AreEqual(1, classes.ElementAt(0).Fields.Count);
+        }     
     }
 }

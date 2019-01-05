@@ -63,6 +63,14 @@
       <Project>{9820C2B1-C91C-4677-BAD3-8F7D86041DEA}</Project>
       <Name>BusinessLogic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{F7A14A4D-6CCD-4395-813F-7448B086F726}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModelXml\ModelXml.csproj">
+      <Project>{93A336E5-C2EB-4DC6-829C-9AD83656D5A3}</Project>
+      <Name>ModelXml</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

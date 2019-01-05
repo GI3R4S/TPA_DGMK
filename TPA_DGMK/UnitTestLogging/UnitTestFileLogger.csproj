@@ -47,7 +47,6 @@
       <HintPath>..\packages\MSTest.TestFramework.1.4.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +63,10 @@
     <ProjectReference Include="..\LoggerBase\LoggerBase.csproj">
       <Project>{A8C42BCF-7B4E-4E9F-86B6-27FEF1E15D4D}</Project>
       <Name>LoggerBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModelXml\ModelXml.csproj">
+      <Project>{93A336E5-C2EB-4DC6-829C-9AD83656D5A3}</Project>
+      <Name>ModelXml</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

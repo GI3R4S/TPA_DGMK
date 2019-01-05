@@ -9,14 +9,14 @@ namespace UnitTestModel
     [TestClass]
     public class ModelUnitTests
     {
-        internal static Assembly assembly;
-        internal static AssemblyMetadata assemblyMetadata;
+        private static Assembly assembly;
+        private static AssemblyMetadata assemblyMetadata;
 
         //To get Type from outside the Model
-        internal static Type type;
+        private static Type type;
 
-        [TestInitialize]
-        public void Initialize()
+        [ClassInitialize]
+        public static void Initialize(TestContext testContext)
         {
             assembly = Assembly.LoadFrom("./../../../DllForTests/ApplicationArchitecture/bin/Debug/TPA.ApplicationArchitecture.dll");
             assemblyMetadata = new AssemblyMetadata(assembly);
