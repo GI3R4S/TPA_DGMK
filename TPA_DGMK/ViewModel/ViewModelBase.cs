@@ -1,11 +1,11 @@
-﻿using BusinessLogic;
+﻿using BusinessLogic.Mapping;
 using BusinessLogic.Model;
 using BusinessLogic.Reflection;
+using Data;
+using Data.DataMetadata;
 using LoggerBase;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -20,8 +20,8 @@ namespace ViewModel
         [Import(typeof(IDatabaseSelector))] public IDatabaseSelector DatabaseSelector { get; set; }
         [Import(typeof(Logger))] public Logger Logger { get; set; }
         [Import(typeof(IDisplay))] public IDisplay Display { get; set; }
-        [ImportMany(typeof(LogicService))]
-        public IEnumerable<LogicService> Service { get; set; }
+        [Import(typeof(ISerializer))] public ISerializer Serializer { get; set; }
+        [Import(typeof(AssemblyMetadataBase))] public AssemblyMetadataBase AssemblyMetadataBase { get; set; }
 
         public RelayCommand readCommand;
         public RelayCommand deserializeCommand;
@@ -99,7 +99,7 @@ namespace ViewModel
                 else
                     path = FileSelector.SelectTarget();
             }
-            await Task.Run(() => Service.ToList().FirstOrDefault()?.Serialize(reflector.AssemblyMetadata, path));
+            await Task.Run(() => Serializer.Serialize(AssemblyMetadataMapper.MapToSerialize(reflector.AssemblyMetadata, AssemblyMetadataBase.GetType()), path));
             Logger.Write(SeverityEnum.Information, "Serialization completed");
             Display.DisplayInformation("Serialization Completed");
         }
@@ -116,7 +116,7 @@ namespace ViewModel
                     path = FileSelector.SelectSource();
             }
 
-            AssemblyMetadata assemblyMetadata = await Task.Run(() => Service.ToList().FirstOrDefault()?.Deserialize(path));
+            AssemblyMetadata assemblyMetadata = await Task.Run(() => AssemblyMetadataMapper.MapToDeserialize(Serializer.Deserialize(path)));
 
             try
             {

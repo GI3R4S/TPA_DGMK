@@ -37,7 +37,7 @@ namespace UnitTestDatabaseSerializing
             Assert.IsTrue(_databaseFile.Exists, $"{Environment.CurrentDirectory}");
             databasePath = $@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={_DBPath};Integrated Security = True; Connect Timeout = 30;";
 
-            dllPath = "./../../../DllForTests/ApplicationArchitecture/bin/Debug/TPA.ApplicationArchitecture.dll";
+            dllPath = "./../../../DllForTests/TPA.ApplicationArchitecture.dll";
             serializer = new DatabaseSerializer();
             assemblyMetadataBase = new AssemblyMetadataDB();
 

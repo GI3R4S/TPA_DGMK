@@ -35,7 +35,6 @@
     <Reference Include="System.ComponentModel.Composition" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LogicService.cs" />
     <Compile Include="Mapping\AssemblyMetadataMapper.cs" />
     <Compile Include="Mapping\ConversionUtilities.cs" />
     <Compile Include="Mapping\MethodMetadataMapper.cs" />

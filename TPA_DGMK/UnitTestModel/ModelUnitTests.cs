@@ -18,7 +18,7 @@ namespace UnitTestModel
         [ClassInitialize]
         public static void Initialize(TestContext testContext)
         {
-            assembly = Assembly.LoadFrom("./../../../DllForTests/ApplicationArchitecture/bin/Debug/TPA.ApplicationArchitecture.dll");
+            assembly = Assembly.ReflectionOnlyLoadFrom("./../../../DllForTests/TPA.ApplicationArchitecture.dll");
             assemblyMetadata = new AssemblyMetadata(assembly);
 
             type = typeof(System.RuntimeArgumentHandle);

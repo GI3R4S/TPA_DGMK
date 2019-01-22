@@ -13,7 +13,7 @@ namespace UnitTestModel
         [TestInitialize]
         public void Initialize()
         {
-            path = "./../../../DllForTests/ApplicationArchitecture/bin/Debug/TPA.ApplicationArchitecture.dll";
+            path = "./../../../DllForTests/TPA.ApplicationArchitecture.dll";
         }
 
         [TestMethod]

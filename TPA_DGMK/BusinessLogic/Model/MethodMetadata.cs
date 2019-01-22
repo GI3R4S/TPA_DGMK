@@ -20,7 +20,7 @@ namespace BusinessLogic.Model
         private MethodMetadata(MethodBase method)
         {
             Name = method.Name;
-            Extension = EmitExtension(method);
+            //Extension = EmitExtension(method);
             ReturnType = EmitReturnType(method);
             GenericArguments = !method.IsGenericMethodDefinition ? null : EmitGenericArguments(method);
             Parameters = EmitParameters(method);

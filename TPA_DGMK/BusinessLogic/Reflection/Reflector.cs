@@ -10,7 +10,7 @@ namespace BusinessLogic.Reflection
         {
             if (string.IsNullOrEmpty(assemblyFile))
                 throw new System.ArgumentNullException();
-            Assembly assembly = Assembly.LoadFrom(assemblyFile);
+            Assembly assembly = Assembly.ReflectionOnlyLoadFrom(assemblyFile);
             AssemblyMetadata = new AssemblyMetadata(assembly);
         }
         public Reflector(Assembly assembly)

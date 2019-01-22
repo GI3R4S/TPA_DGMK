@@ -25,7 +25,7 @@ namespace UnitTestSerializing
         [ClassInitialize]
         public static void Initialize(TestContext testContext)
         {
-            dllPath = "./../../../DllForTests/ApplicationArchitecture/bin/Debug/TPA.ApplicationArchitecture.dll";
+            dllPath = "./../../../DllForTests/TPA.ApplicationArchitecture.dll";
             pathTarget = "./../../../UnitTestXmlSerializing/bin/Debug/xmlTest.xml";
             serializer = new XMLSerializer();
             assemblyMetadataBase = new AssemblyMetadataXml();
