@@ -12,7 +12,7 @@ namespace ModelDB
     {
         public void Serialize(AssemblyMetadataBase data, string databaseName)
         {
-            Database.Delete(databaseName);
+            Clear(databaseName);
             using (DataContext dataContext = new DataContext(databaseName))
             {
                 AssemblyMetadataDB assembly = (AssemblyMetadataDB)data;
@@ -43,6 +43,35 @@ namespace ModelDB
                 dataContext.Properties
                     .Include(p => p.TypeMetadata).Load();
                 return assembly;
+            }
+        }
+
+
+
+        private void Clear (string databaseName)
+        {
+            using (DataContext dataContext = new DataContext(databaseName))
+            {
+                dataContext.Database.ExecuteSqlCommand("DELETE FROM __MigrationHistory");
+                dataContext.Database.ExecuteSqlCommand("DELETE FROM ParameterMetadataDBs");
+                dataContext.Database.ExecuteSqlCommand("DELETE FROM PropertyMetadataDBs");
+                dataContext.Database.ExecuteSqlCommand("DELETE FROM MethodMetadataDBs");
+                dataContext.Database.ExecuteSqlCommand("DELETE FROM MethodMetadataDBParameterMetadataDBs");
+                dataContext.Database.ExecuteSqlCommand("DELETE FROM MethodMetadataDBTypeMetadataDBs");
+                dataContext.Database.ExecuteSqlCommand("DELETE FROM MethodModifiers");
+                dataContext.Database.ExecuteSqlCommand("DELETE FROM TypeMetadataDBParameterMetadataDBs");
+                dataContext.Database.ExecuteSqlCommand("DELETE FROM TypeMetadataDBPropertyMetadataDBs");
+                dataContext.Database.ExecuteSqlCommand("DELETE FROM TypeMetadataDBTypeMetadataDBs");
+                dataContext.Database.ExecuteSqlCommand("DELETE FROM TypeMetadataDBTypeMetadataDB1");
+                dataContext.Database.ExecuteSqlCommand("DELETE FROM TypeMetadataDBTypeMetadataDB2");
+                dataContext.Database.ExecuteSqlCommand("DELETE FROM TypeMetadataDBMethodMetadataDBs");
+                dataContext.Database.ExecuteSqlCommand("DELETE FROM TypeMetadataDBMethodMetadataDB1");
+                dataContext.Database.ExecuteSqlCommand("DELETE FROM TypeMetadataDBs");
+                dataContext.Database.ExecuteSqlCommand("DELETE FROM TypeModifiers");
+                dataContext.Database.ExecuteSqlCommand("DELETE FROM NamespaceMetadataDBs");
+                dataContext.Database.ExecuteSqlCommand("DELETE FROM NamespaceMetadataDBTypeMetadataDBs");
+                dataContext.Database.ExecuteSqlCommand("DELETE FROM AssemblyMetadataDBs");
+                dataContext.SaveChanges();
             }
         }
     }
