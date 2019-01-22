@@ -11,19 +11,21 @@ namespace ClFileSelector
         public string SelectSource()
         {
             Console.Clear();
-            Console.WriteLine("Current directory: " + Directory.GetCurrentDirectory());
-            Console.WriteLine("Insert name of database.");
-            return "Data source=.;Initial catalog=" + Console.ReadLine()
-                + ";integrated security=true;persist security info=True;";
+            return "Data source=(LocalDb)\\MSSQLLocalDB;" + GetPath() + ";integrated security=true;persist security info=True;";
         }
 
         public string SelectTarget()
         {
             Console.Clear();
-            Console.WriteLine("Current directory: " + Directory.GetCurrentDirectory());
-            Console.WriteLine("Insert name of database, if database does not exist it will be created.");
-            return "Data source=.;Initial catalog=" + Console.ReadLine()
-                + ";integrated security=true;persist security info=True;";
+            return "Data source=(LocalDb)\\MSSQLLocalDB;" + GetPath() + ";integrated security=true;persist security info=True;";
+        }
+
+        public string GetPath()
+        {
+            string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string path = (System.IO.Path.GetDirectoryName(executable));
+            path = path.Remove(path.Length - 24);
+            return "AttachDbFilename=" + path + "ModelDB\\DatabaseForSerialization.mdf";
         }
     }
 }

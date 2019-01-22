@@ -10,6 +10,17 @@ namespace ModelDB
     [Export(typeof(ISerializer))]
     public class DatabaseSerializer : ISerializer
     {
+        public void Serialize(AssemblyMetadataBase data, string databaseName)
+        {
+            Database.Delete(databaseName);
+            using (DataContext dataContext = new DataContext(databaseName))
+            {
+                AssemblyMetadataDB assembly = (AssemblyMetadataDB)data;
+                dataContext.AssemblyModel.Add(assembly);
+                dataContext.SaveChanges();
+            }
+        }
+
         public AssemblyMetadataBase Deserialize(string databaseName)
         {
             using (DataContext dataContext = new DataContext(databaseName))
@@ -32,17 +43,6 @@ namespace ModelDB
                 dataContext.Properties
                     .Include(p => p.TypeMetadata).Load();
                 return assembly;
-            }
-        }
-
-        public void Serialize(AssemblyMetadataBase data, string databaseName)
-        {
-            Database.Delete(databaseName);
-            using (DataContext dataContext = new DataContext(databaseName))
-            {
-                AssemblyMetadataDB assembly = (AssemblyMetadataDB)data;
-                dataContext.AssemblyModel.Add(assembly);
-                dataContext.SaveChanges();
             }
         }
     }
