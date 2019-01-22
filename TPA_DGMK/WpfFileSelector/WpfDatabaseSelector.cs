@@ -9,14 +9,22 @@ namespace WpfFileSelector
     {
         public string SelectTarget()
         {
-            return "Data source=.;Initial catalog=" + Interaction.InputBox("Enter target database name:", "TPA - reflector", "", 0, 0)
+            return "Data source=(LocalDb)\\MSSQLLocalDB;" + GetPath() + ";Initial catalog=" + Interaction.InputBox("Enter target database name:", "TPA - reflector", "", 0, 0)
                 + ";integrated security=true;persist security info=True;";
         }
 
         public string SelectSource()
         {
-            return "Data source=.;Initial catalog=" + Interaction.InputBox("Enter source database name:", "TPA - reflector", "", 0, 0)
+            return "Data source=(LocalDb)\\MSSQLLocalDB;" + GetPath() + ";Initial catalog=" + Interaction.InputBox("Enter source database name:", "TPA - reflector", "", 0, 0)
                 + ";integrated security=true;persist security info=True;";
+        }
+
+        public string GetPath()
+        {
+            string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string path = (System.IO.Path.GetDirectoryName(executable));
+            path = path.Remove(path.Length - 25);
+            return "AttachDbFilename=" + path + "ModelDB\\DatabaseForSerialization.mdf";
         }
     }
 }

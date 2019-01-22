@@ -14,6 +14,28 @@ namespace ModelXml
             string fileName = ConfigurationManager.AppSettings["logSourceName"];
             traceSource = new TraceSource(fileName);
         }
+
+        public override void Write(SeverityEnum severity, string message)
+        {
+            if (severity >= loggingSeverity)
+            {
+                switch (severity)
+                {
+                    case SeverityEnum.Information:
+                        TraceInformation(message);
+                        break;
+                    case SeverityEnum.Warning:
+                        TraceWarning(message);
+                        break;
+                    case SeverityEnum.Error:
+                        TraceError(message);
+                        break;
+                    case SeverityEnum.Critical:
+                        TraceCritical(message);
+                        break;
+                }
+            }
+        }
         protected override void TraceInformation(string message)
         {
             traceSource.TraceInformation(message);
