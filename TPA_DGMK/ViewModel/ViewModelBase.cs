@@ -94,7 +94,7 @@ namespace ViewModel
 
             if (path == null)
             {
-                if (Logger.ToString().Contains("Database"))
+                if (Serializer.ToString().Contains("Database"))
                     path = DatabaseSelector.SelectTarget();
                 else
                     path = FileSelector.SelectTarget();
@@ -110,7 +110,7 @@ namespace ViewModel
 
             if (path == null)
             {
-                if (Logger.ToString().Contains("Database"))
+                if (Serializer.ToString().Contains("Database"))
                     path = DatabaseSelector.SelectSource();
                 else
                     path = FileSelector.SelectSource();

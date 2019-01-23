@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using LoggerBase;
+using LoggerToFile;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ModelXml;
 
 namespace UnitTestFileLogger
 {

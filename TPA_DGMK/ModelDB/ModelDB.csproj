@@ -53,9 +53,6 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -64,9 +61,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DatabaseLogger.cs" />
-    <Compile Include="DatabaseLoggerContext.cs" />
-    <Compile Include="DatabaseLogs.cs" />
     <Compile Include="DatabaseSerializer.cs" />
     <Compile Include="DataContext.cs" />
     <Compile Include="Entities\AssemblyMetadataDB.cs" />
@@ -86,19 +80,8 @@
       <Project>{f7a14a4d-6ccd-4395-813f-7448b086f726}</Project>
       <Name>Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LoggerBase\LoggerBase.csproj">
-      <Project>{A8C42BCF-7B4E-4E9F-86B6-27FEF1E15D4D}</Project>
-      <Name>LoggerBase</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DatabaseForLogging.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DatabaseForLogging_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>DatabaseForLogging.mdf</DependentUpon>
-    </Content>
     <Content Include="DatabaseForSerialization.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

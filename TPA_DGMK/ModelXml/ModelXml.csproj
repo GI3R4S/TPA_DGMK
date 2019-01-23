@@ -45,7 +45,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileLogger.cs" />
     <Compile Include="XmlMetadata\AssemblyMetadataXml.cs" />
     <Compile Include="XmlMetadata\MethodMetadataXml.cs" />
     <Compile Include="XmlMetadata\NamespaceMetadataXml.cs" />
@@ -59,10 +58,6 @@
     <ProjectReference Include="..\Data\Data.csproj">
       <Project>{f7a14a4d-6ccd-4395-813f-7448b086f726}</Project>
       <Name>Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LoggerBase\LoggerBase.csproj">
-      <Project>{A8C42BCF-7B4E-4E9F-86B6-27FEF1E15D4D}</Project>
-      <Name>LoggerBase</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

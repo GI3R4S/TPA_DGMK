@@ -64,6 +64,10 @@
       <Project>{A8C42BCF-7B4E-4E9F-86B6-27FEF1E15D4D}</Project>
       <Name>LoggerBase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LoggerToFile\LoggerToFile.csproj">
+      <Project>{62A93CDF-BECF-4A98-A71C-3A4242E8FE21}</Project>
+      <Name>LoggerToFile</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModelXml\ModelXml.csproj">
       <Project>{93A336E5-C2EB-4DC6-829C-9AD83656D5A3}</Project>
       <Name>ModelXml</Name>
