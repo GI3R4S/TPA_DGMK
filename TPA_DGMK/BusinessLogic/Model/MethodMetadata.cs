@@ -20,7 +20,7 @@ namespace BusinessLogic.Model
         private MethodMetadata(MethodBase method)
         {
             Name = method.Name;
-            //Extension = EmitExtension(method);
+            Extension = EmitExtension(method);
             ReturnType = EmitReturnType(method);
             GenericArguments = !method.IsGenericMethodDefinition ? null : EmitGenericArguments(method);
             Parameters = EmitParameters(method);
@@ -57,7 +57,8 @@ namespace BusinessLogic.Model
         }
         private static bool EmitExtension(MethodBase method)
         {
-            return method.IsDefined(typeof(ExtensionAttribute), true);
+            return method.CustomAttributes.Where<CustomAttributeData>(x => x.AttributeType == typeof(ExtensionAttribute))
+                .Count<CustomAttributeData>() == 1;
         }
         private static MethodModifiers EmitModifiers(MethodBase method)
         {

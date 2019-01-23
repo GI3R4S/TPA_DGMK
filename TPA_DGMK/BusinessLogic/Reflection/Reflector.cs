@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Model;
+using System.IO;
 using System.Reflection;
 
 namespace BusinessLogic.Reflection
@@ -11,6 +12,17 @@ namespace BusinessLogic.Reflection
             if (string.IsNullOrEmpty(assemblyFile))
                 throw new System.ArgumentNullException();
             Assembly assembly = Assembly.ReflectionOnlyLoadFrom(assemblyFile);
+            foreach (var assemblyName in assembly.GetReferencedAssemblies())
+            {
+                try
+                {
+                    Assembly.ReflectionOnlyLoad(assemblyName.FullName);
+                }
+                catch
+                {
+                    Assembly.ReflectionOnlyLoadFrom(Path.Combine(Path.GetDirectoryName(assemblyFile), assemblyName.Name + ".dll"));
+                }
+            }
             AssemblyMetadata = new AssemblyMetadata(assembly);
         }
         public Reflector(Assembly assembly)
